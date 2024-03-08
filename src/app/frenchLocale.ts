@@ -13,7 +13,7 @@ export const frenchLocale = {
     Ok       : 'OK',
     Week     : 'Semaine',
     None     : 'Aucun',
-    newEvent : 'Nouvel événement'
+    newEvent : 'Nouvelle réservation'
   },
 
   ColorPicker : {
@@ -406,7 +406,7 @@ export const frenchLocale = {
   },
 
   ResourceInfoColumn : {
-    eventCountText : (data: string | number) => data + ' événement' + (data !== 1 ? 's' : '')
+    eventCountText : (data: string | number) => data + ' réservation' + (data !== 1 ? 's' : '')
   },
 
   Dependencies : {
@@ -456,25 +456,25 @@ export const frenchLocale = {
 
   EventEdit : {
     Name         : 'Nom',
-    Resource     : 'Ressource',
+    Resource     : 'Matériel',
     Start        : 'Début',
     End          : 'Fin',
     Save         : 'Enregistrer',
     Delete       : 'Supprimer',
     Cancel       : 'Annuler',
-    'Edit event' : 'Modifier l’événement',
+    'Edit event' : 'Editer la réservation',
     Repeat       : 'Répéter'
   },
 
   EventDrag : {
-    eventOverlapsExisting : 'L’événement chevauche un événement existant pour cette ressource',
-    noDropOutsideTimeline : 'L’événement ne peut pas être déposé en dehors de la chronologie'
+    eventOverlapsExisting : 'La réservation chevauche une réservation existante pour ce matériel',
+    noDropOutsideTimeline : 'La réservation ne peut pas être déposé en dehors de la chronologie'
   },
 
   SchedulerBase : {
-    'Add event'      : 'Ajouter un événement',
-    'Delete event'   : 'Supprimer l’événement',
-    'Unassign event' : 'Désassigner l’événement',
+    'Add event'      : 'Ajouter une réservation',
+    'Delete event'   : 'Supprimer la réservation',
+    'Unassign event' : 'Désassigner la réservation',
     color            : 'Couleur'
   },
 
@@ -487,9 +487,9 @@ export const frenchLocale = {
   },
 
   EventCopyPaste : {
-    copyEvent  : 'Copier l’événement',
-    cutEvent   : 'Couper l’événement',
-    pasteEvent : 'Coller l’événement'
+    copyEvent  : 'Copier la réservation',
+    cutEvent   : 'Couper la réservation',
+    pasteEvent : 'Coller la réservation'
   },
 
   EventFilter : {
@@ -554,16 +554,16 @@ export const frenchLocale = {
   },
 
   RecurrenceConfirmationPopup : {
-    'delete-title'              : 'Vous supprimez un événement',
-    'delete-all-message'        : 'Voulez-vous supprimer toutes les occurrences de cet événement ?',
-    'delete-further-message'    : 'Voulez-vous supprimer cette occurrence et toutes les futures occurrences de cet événement, ou seulement l’occurrence sélectionnée ?',
-    'delete-further-btn-text'   : 'Supprimer tous les événements futurs',
-    'delete-only-this-btn-text' : 'Supprimer uniquement cet événement',
-    'update-title'              : 'Vous modifiez un événement récurrent',
-    'update-all-message'        : 'Voulez-vous modifier toutes les occurrences de cet événement ?',
-    'update-further-message'    : 'Voulez-vous modifier uniquement cette occurrence de l’événement, ou celle-ci et toutes les futures occurrences ?',
-    'update-further-btn-text'   : 'Tous les événements futurs',
-    'update-only-this-btn-text' : 'Uniquement cet événement',
+    'delete-title'              : 'Vous supprimez une réservation',
+    'delete-all-message'        : 'Voulez-vous supprimer toutes les occurrences de cette réservation ?',
+    'delete-further-message'    : 'Voulez-vous supprimer cette occurrence et toutes les futures occurrences de cette réservation, ou seulement l’occurrence sélectionnée ?',
+    'delete-further-btn-text'   : 'Supprimer toutes les réservations futures',
+    'delete-only-this-btn-text' : 'Supprimer uniquement cette réservation',
+    'update-title'              : 'Vous modifiez une réservation récurrente',
+    'update-all-message'        : 'Voulez-vous modifier toutes les occurrences de cette réservation ?',
+    'update-further-message'    : 'Voulez-vous modifier uniquement cette occurrence de la réservation, ou celle-ci et toutes les futures occurrences ?',
+    'update-further-btn-text'   : 'Toutes les réservations futurs',
+    'update-only-this-btn-text' : 'Uniquement cette réservation',
     Yes                         : 'Oui',
     Cancel                      : 'Annuler',
     width                       : 600
@@ -592,7 +592,7 @@ export const frenchLocale = {
   },
 
   RecurrenceEditor : {
-    'Repeat event'      : 'Répéter l’événement',
+    'Repeat event'      : 'Répéter la réservation',
     Cancel              : 'Annuler',
     Save                : 'Enregistrer',
     Frequency           : 'Fréquence',
@@ -659,7 +659,7 @@ export const frenchLocale = {
   },
 
   ExcelExporter : {
-    'No resource assigned' : 'Aucune ressource assignée'
+    'No resource assigned' : 'Aucun matériel assignée'
   },
 
   CrudManagerView : {
