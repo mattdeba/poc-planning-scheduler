@@ -12,6 +12,7 @@ LocaleManager.locale = 'FrFr';
   styleUrls   : ['./app.component.scss']
 })
 export class AppComponent {
+  selectedResource: number | null = null;
 
   users = [
     { id: 1, name : 'Léo'},
@@ -112,5 +113,14 @@ export class AppComponent {
       this.isFiltered = false;
     }
     this?.scheduler?.resourceStore.loadDataAsync(this.resources);
+  }
+  filterByResource() {
+    if (this.selectedResource) {
+      const filteredResources = this.resources.filter(resource => resource.id == this.selectedResource);
+      this.scheduler?.resourceStore.loadDataAsync(filteredResources);
+    } else {
+      // Si aucune ressource n'est sélectionnée, affichez toutes les ressources
+      this.scheduler?.resourceStore.loadDataAsync(this.resources);
+    }
   }
 }

@@ -16,3 +16,18 @@
   height: 100% !important;
 }
 
+.app-container {
+  display: flex;
+  height: 100%; /* ou une hauteur spécifique si nécessaire */
+}
+
+.filter-panel {
+  flex: 0 0 250px; /* Largeur du volet de filtre; ajustez selon vos besoins */
+  padding: 10px; /* Espace intérieur autour du contenu du panneau de filtre */
+  /* Ajoutez d'autres styles pour le volet de filtre ici (couleurs de fond, bordures, etc.) */
+}
+
+.scheduler-container {
+  flex: 1; /* Prend le reste de l'espace disponible */
+  /* Ajoutez d'autres styles pour le conteneur du scheduler ici si nécessaire */
+}
