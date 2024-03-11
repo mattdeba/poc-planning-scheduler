@@ -1,9 +1,16 @@
-<div class="app-container">
 <div class="filter-panel">
     <button (click)="filterResourcesWithEvents()">Filtrer les ressources avec des événements</button>
     <select [(ngModel)]="selectedResource" (change)="filterByResource()">
         <option *ngFor="let resource of resources" [value]="resource.id">{{resource.name}}</option>
     </select>
 </div>
+<div class="app-container">
     <div class="scheduler-container" id="scheduler"></div>
+    <div id="rightColumn">
+        <h3 *ngIf="selectedEvent">Détails de l'événement</h3>
+        <p *ngIf="selectedEvent">Nom : {{selectedEvent.name}}</p>
+        <p *ngIf="selectedEvent">Début : {{selectedEvent.startDate}}</p>
+        <p *ngIf="selectedEvent">Fin : {{selectedEvent.endDate}}</p>
+        <p *ngIf="selectedEvent">Description : {{selectedEvent.description || 'N/A'}}</p>
+    </div>
 </div>

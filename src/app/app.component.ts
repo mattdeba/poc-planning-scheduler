@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { DateHelper, Scheduler, StringHelper } from '@bryntum/scheduler'
 import { LocaleManager, LocaleHelper } from '@bryntum/scheduler';
 import { resources } from './resources';
@@ -13,6 +13,7 @@ LocaleManager.locale = 'FrFr';
 })
 export class AppComponent {
   selectedResource: number | null = null;
+  selectedEvent: any = null;
 
   users = [
     { id: 1, name : 'Léo'},
@@ -28,13 +29,18 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.scheduler = new Scheduler({
+      rowHeight: 60,
+      eventRenderer({eventRecord, resourceRecord, renderData}) {
+        renderData.style = 'border-radius: 5px;';
+        return eventRecord.name;
+      },
       appendTo: 'scheduler',
       columns : [
-        { text : 'Matériel', field : 'name', width : 160 },
+        { text : 'Matériel', field : 'name', width : 300 },
         
       ],
       startDate : new Date(2024, 2, 4, 0),
-      endDate   : new Date(2024, 2, 10, 0),
+      endDate   : new Date(2024, 2, 11, 0),
       viewPreset: {
         displayDateFormat: 'H:mm',
         shiftIncrement: 1,
@@ -49,12 +55,6 @@ export class AppComponent {
             increment: 1,
             dateFormat: 'ddd D/M',
             align: 'center'
-          },
-          {
-            unit: 'hour',
-            increment: 6,
-            dateFormat: 'H:mm',
-            align: 'start'
           },
         ]
       },
@@ -99,10 +99,23 @@ export class AppComponent {
               name: 'note'
             },
           }
-        }
+        },
       },
+      onEventSelectionChange: ({ action, selected, deselected, selection }) => {
+        if (selected.length > 0) {
+          const eventRecord = selected[0];
+          this.selectedEvent = {
+            name: eventRecord.name,
+            startDate: eventRecord.startDate,
+            endDate: eventRecord.endDate,
+          }
+        } else if (deselected.length > 0) {
+          this.selectedEvent = null;
+        }
+      }
     });
   }
+
   filterResourcesWithEvents() {
     if (!this.isFiltered) {
       const resourceIdsWithEvents = new Set(this.events.map(event => event.resourceId));

@@ -11,23 +11,21 @@
   overflow: hidden; /* Pour éviter tout débordement inutile */
 }
 
-.full-day-event {
-  width: 100% !important;
-  height: 100% !important;
-}
-
 .app-container {
-  display: flex;
-  height: 100%; /* ou une hauteur spécifique si nécessaire */
+    display: flex;
+    justify-content: space-between;
 }
 
-.filter-panel {
-  flex: 0 0 250px; /* Largeur du volet de filtre; ajustez selon vos besoins */
-  padding: 10px; /* Espace intérieur autour du contenu du panneau de filtre */
-  /* Ajoutez d'autres styles pour le volet de filtre ici (couleurs de fond, bordures, etc.) */
+.filter-panel, #rightColumn:not(:empty) {
+    width: 500px; /* Ajustez cette valeur en fonction de la largeur de votre colonne de filtres */
+    //transition: width 0.3s ease-in-out;
+}
+
+#rightColumn:empty {
+    width: 0;
+    transition: width 0.3s ease-in-out;
 }
 
 .scheduler-container {
-  flex: 1; /* Prend le reste de l'espace disponible */
-  /* Ajoutez d'autres styles pour le conteneur du scheduler ici si nécessaire */
+    flex-grow: 1;
 }
