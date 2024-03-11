@@ -53,7 +53,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/@bryntum/scheduler/scheduler.material.css"
+              "node_modules/@bryntum/scheduler/scheduler.classic-dark.css"
             ],
             "scripts": []
           },

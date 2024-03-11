@@ -114,6 +114,7 @@ export class AppComponent {
         }
       }
     });
+    this.filterResourcesWithEvents();
   }
 
   filterResourcesWithEvents() {

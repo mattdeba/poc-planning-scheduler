@@ -18,7 +18,7 @@
 
 .filter-panel, #rightColumn:not(:empty) {
     width: 500px; /* Ajustez cette valeur en fonction de la largeur de votre colonne de filtres */
-    //transition: width 0.3s ease-in-out;
+    transition: width 0.3s ease-in-out;
 }
 
 #rightColumn:empty {
