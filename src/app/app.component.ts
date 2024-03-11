@@ -1,14 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
-import { BryntumSchedulerComponent } from '@bryntum/scheduler-angular';
-import { schedulerConfig } from './app.config';
-import { EventModel, Scheduler, ViewPreset, PresetManager, ResourceModel } from '@bryntum/scheduler'
+import { Component } from '@angular/core';
+import { DateHelper, Scheduler, StringHelper } from '@bryntum/scheduler'
 import { LocaleManager, LocaleHelper } from '@bryntum/scheduler';
-import { frenchLocale } from './frenchLocale';
 import { resources } from './resources';
 import { events } from './events';
+import '@bryntum/scheduler/locales/scheduler.locale.FrFr.js';
 
-LocaleHelper.publishLocale(frenchLocale);
-LocaleManager.locale = 'Fr';
+LocaleManager.locale = 'FrFr';
 @Component({
   selector    : 'app-root',
   templateUrl : './app.component.html',
@@ -21,17 +18,8 @@ export class AppComponent {
     { id: 2, name : 'Luc'},
   ]
 
-  // resources = [
-  //   { id : 1, name : 'Tracteur John Deere' },
-  //   { id : 2, name : 'Tracteur New Holland' },
-  //   { id : 3, name : 'Tonne à lisier Pichon' }
-  // ];
   resources = resources;
   isFiltered = false;
-  // events = [
-  //   { resourceId : 1, startDate : '2024-03-02T08:00:00.000Z', endDate : '2024-03-02T18:00:00.000Z', eventColor: '#BCB0FF', note: "", name: 'Luc - JD6R150' },
-  //   { resourceId : 2, startDate : '2024-03-02T08:00:00.000Z', endDate : '2024-03-02T18:00:00.000Z', eventColor: '#76F1B6', note: "", name: 'Léo NHT7' },
-  // ];
 
   events = events;
 
@@ -41,14 +29,44 @@ export class AppComponent {
     this.scheduler = new Scheduler({
       appendTo: 'scheduler',
       columns : [
-        { text : 'Matériel', field : 'name', width : 160 }
+        { text : 'Matériel', field : 'name', width : 160 },
+        
       ],
-      startDate : new Date(2024, 2, 2, 0),
-      endDate   : new Date(2024, 2, 8, 0),
-      viewPreset: 'dayAndMonth',
+      startDate : new Date(2024, 2, 4, 0),
+      endDate   : new Date(2024, 2, 10, 0),
+      viewPreset: {
+        displayDateFormat: 'H:mm',
+        shiftIncrement: 1,
+        shiftUnit: 'WEEK',
+        timeResolution: {
+          unit: 'minute',
+          increment: 30
+        },
+        headers: [
+          {
+            unit: 'day',
+            increment: 1,
+            dateFormat: 'ddd D/M',
+            align: 'center'
+          },
+          {
+            unit: 'hour',
+            increment: 6,
+            dateFormat: 'H:mm',
+            align: 'start'
+          },
+        ]
+      },
+      allowOverlap: false,
       resources: this.resources,
       events: this.events,
       features: {
+        eventDrag: {
+          disabled: true,
+        },
+        eventResize: {
+          disabled: true
+        },
         eventEdit: {
           items: {
             nameField: {
@@ -69,12 +87,10 @@ export class AppComponent {
             quantityField: {
               type: 'numberfield',
               label: 'Quantité',
-              // Spécifiez la configuration selon les besoins
             },
             unitField: {
               type: 'combo',
               label: 'Unité',
-              // Spécifiez la configuration selon les besoins
             },
             noteField: {
               type: 'textarea',
@@ -84,7 +100,6 @@ export class AppComponent {
           }
         }
       },
-      // Configurez d'autres options du scheduler selon les besoins, comme les colonnes et la source de données
     });
   }
   filterResourcesWithEvents() {
