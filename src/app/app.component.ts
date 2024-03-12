@@ -141,4 +141,12 @@ export class AppComponent {
       this.scheduler?.resourceStore.loadDataAsync(this.resources);
     }
   }
+
+  deleteEvent(event:any) {
+  // Implémentation à venir
+}
+
+  editEvent(event: any){
+    // Implémentation à venir
+  }
 }

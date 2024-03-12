@@ -62,3 +62,28 @@
   align-self: flex-start;
   margin-left:10%;
 }
+
+.btn-delete {
+  background-color: red;
+  color: white;
+  margin: 10px;
+}
+
+.btn-edit {
+  background-color: orange;
+  color: white;
+  margin: 10px;
+}
+.btn-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.btn-delete, .btn-edit {
+  border-radius: 5px; /* Ajustez cette valeur pour modifier le rayon de l'arrondi */
+  padding: 1rem;
+  border: none;
+  font-weight: 700;
+}
