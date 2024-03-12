@@ -62,43 +62,14 @@ export class AppComponent {
       resources: this.resources,
       events: this.events,
       features: {
+        eventEdit: {
+          disabled: true,
+        },
         eventDrag: {
           disabled: true,
         },
         eventResize: {
           disabled: true
-        },
-        eventEdit: {
-          items: {
-            nameField: {
-              label: 'Utilisateur',
-              type: 'textfield',
-            },
-            startDateField: { label: 'Date de début' },
-            startTimeField: { label: 'Heure'},
-            endDateField: { label: 'Date de fin' },
-            endTimeField: { label: 'Heure' },
-            resourceField: {
-              type: 'combo',
-            },
-            articleField: {
-              type: 'textfield',
-              label: 'Article',
-            },
-            quantityField: {
-              type: 'numberfield',
-              label: 'Quantité',
-            },
-            unitField: {
-              type: 'combo',
-              label: 'Unité',
-            },
-            noteField: {
-              type: 'textarea',
-              label: 'Commentaire',
-              name: 'note'
-            },
-          }
         },
       },
       onEventSelectionChange: ({ action, selected, deselected, selection }) => {
@@ -118,6 +89,9 @@ export class AppComponent {
         } else if (deselected.length > 0) {
           this.selectedEvent = null;
         }
+      },
+      onEventAutoCreated: () => {
+
       }
     });
     this.filterResourcesWithEvents();
@@ -158,7 +132,4 @@ export class AppComponent {
     this.selectedEvent = null;
   }
 
-  editEvent(event: any){
-    // Implémentation à venir
-  }
 }

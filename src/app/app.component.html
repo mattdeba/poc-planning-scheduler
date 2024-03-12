@@ -6,7 +6,7 @@
 </div>
 <div class="app-container">
     <div class="scheduler-container" id="scheduler"></div>
-    <div id="rightColumn" class="reservation-details">
+    <div *ngIf="selectedEvent" id="rightColumn" class="reservation-details">
         <h1 *ngIf="selectedEvent">Détails réservation</h1>
         <div *ngIf="selectedEvent" class="orange-separator"></div>
         <p *ngIf="selectedEvent" class="event-date">Du {{selectedEvent.startDate | date:'dd/MM/yyyy'}} - {{selectedEvent.startDate | date:'HH:mm'}}<br>
@@ -22,7 +22,7 @@
         <p *ngIf="selectedEvent" class="align-left">Dernière réservation par:<br>Léo </p>
         <div *ngIf="selectedEvent" class="btn-container">
             <button *ngIf="selectedEvent" class="btn-delete" (click)="deleteEvent(selectedEvent)">Supprimer</button>
-            <button *ngIf="selectedEvent" class="btn-edit" (click)="editEvent(selectedEvent)">Modifier</button>
+            <button *ngIf="selectedEvent" class="btn-edit">Modifier</button>
         </div>
     </div>
 </div>
