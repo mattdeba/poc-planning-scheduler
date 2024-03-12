@@ -105,6 +105,7 @@ export class AppComponent {
         if (selected.length > 0) {
           const eventRecord = selected[0];
           this.selectedEvent = {
+            id: eventRecord.id,
             name: ((eventRecord:any) => {
               const resource = resources.filter(resource => resource.id == eventRecord.resourceId)[0];
               return `${resource.code} - ${resource.name}`
@@ -143,8 +144,19 @@ export class AppComponent {
   }
 
   deleteEvent(event:any) {
-  // Implémentation à venir
-}
+    const eventIndex = this.events.findIndex(e => e.id === event.id);
+
+    if (eventIndex !== -1) {
+      this.events.splice(eventIndex, 1);
+    }
+
+    const schedulerEvent = this.scheduler?.eventStore.getById(event.id);
+    if (schedulerEvent) {
+      this.scheduler?.eventStore.remove(schedulerEvent);
+    }
+
+    this.selectedEvent = null;
+  }
 
   editEvent(event: any){
     // Implémentation à venir
