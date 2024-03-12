@@ -38,7 +38,7 @@ export class AppComponent {
       appendTo: 'scheduler',
       columns : [
         { text : 'Matériel', field : 'name', width : 300 },
-        
+
       ],
       startDate : new Date(2024, 2, 4, 0),
       endDate   : new Date(2024, 2, 11, 0),
@@ -92,8 +92,18 @@ export class AppComponent {
           this.selectedEvent = null;
         }
       },
-      onEventAutoCreated: () => {
-
+      onEventAutoCreated: ({eventRecord, resourceRecord}) => {
+        const resource = resources.filter(resource => resource.id == resourceRecord.id)[0]
+        eventRecord.name = `${resource.code} - Matthieu`
+        this.scheduler?.selectEvent(eventRecord);
+        this.editMode = true;
+        this.selectedEvent = {
+          id: eventRecord.id,
+          name: `${resource.code} - ${resource.name}`,
+          startDate: eventRecord.startDate,
+          endDate: eventRecord.endDate,
+          dateReservation: new Date(),
+        }
       }
     });
     this.filterResourcesWithEvents();
@@ -150,12 +160,11 @@ export class AppComponent {
   }
 
   updateEvent() {
-    const event = this.events.find(e => e.id === this.selectedEvent.id);
+    const event = this.scheduler?.eventStore.getById(this.selectedEvent.id);
     if (event) {
-        event.startDate = this.selectedEvent.startDate;
-        event.endDate = this.selectedEvent.endDate;
+      event.set('startDate', this.selectedEvent.startDate);
+      event.set('endDate', this.selectedEvent.endDate);
     }
-    this.scheduler?.eventStore.loadDataAsync(this.events);
     this.editMode = false;
 }
 

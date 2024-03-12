@@ -29,8 +29,10 @@
         <ng-container *ngIf="editMode">
             <h1 class="form-title">Modifier la réservation</h1>
             <div class="orange-separator form-separator"></div>
-            <bryntum-date-time-field id="startDate" name="startDate" [value]="selectedEvent.startDate" (onChange)="onDateChange($event)" class="form-input"></bryntum-date-time-field><br>
-            <bryntum-date-time-field id="endDate" name="endDate" [value]="selectedEvent.endDate" (onChange)="onDateChange($event)" class="form-input"></bryntum-date-time-field><br>
+            <span class="align-left">Début:</span>
+            <bryntum-date-time-field  id="startDate" name="startDate" [value]="selectedEvent.startDate" (onChange)="onDateChange($event)" class="b-align-start"></bryntum-date-time-field><br>
+            <span class="align-left">Fin:</span>
+            <bryntum-date-time-field id="endDate" name="endDate" [value]="selectedEvent.endDate" (onChange)="onDateChange($event)" class="b-align-start"></bryntum-date-time-field><br>
             <button (click)="updateEvent()">Valider</button>
         </ng-container>
     </div>
