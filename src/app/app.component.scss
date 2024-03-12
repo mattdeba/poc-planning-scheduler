@@ -29,3 +29,36 @@
 .scheduler-container {
     flex-grow: 1;
 }
+.reservation-details {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+
+  h1 {
+    color: green;
+  }
+}
+
+.orange-separator {
+  height: 1px; /* Ajustez cette valeur pour modifier l'épaisseur de la séparation */
+  background-color: orange;
+  width: 90%;
+}
+
+.event-date {
+  font-weight: bold; /* Rend la police plus épaisse */
+  color: black; /* Rend la police noire */
+}
+
+.event-name {
+  font-weight: bold; /* Rend la police plus épaisse */
+  color: orange; /* Rend la police orange */
+}
+
+.align-left {
+  text-align: left;
+  align-self: flex-start;
+  margin-left:10%;
+}

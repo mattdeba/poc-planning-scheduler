@@ -6,11 +6,19 @@
 </div>
 <div class="app-container">
     <div class="scheduler-container" id="scheduler"></div>
-    <div id="rightColumn">
-        <h3 *ngIf="selectedEvent">Détails de l'événement</h3>
-        <p *ngIf="selectedEvent">Nom : {{selectedEvent.name}}</p>
-        <p *ngIf="selectedEvent">Début : {{selectedEvent.startDate}}</p>
-        <p *ngIf="selectedEvent">Fin : {{selectedEvent.endDate}}</p>
-        <p *ngIf="selectedEvent">Description : {{selectedEvent.description || 'N/A'}}</p>
+    <div id="rightColumn" class="reservation-details">
+        <h1 *ngIf="selectedEvent">Détails réservation</h1>
+        <div *ngIf="selectedEvent" class="orange-separator"></div>
+        <p *ngIf="selectedEvent" class="event-date">Du {{selectedEvent.startDate | date:'dd/MM/yyyy'}} - {{selectedEvent.startDate | date:'HH:mm'}}<br>
+            au {{selectedEvent.endDate | date:'dd/MM/yyyy'}} - {{selectedEvent.endDate | date:'HH:mm'}}
+        </p>
+        <p *ngIf="selectedEvent" class="event-name">{{selectedEvent.name}}</p>
+        <p *ngIf="selectedEvent" class="align-left">Réservation pour:<br> {{ selectedEvent.username }}<br>06.00.00.00.00</p>
+        <p *ngIf="selectedEvent" class="event-reservation-date align-left">
+            Reservation faite le:<br> {{selectedEvent.dateReservation | date:'dd/MM/yyyy'}} à {{selectedEvent.dateReservation | date:'HH:mm'}}
+        </p>
+        <p *ngIf="selectedEvent" class="align-left">Volume de travail:<br>10 Ha</p>
+        <p *ngIf="selectedEvent" class="align-left">Responsable:<br>Alex<br>06.00.00.00.00</p>
+        <p *ngIf="selectedEvent" class="align-left">Dernière réservation par:<br>Léo </p>
     </div>
 </div>

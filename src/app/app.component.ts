@@ -105,9 +105,14 @@ export class AppComponent {
         if (selected.length > 0) {
           const eventRecord = selected[0];
           this.selectedEvent = {
-            name: eventRecord.name,
+            name: ((eventRecord:any) => {
+              const resource = resources.filter(resource => resource.id == eventRecord.resourceId)[0];
+              return `${resource.code} - ${resource.name}`
+            })(eventRecord),
             startDate: eventRecord.startDate,
             endDate: eventRecord.endDate,
+            dateReservation: new Date(),
+            username: eventRecord.name.split(' - ')[1]
           }
         } else if (deselected.length > 0) {
           this.selectedEvent = null;
@@ -133,7 +138,6 @@ export class AppComponent {
       const filteredResources = this.resources.filter(resource => resource.id == this.selectedResource);
       this.scheduler?.resourceStore.loadDataAsync(filteredResources);
     } else {
-      // Si aucune ressource n'est sélectionnée, affichez toutes les ressources
       this.scheduler?.resourceStore.loadDataAsync(this.resources);
     }
   }
