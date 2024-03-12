@@ -13,7 +13,8 @@ LocaleManager.locale = 'FrFr';
 })
 export class AppComponent {
   selectedResource: number | null = null;
-  selectedEvent: any = null;
+  selectedEvent: { startDate: string } | null | any = null;
+  editMode = false;
 
   users = [
     { id: 1, name : 'Léo'},
@@ -73,6 +74,7 @@ export class AppComponent {
         },
       },
       onEventSelectionChange: ({ action, selected, deselected, selection }) => {
+        this.editMode = false;
         if (selected.length > 0) {
           const eventRecord = selected[0];
           this.selectedEvent = {
@@ -131,5 +133,30 @@ export class AppComponent {
 
     this.selectedEvent = null;
   }
+
+  editEvent(event:any) {
+    this.editMode = true;
+    console.log(event);
+  }
+
+  onDateChange(event: any) {
+    const { source, value, oldValue, valid, userAction } = event;
+
+    if (source.id === 'startDate') {
+        this.selectedEvent.startDate = new Date(value);
+    } else if (source.id === 'endDate') {
+        this.selectedEvent.endDate = new Date(value);
+    }
+  }
+
+  updateEvent() {
+    const event = this.events.find(e => e.id === this.selectedEvent.id);
+    if (event) {
+        event.startDate = this.selectedEvent.startDate;
+        event.endDate = this.selectedEvent.endDate;
+    }
+    this.scheduler?.eventStore.loadDataAsync(this.events);
+    this.editMode = false;
+}
 
 }
