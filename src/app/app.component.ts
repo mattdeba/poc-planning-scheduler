@@ -77,16 +77,15 @@ export class AppComponent {
         this.editMode = false;
         if (selected.length > 0) {
           const eventRecord = selected[0];
+          const resourceRecord = this.allResources.filter(resource => resource.id == eventRecord.resourceId)[0]
           this.selectedEvent = {
             id: eventRecord.id,
-            name: ((eventRecord:any) => {
-              const resource = this.allResources.filter(resource => resource.id == eventRecord.resourceId)[0];
-              return `${resource.code} - ${resource.name}`
-            })(eventRecord),
+            name: `${resourceRecord.code} - ${resourceRecord.name}`,
             startDate: eventRecord.startDate,
             endDate: eventRecord.endDate,
             dateReservation: new Date(),
-            username: eventRecord.name.split(' - ')[1]
+            username: eventRecord.name.split(' - ')[1],
+            resource: resourceRecord
           }
         } else if (deselected.length > 0) {
           this.selectedEvent = null;
@@ -103,6 +102,7 @@ export class AppComponent {
           startDate: eventRecord.startDate,
           endDate: eventRecord.endDate,
           dateReservation: new Date(),
+          resource: resourceRecord,
         }
       }
     });
@@ -146,7 +146,6 @@ export class AppComponent {
 
   editEvent(event:any) {
     this.editMode = true;
-    console.log(event);
   }
 
   onDateChange(event: any) {
@@ -158,12 +157,17 @@ export class AppComponent {
         this.selectedEvent.endDate = new Date(value);
     }
   }
+  onResourceChange(event: any) {
+    const selectedResourceId = event.value;
+    this.selectedEvent.resource = this.resources.find(resource => resource.id === selectedResourceId);
+  }
 
   updateEvent() {
     const event = this.scheduler?.eventStore.getById(this.selectedEvent.id);
     if (event) {
       event.set('startDate', this.selectedEvent.startDate);
       event.set('endDate', this.selectedEvent.endDate);
+      event.set('resourceId', this.selectedEvent.resource.id);
     }
     this.editMode = false;
   }

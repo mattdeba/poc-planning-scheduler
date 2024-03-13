@@ -33,7 +33,7 @@
             <bryntum-date-time-field  id="startDate" name="startDate" [value]="selectedEvent.startDate" (onChange)="onDateChange($event)" class="b-align-start"></bryntum-date-time-field><br>
             <span class="align-left">Fin:</span>
             <bryntum-date-time-field id="endDate" name="endDate" [value]="selectedEvent.endDate" (onChange)="onDateChange($event)" class="b-align-start"></bryntum-date-time-field><br>
-            <bryntum-combo [items]="resources" [width]=355 displayField="name" valueField="id" [multiSelect]=true></bryntum-combo>
+            <bryntum-combo [items]="resources" [width]=355 displayField="name" valueField="id" (onChange)="onResourceChange($event)" [value]="selectedEvent.resource" [multiSelect]=false></bryntum-combo>
             <bryntum-button (onClick)="updateEvent()" text="Valider"></bryntum-button>
         </ng-container>
     </div>
