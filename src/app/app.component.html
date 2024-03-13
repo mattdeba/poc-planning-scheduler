@@ -14,7 +14,7 @@
                au {{selectedEvent.endDate | date:'dd/MM/yyyy'}} - {{selectedEvent.endDate | date:'HH:mm'}}
            </p>
            <p class="event-name">{{selectedEvent.name}}</p>
-           <p class="align-left">Réservation pour:<br> {{ selectedEvent.username }}<br>06.00.00.00.00</p>
+           <p class="align-left user-name">Réservation pour {{ selectedEvent.username }}<br>06.00.00.00.00</p>
            <p class="event-reservation-date align-left">
                Reservation faite le:<br> {{selectedEvent.dateReservation | date:'dd/MM/yyyy'}} à {{selectedEvent.dateReservation | date:'HH:mm'}}
            </p>

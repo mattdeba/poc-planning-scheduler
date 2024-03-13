@@ -37,24 +37,33 @@
   height: 100%;
 
   h1 {
-    color: green;
+    color: #45A046;
+    font-family: Roboto, sans-serif;
   }
 }
 
 .orange-separator {
-  height: 1px; /* Ajustez cette valeur pour modifier l'épaisseur de la séparation */
+  height: 1px;
   background-color: orange;
   width: 90%;
 }
 
 .event-date {
-  font-weight: bold; /* Rend la police plus épaisse */
-  color: black; /* Rend la police noire */
+  font-weight: bold;
+  color: black;
+  font-size: 1.2rem;
 }
 
 .event-name {
-  font-weight: bold; /* Rend la police plus épaisse */
-  color: orange; /* Rend la police orange */
+  font-weight: bold;
+  color: orange;
+  font-size: 1.2rem;
+}
+
+.user-name {
+  font-weight: 600;
+  color: black;
+  font-size: 1.1rem;
 }
 
 .align-left {
