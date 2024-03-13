@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { DateHelper, Scheduler, StringHelper } from '@bryntum/scheduler'
 import { LocaleManager, LocaleHelper } from '@bryntum/scheduler';
-import { resources } from './resources';
+import { resourcesRaw } from './resources';
 import { events } from './events';
 import '@bryntum/scheduler/locales/scheduler.locale.FrFr.js';
 
@@ -20,8 +20,8 @@ export class AppComponent {
     { id: 1, name : 'Léo'},
     { id: 2, name : 'Luc'},
   ]
-
-  resources = resources;
+  allResources = resourcesRaw;
+  resources = resourcesRaw;
   isFiltered = false;
 
   events = events;
@@ -80,7 +80,7 @@ export class AppComponent {
           this.selectedEvent = {
             id: eventRecord.id,
             name: ((eventRecord:any) => {
-              const resource = resources.filter(resource => resource.id == eventRecord.resourceId)[0];
+              const resource = this.allResources.filter(resource => resource.id == eventRecord.resourceId)[0];
               return `${resource.code} - ${resource.name}`
             })(eventRecord),
             startDate: eventRecord.startDate,
@@ -93,7 +93,7 @@ export class AppComponent {
         }
       },
       onEventAutoCreated: ({eventRecord, resourceRecord}) => {
-        const resource = resources.filter(resource => resource.id == resourceRecord.id)[0]
+        const resource = this.allResources.filter(resource => resource.id == resourceRecord.id)[0]
         eventRecord.name = `${resource.code} - Matthieu`
         this.scheduler?.selectEvent(eventRecord);
         this.editMode = true;
@@ -115,7 +115,7 @@ export class AppComponent {
       this.resources = this.resources.filter(resource => resourceIdsWithEvents.has(resource.id));
       this.isFiltered = true;
     } else {
-      this.resources = [...resources];
+      this.resources = this.allResources;
       this.isFiltered = false;
     }
     this?.scheduler?.resourceStore.loadDataAsync(this.resources);
@@ -166,6 +166,5 @@ export class AppComponent {
       event.set('endDate', this.selectedEvent.endDate);
     }
     this.editMode = false;
-}
-
+  }
 }

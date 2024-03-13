@@ -1,4 +1,4 @@
-export const resources = [{"id": 34081, "name": "TELESCOPIQUE", "code": "TELS3"},
+export const resourcesRaw = [{"id": 34081, "name": "TELESCOPIQUE", "code": "TELS3"},
 {"id": 34087, "name": "EPANDEUR FUMIER RAFAL1", "code": "EPAN6"},
 {"id": 34096, "name": "EPANDEURFUMIER RAFAL 2017", "code": "EPAN8"},
 {"id": 34101, "name": "BENNE MAILLEUX BMSA 245 KRAMER", "code": "TELS3"},

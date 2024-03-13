@@ -1,5 +1,5 @@
 <div class="filter-panel">
-    <button (click)="filterResourcesWithEvents()">Filtrer les ressources avec des événements</button>
+    <bryntum-button (onClick)="filterResourcesWithEvents()" text="Matériels reservés"></bryntum-button>
     <select [(ngModel)]="selectedResource" (change)="filterByResource()">
         <option *ngFor="let resource of resources" [value]="resource.id">{{resource.name}}</option>
     </select>
@@ -22,8 +22,8 @@
            <p class="align-left">Responsable:<br>Alex<br>06.00.00.00.00</p>
            <p class="align-left">Dernière réservation par:<br>Léo </p>
            <div class="btn-container">
-               <button class="btn-delete" (click)="deleteEvent(selectedEvent)">Supprimer</button>
-               <button class="btn-edit" (click)="editEvent(selectedEvent)">Modifier</button>
+               <bryntum-button (onClick)="deleteEvent(selectedEvent)" text="Supprimer" [color]="'b-red'"></bryntum-button>
+               <bryntum-button (onClick)="editEvent(selectedEvent)" text="Modifier" [color]="'b-green'"></bryntum-button>
            </div>
        </ng-container>
         <ng-container *ngIf="editMode">
@@ -33,7 +33,8 @@
             <bryntum-date-time-field  id="startDate" name="startDate" [value]="selectedEvent.startDate" (onChange)="onDateChange($event)" class="b-align-start"></bryntum-date-time-field><br>
             <span class="align-left">Fin:</span>
             <bryntum-date-time-field id="endDate" name="endDate" [value]="selectedEvent.endDate" (onChange)="onDateChange($event)" class="b-align-start"></bryntum-date-time-field><br>
-            <button (click)="updateEvent()">Valider</button>
+            <bryntum-combo [items]="resources" [width]=355 displayField="name" valueField="id" [multiSelect]=true></bryntum-combo>
+            <bryntum-button (onClick)="updateEvent()" text="Valider"></bryntum-button>
         </ng-container>
     </div>
 </div>
