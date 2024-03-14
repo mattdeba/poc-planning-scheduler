@@ -37,8 +37,8 @@ export class AppComponent {
       },
       appendTo: 'scheduler',
       columns : [
+        { text : 'Code', field : 'code', width : 150 },
         { text : 'Matériel', field : 'name', width : 300 },
-
       ],
       startDate : new Date(2024, 2, 4, 0),
       endDate   : new Date(2024, 2, 11, 0),
@@ -80,7 +80,7 @@ export class AppComponent {
           const resourceRecord = this.allResources.filter(resource => resource.id == eventRecord.resourceId)[0]
           this.selectedEvent = {
             id: eventRecord.id,
-            name: `${resourceRecord.code} - ${resourceRecord.name}`,
+            name: resourceRecord.name,
             startDate: eventRecord.startDate,
             endDate: eventRecord.endDate,
             dateReservation: new Date(),
@@ -93,12 +93,12 @@ export class AppComponent {
       },
       onEventAutoCreated: ({eventRecord, resourceRecord}) => {
         const resource = this.allResources.filter(resource => resource.id == resourceRecord.id)[0]
-        eventRecord.name = `${resource.code} - Matthieu`
+        eventRecord.name = 'Matthieu';
         this.scheduler?.selectEvent(eventRecord);
         this.editMode = true;
         this.selectedEvent = {
           id: eventRecord.id,
-          name: `${resource.code} - ${resource.name}`,
+          name: resource.name,
           startDate: eventRecord.startDate,
           endDate: eventRecord.endDate,
           dateReservation: new Date(),
