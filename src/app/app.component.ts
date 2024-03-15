@@ -1,9 +1,10 @@
 import { Component, ElementRef, ViewChild} from '@angular/core';
-import { DateHelper, Scheduler, StringHelper } from '@bryntum/scheduler'
+import {Combo, DateHelper, Scheduler, Store, StringHelper} from '@bryntum/scheduler'
 import { LocaleManager, LocaleHelper } from '@bryntum/scheduler';
 import { resourcesRaw } from './resources';
 import {eventsRaw} from './events';
 import '@bryntum/scheduler/locales/scheduler.locale.FrFr.js';
+import {BryntumComboComponent} from "@bryntum/scheduler-angular";
 
 LocaleManager.locale = 'FrFr';
 const USERNAME = 'DES RIVES';
@@ -32,7 +33,27 @@ export class AppComponent {
   scheduler: Scheduler | undefined;
 
   ngOnInit(): void {
-    this.scheduler = new Scheduler({
+      const resourceStore = new Store({
+        data: this.resources,
+      });
+      const combo = new Combo({
+        appendTo: 'comboFiltre',
+        store: resourceStore,
+        displayField: 'name',
+        width: 400,
+        multiSelect: true,
+        valueField: 'id',
+        onChange: ({value}) => {
+          if (value?.length == 0) {
+            this.resources = this.allResources;
+            this.toggleFilters(this.toggleStates);
+          }
+          const selectedResourceIds = value;
+          this.resources = this.allResources.filter(resource => selectedResourceIds.includes(resource.id));
+          this.scheduler?.resourceStore.loadDataAsync(this.resources);
+        }
+      })
+      this.scheduler = new Scheduler({
       rowHeight: 60,
       eventRenderer({eventRecord, resourceRecord, renderData}) {
         renderData.style = 'border-radius: 5px;';

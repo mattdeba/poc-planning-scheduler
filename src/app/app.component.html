@@ -1,9 +1,8 @@
 <div class="filter-panel">
   <bryntum-button [toggleable]=true [pressed]=true (onToggle)="toggleStates.resourceFilter = $event.pressed; toggleFilters(toggleStates)" text="Matériel avec résa"></bryntum-button>
   <bryntum-button [toggleable]=true [pressed]=true (onToggle)="toggleStates.nameFilter = $event.pressed; toggleFilters(toggleStates)" text="Mes résa"></bryntum-button>
-  <bryntum-combo [items]="allResources" [width]=355 [multiSelect]=false displayField="name" (onChange)="onResourceFilterChange($event)"></bryntum-combo>
-  <bryntum-button (onClick)="filterByResource()" text="Filtrer"></bryntum-button>
-  <bryntum-button (onClick)="clearFilter()" text="RAZ"></bryntum-button></div>
+  <span id="comboFiltre"></span>
+</div>
 <div class="app-container">
     <div class="scheduler-container" id="scheduler"></div>
     <div *ngIf="selectedEvent" id="rightColumn" class="reservation-details">
