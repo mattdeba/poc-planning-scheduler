@@ -1,4 +1,4 @@
-export const events = [{ id : 978483, startDate : '2024-03-07 08:00:00', endDate : '2024-03-07 18:00:00', resourceId : 34097, name : 'BARRAND' },
+export const eventsRaw = [{ id : 978483, startDate : '2024-03-07 08:00:00', endDate : '2024-03-07 18:00:00', resourceId : 34097, name : 'BARRAND' },
   { id : 978211, startDate : '2024-03-06 07:00:00', endDate : '2024-03-06 18:00:00', resourceId : 41544, name : 'DU GRAND CLOS' },
   { id : 978974, startDate : '2024-03-06 08:00:00', endDate : '2024-03-07 18:00:00', resourceId : 34111, name : 'DE LA MOUTTOTE' },
   { id : 968231, startDate : '2024-03-05 07:00:00', endDate : '2024-03-06 18:00:00', resourceId : 41898, name : 'DES RIVES' },

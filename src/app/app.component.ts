@@ -2,10 +2,12 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { DateHelper, Scheduler, StringHelper } from '@bryntum/scheduler'
 import { LocaleManager, LocaleHelper } from '@bryntum/scheduler';
 import { resourcesRaw } from './resources';
-import { events } from './events';
+import {eventsRaw} from './events';
 import '@bryntum/scheduler/locales/scheduler.locale.FrFr.js';
 
 LocaleManager.locale = 'FrFr';
+const USERNAME = 'DES RIVES';
+
 @Component({
   selector    : 'app-root',
   templateUrl : './app.component.html',
@@ -24,7 +26,8 @@ export class AppComponent {
   resources = resourcesRaw;
   isFiltered = false;
 
-  events = events;
+  allEvents = eventsRaw;
+  events = eventsRaw;
 
   scheduler: Scheduler | undefined;
 
@@ -93,7 +96,7 @@ export class AppComponent {
       },
       onEventAutoCreated: ({eventRecord, resourceRecord}) => {
         const resource = this.allResources.filter(resource => resource.id == resourceRecord.id)[0]
-        eventRecord.name = 'DES RIVES';
+        eventRecord.name = USERNAME;
         this.scheduler?.selectEvent(eventRecord);
         this.editMode = true;
         this.selectedEvent = {
@@ -108,13 +111,13 @@ export class AppComponent {
     });
     this.toggleFilters(this.toggleStates);
   }
+
   toggleFilters(toggleStates: { nameFilter: boolean, resourceFilter: boolean }) {
     let filteredResources;
-    let filteredEvents = [...events]; // Commencez avec tous les événements
+    let filteredEvents = [...this.allEvents]; // Commencez avec tous les événements
 
     if (toggleStates.nameFilter) {
-      // Appliquer le filtre par nom si le bouton correspondant est activé
-      filteredEvents = filteredEvents.filter(event => event.name === 'DES RIVES');
+      filteredEvents = filteredEvents.filter(event => event.name === USERNAME);
     }
 
     if (toggleStates.resourceFilter) {
@@ -177,6 +180,21 @@ export class AppComponent {
       event.set('startDate', this.selectedEvent.startDate);
       event.set('endDate', this.selectedEvent.endDate);
       event.set('resourceId', this.selectedEvent.resource.id);
+
+      const eventInEvents = this.events.find(e => e.id === this.selectedEvent.id);
+      if (eventInEvents) {
+        eventInEvents.startDate = this.selectedEvent.startDate;
+        eventInEvents.endDate = this.selectedEvent.endDate;
+        eventInEvents.resourceId = this.selectedEvent.resource.id;
+      } else {
+        this.allEvents.push({
+          id: this.selectedEvent.id,
+          startDate: this.selectedEvent.startDate,
+          endDate: this.selectedEvent.endDate,
+          resourceId: this.selectedEvent.resource.id,
+          name: USERNAME,
+        });
+      }
     }
     this.editMode = false;
   }

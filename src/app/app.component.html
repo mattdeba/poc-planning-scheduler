@@ -1,6 +1,6 @@
 <div class="filter-panel">
-  <bryntum-button [toggleable]=true [pressed]=true (onToggle)="toggleStates.resourceFilter = $event.pressed; toggleFilters(toggleStates)" text="Materiel reservé"></bryntum-button>
-  <bryntum-button [toggleable]=true [pressed]=true (onToggle)="toggleStates.nameFilter = $event.pressed; toggleFilters(toggleStates)" text="Mes resa"></bryntum-button>
+  <bryntum-button [toggleable]=true [pressed]=true (onToggle)="toggleStates.resourceFilter = $event.pressed; toggleFilters(toggleStates)" text="Matériel avec résa"></bryntum-button>
+  <bryntum-button [toggleable]=true [pressed]=true (onToggle)="toggleStates.nameFilter = $event.pressed; toggleFilters(toggleStates)" text="Mes résa"></bryntum-button>
     <select [(ngModel)]="selectedResource" (change)="filterByResource()">
         <option *ngFor="let resource of resources" [value]="resource.id">{{resource.name}}</option>
     </select>
@@ -28,7 +28,7 @@
            </div>
        </ng-container>
         <ng-container *ngIf="editMode">
-            <h1 class="form-title">Modifier la réservation</h1>
+            <h1 class="form-title">Editer la réservation</h1>
             <div class="orange-separator form-separator"></div>
             <span class="align-left">Début:</span>
             <bryntum-date-time-field  id="startDate" name="startDate" [value]="selectedEvent.startDate" (onChange)="onDateChange($event)" class="b-align-start"></bryntum-date-time-field><br>
