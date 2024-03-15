@@ -15,11 +15,11 @@ export class AppComponent {
   selectedResource: number | null = null;
   selectedEvent: { startDate: string } | null | any = null;
   editMode = false;
+  toggleStates = {
+    nameFilter: true,
+    resourceFilter: true
+  };
 
-  users = [
-    { id: 1, name : 'Léo'},
-    { id: 2, name : 'Luc'},
-  ]
   allResources = resourcesRaw;
   resources = resourcesRaw;
   isFiltered = false;
@@ -93,7 +93,7 @@ export class AppComponent {
       },
       onEventAutoCreated: ({eventRecord, resourceRecord}) => {
         const resource = this.allResources.filter(resource => resource.id == resourceRecord.id)[0]
-        eventRecord.name = 'Matthieu';
+        eventRecord.name = 'DES RIVES';
         this.scheduler?.selectEvent(eventRecord);
         this.editMode = true;
         this.selectedEvent = {
@@ -106,19 +106,28 @@ export class AppComponent {
         }
       }
     });
-    this.filterResourcesWithEvents();
+    this.toggleFilters(this.toggleStates);
   }
+  toggleFilters(toggleStates: { nameFilter: boolean, resourceFilter: boolean }) {
+    let filteredResources;
+    let filteredEvents = [...events]; // Commencez avec tous les événements
 
-  filterResourcesWithEvents() {
-    if (!this.isFiltered) {
-      const resourceIdsWithEvents = new Set(this.events.map(event => event.resourceId));
-      this.resources = this.resources.filter(resource => resourceIdsWithEvents.has(resource.id));
-      this.isFiltered = true;
-    } else {
-      this.resources = this.allResources;
-      this.isFiltered = false;
+    if (toggleStates.nameFilter) {
+      // Appliquer le filtre par nom si le bouton correspondant est activé
+      filteredEvents = filteredEvents.filter(event => event.name === 'DES RIVES');
     }
-    this?.scheduler?.resourceStore.loadDataAsync(this.resources);
+
+    if (toggleStates.resourceFilter) {
+      // Appliquer le filtre par ressource si le bouton correspondant est activé
+      const resourceIds = new Set(filteredEvents.map(event => event.resourceId));
+      filteredResources = this.resources.filter(resource => resourceIds.has(resource.id));
+    } else {
+      filteredResources = this.resources;
+    }
+
+    this.events = filteredEvents;
+    this.scheduler?.eventStore.loadDataAsync(this.events);
+    this.scheduler?.resourceStore.loadDataAsync(filteredResources);
   }
   filterByResource() {
     if (this.selectedResource) {

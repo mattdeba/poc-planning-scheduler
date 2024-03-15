@@ -1,5 +1,6 @@
 <div class="filter-panel">
-    <bryntum-button (onClick)="filterResourcesWithEvents()" text="Matériels reservés"></bryntum-button>
+  <bryntum-button [toggleable]=true [pressed]=true (onToggle)="toggleStates.resourceFilter = $event.pressed; toggleFilters(toggleStates)" text="Materiel reservé"></bryntum-button>
+  <bryntum-button [toggleable]=true [pressed]=true (onToggle)="toggleStates.nameFilter = $event.pressed; toggleFilters(toggleStates)" text="Mes resa"></bryntum-button>
     <select [(ngModel)]="selectedResource" (change)="filterByResource()">
         <option *ngFor="let resource of resources" [value]="resource.id">{{resource.name}}</option>
     </select>
