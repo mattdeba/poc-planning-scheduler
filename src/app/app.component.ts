@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild} from '@angular/core';
 import { DateHelper, Scheduler, StringHelper } from '@bryntum/scheduler'
 import { LocaleManager, LocaleHelper } from '@bryntum/scheduler';
 import { resourcesRaw } from './resources';
@@ -113,32 +113,39 @@ export class AppComponent {
   }
 
   toggleFilters(toggleStates: { nameFilter: boolean, resourceFilter: boolean }) {
-    let filteredResources;
-    let filteredEvents = [...this.allEvents]; // Commencez avec tous les événements
-
     if (toggleStates.nameFilter) {
-      filteredEvents = filteredEvents.filter(event => event.name === USERNAME);
+      this.events = this.events.filter(event => event.name === USERNAME);
+    } else {
+      this.events = this.allEvents;
     }
 
     if (toggleStates.resourceFilter) {
-      // Appliquer le filtre par ressource si le bouton correspondant est activé
-      const resourceIds = new Set(filteredEvents.map(event => event.resourceId));
-      filteredResources = this.resources.filter(resource => resourceIds.has(resource.id));
+      const resourceIds = new Set(this.events.map(event => event.resourceId));
+      this.resources = this.resources.filter(resource => resourceIds.has(resource.id));
     } else {
-      filteredResources = this.resources;
+      this.resources = this.allResources;
     }
 
-    this.events = filteredEvents;
     this.scheduler?.eventStore.loadDataAsync(this.events);
-    this.scheduler?.resourceStore.loadDataAsync(filteredResources);
+    this.scheduler?.resourceStore.loadDataAsync(this.resources);
   }
+
+  onResourceFilterChange(event: any) {
+    this.selectedResource = event.value;
+  }
+
   filterByResource() {
     if (this.selectedResource) {
-      const filteredResources = this.resources.filter(resource => resource.id == this.selectedResource);
-      this.scheduler?.resourceStore.loadDataAsync(filteredResources);
-    } else {
+      this.resources = this.resources.filter(resource => resource.id == this.selectedResource);
       this.scheduler?.resourceStore.loadDataAsync(this.resources);
     }
+  }
+
+  clearFilter() {
+    this.resources = this.allResources;
+    this.toggleFilters(this.toggleStates);
+    this.scheduler?.resourceStore.loadDataAsync(this.resources);
+    this.scheduler?.eventStore.loadDataAsync(this.events);
   }
 
   deleteEvent(event:any) {
