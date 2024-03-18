@@ -1,6 +1,6 @@
-import { Component, ElementRef, ViewChild} from '@angular/core';
-import {Combo, DateHelper, Scheduler, Store, StringHelper} from '@bryntum/scheduler'
-import { LocaleManager, LocaleHelper } from '@bryntum/scheduler';
+import { Component } from '@angular/core';
+import {Combo, Scheduler, Store, StringHelper} from '@bryntum/scheduler'
+import { LocaleManager } from '@bryntum/scheduler';
 import { resourcesRaw } from './resources';
 import {eventsRaw} from './events';
 import '@bryntum/scheduler/locales/scheduler.locale.FrFr.js';
@@ -19,12 +19,10 @@ export class AppComponent {
   editMode = false;
   toggleStates = {
     nameFilter: true,
-    resourceFilter: true
   };
 
   allResources = resourcesRaw;
   resources = resourcesRaw;
-  isFiltered = false;
 
   allEvents = eventsRaw;
   events = eventsRaw;
@@ -84,7 +82,7 @@ export class AppComponent {
       },
       allowOverlap: false,
       resources: this.resources,
-      events: this.events,
+      events: this.allEvents,
       features: {
         eventEdit: {
           disabled: true,
@@ -107,8 +105,11 @@ export class AppComponent {
             startDate: eventRecord.startDate,
             endDate: eventRecord.endDate,
             dateReservation: new Date(),
-            username: eventRecord.name.split(' - ')[1],
-            resource: resourceRecord
+            username: eventRecord.name,
+            resource: resourceRecord,
+            quantite: eventRecord.getData('quantite'),
+            unite: eventRecord.getData('unite'),
+            commentaire: eventRecord.getData('commentaire'),
           }
         } else if (deselected.length > 0) {
           this.selectedEvent = null;
@@ -132,47 +133,22 @@ export class AppComponent {
     this.toggleFilters(this.toggleStates);
   }
 
-  toggleFilters(toggleStates: { nameFilter: boolean, resourceFilter: boolean }) {
+  toggleFilters(toggleStates: { nameFilter: boolean }) {
     if (toggleStates.nameFilter) {
-      this.events = this.events.filter(event => event.name === USERNAME);
+      this.events = this.allEvents.filter(event => event.name === USERNAME);
     } else {
       this.events = this.allEvents;
     }
 
-    if (toggleStates.resourceFilter) {
-      const resourceIds = new Set(this.events.map(event => event.resourceId));
-      this.resources = this.resources.filter(resource => resourceIds.has(resource.id));
-    } else {
-      this.resources = this.allResources;
-    }
-
     this.scheduler?.eventStore.loadDataAsync(this.events);
     this.scheduler?.resourceStore.loadDataAsync(this.resources);
-  }
-
-  onResourceFilterChange(event: any) {
-    this.selectedResource = event.value;
-  }
-
-  filterByResource() {
-    if (this.selectedResource) {
-      this.resources = this.resources.filter(resource => resource.id == this.selectedResource);
-      this.scheduler?.resourceStore.loadDataAsync(this.resources);
-    }
-  }
-
-  clearFilter() {
-    this.resources = this.allResources;
-    this.toggleFilters(this.toggleStates);
-    this.scheduler?.resourceStore.loadDataAsync(this.resources);
-    this.scheduler?.eventStore.loadDataAsync(this.events);
   }
 
   deleteEvent(event:any) {
-    const eventIndex = this.events.findIndex(e => e.id === event.id);
+    const eventIndex = this.allEvents.findIndex(e => e.id === event.id);
 
     if (eventIndex !== -1) {
-      this.events.splice(eventIndex, 1);
+      this.allEvents.splice(eventIndex, 1);
     }
 
     const schedulerEvent = this.scheduler?.eventStore.getById(event.id);
@@ -201,31 +177,45 @@ export class AppComponent {
     this.selectedEvent.resource = this.resources.find(resource => resource.id === selectedResourceId);
   }
 
-  updateEvent() {
-    const event = this.scheduler?.eventStore.getById(this.selectedEvent.id);
-    if (event) {
-      event.set('startDate', this.selectedEvent.startDate);
-      event.set('endDate', this.selectedEvent.endDate);
-      event.set('resourceId', this.selectedEvent.resource.id);
+  onQuantiteChange($event: any) {
+    this.selectedEvent.quantite = $event.value;
+  }
 
-      const eventInEvents = this.events.find(e => e.id === this.selectedEvent.id);
-      if (eventInEvents) {
-        eventInEvents.startDate = this.selectedEvent.startDate;
-        eventInEvents.endDate = this.selectedEvent.endDate;
-        eventInEvents.resourceId = this.selectedEvent.resource.id;
-      } else {
-        this.allEvents.push({
-          id: this.selectedEvent.id,
-          startDate: this.selectedEvent.startDate,
-          endDate: this.selectedEvent.endDate,
-          resourceId: this.selectedEvent.resource.id,
-          name: USERNAME,
-          reservationDate: new Date().toISOString(),
-          quantite: this.selectedEvent.quantite,
-          unite: this.selectedEvent.unite,
-        });
-      }
+  onCommentaireChange($event: any) {
+    this.selectedEvent.commentaire = $event.value;
+  }
+  onArticleChange($event: any) {
+    this.selectedEvent.article = $event.value;
+  }
+  onUniteChange($event: any) {
+    this.selectedEvent.unite = $event.value;
+  }
+
+  updateEvent() {
+    const eventInList = this.allEvents.find(e => e.id === this.selectedEvent.id);
+    if (eventInList) {
+      eventInList.startDate = this.selectedEvent.startDate;
+      eventInList.endDate = this.selectedEvent.endDate;
+      eventInList.resourceId = this.selectedEvent.resource.id;
+      eventInList.name = this.selectedEvent.username;
+      eventInList.quantite = this.selectedEvent.quantite;
+      eventInList.unite = this.selectedEvent.unite;
+      eventInList.commentaire = this.selectedEvent.commentaire;
+    } else {
+      this.allEvents.push({
+        id: this.selectedEvent.id,
+        startDate: this.selectedEvent.startDate,
+        endDate: this.selectedEvent.endDate,
+        resourceId: this.selectedEvent.resource.id,
+        name: USERNAME,
+        reservationDate: new Date().toISOString(),
+        quantite: this.selectedEvent.quantite,
+        unite: this.selectedEvent.unite,
+        commentaire: this.selectedEvent.commentaire,
+        article: this.selectedEvent.article,
+      });
     }
+    this.scheduler?.eventStore.loadDataAsync(this.allEvents);
     this.editMode = false;
   }
 }

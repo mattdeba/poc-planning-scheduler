@@ -1,5 +1,4 @@
 <div class="filter-panel">
-  <bryntum-button [toggleable]=true [pressed]=true (onToggle)="toggleStates.resourceFilter = $event.pressed; toggleFilters(toggleStates)" text="Matériel avec résa"></bryntum-button>
   <bryntum-button [toggleable]=true [pressed]=true (onToggle)="toggleStates.nameFilter = $event.pressed; toggleFilters(toggleStates)" text="Mes résa"></bryntum-button>
   <span id="comboFiltre"></span>
 </div>
@@ -20,6 +19,8 @@
            <p class="align-left">Volume de travail:<br>{{selectedEvent.quantite}} {{selectedEvent.unite}}</p>
            <p class="align-left">Responsable:<br>Alex<br>06.00.00.00.00</p>
            <p class="align-left">Dernière réservation par:<br>Léo </p>
+           <p class="align-left">Article:<br>{{ selectedEvent.article }}</p>
+           <p class="align-left">Commentaire:<br>{{selectedEvent.commentaire}}</p>
            <div class="btn-container">
                <bryntum-button (onClick)="deleteEvent(selectedEvent)" text="Supprimer" [color]="'b-red'"></bryntum-button>
                <bryntum-button (onClick)="editEvent(selectedEvent)" text="Modifier" [color]="'b-green'"></bryntum-button>
@@ -35,9 +36,11 @@
           <span class="align-left">Matériel:</span>
           <bryntum-combo [items]="resources" [width]=355 displayField="name" valueField="id" (onChange)="onResourceChange($event)" [value]="selectedEvent.resource" [multiSelect]=false></bryntum-combo>
           <span class="align-left">Article:</span>
-          <bryntum-combo [items]="['article 1', 'article 2', 'article 3']" [width]=355 [multiSelect]=false></bryntum-combo>
+          <bryntum-combo [items]="['article 1', 'article 2', 'article 3']" (onChange)="onArticleChange($event)" [width]=355 [multiSelect]=false></bryntum-combo>
           <span class="align-left">Quantité:</span>
-          <span><bryntum-number-field [min]="0"></bryntum-number-field><bryntum-combo [items]="['Ha', 'He']" [multiSelect]=false></bryntum-combo></span>
+          <span><bryntum-number-field [min]="0" [value]="selectedEvent.quantite" (onChange)="onQuantiteChange($event)"></bryntum-number-field><bryntum-combo [items]="['Ha', 'He']" (onChange)="onUniteChange($event)" [value]="selectedEvent.unite" [multiSelect]=false></bryntum-combo></span>
+          <span class="align-left">Commentaire:</span>
+          <span><bryntum-text-area-field [value]="selectedEvent.commentaire" (onChange)="onCommentaireChange($event)"></bryntum-text-area-field></span>
           <bryntum-button (onClick)="updateEvent()" text="Valider"></bryntum-button>
         </ng-container>
     </div>
