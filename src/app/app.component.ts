@@ -16,9 +16,10 @@ const USERNAME = 'DES RIVES';
 export class AppComponent {
   selectedEvent: { startDate: string } | null | any = null;
   editMode = false;
-  toggleStates = {
-    nameFilter: true,
-  };
+  filters: { usernames: string[], materiels: string[] } = {
+    usernames: [],
+    materiels: [],
+  }
 
   resources = resourcesRaw;
   events = eventsRaw;
@@ -175,6 +176,14 @@ export class AppComponent {
     this.selectedEvent.unite = $event.value;
   }
 
+  toggleUsernames() {
+    if (this.filters.usernames.length === 0) {
+      this.filters.usernames = ['DES RIVES'];
+    } else {
+      this.filters.usernames = [];
+    }
+  }
+
   updateEvent() {
     const eventInList = this.events.find(e => e.id === this.selectedEvent.id);
     if (eventInList) {
@@ -204,16 +213,24 @@ export class AppComponent {
     this.editMode = false;
   }
 
+  applyFilters = (): { events: any[], resources: any[] } => {
+    const filtered = { events: this.events, resources: this.resources};
+    if (this.filters.usernames.length > 0) {
+      filtered.events = filtered.events.filter(event => this.filters.usernames.includes(event.name))
+    }
+    return filtered;
+  }
+
   refreshScheduler = () => {
     const scrollX = this.scheduler?.scrollable.x;
     const scrollY = this.scheduler?.scrollable.y;
+    const event = this.scheduler?.eventStore.getById(this.selectedEvent?.id) as EventModel;
 
-    const event = this.scheduler?.eventStore.getById(this.selectedEvent.id) as EventModel;
+    const filtered = this.applyFilters();
+    this.scheduler?.eventStore.loadDataAsync(filtered.events);
+    this.scheduler?.resourceStore.loadDataAsync(filtered.resources);
+
     if (event) this.scheduler?.selectEvent(event);
-    this.scheduler?.eventStore.loadDataAsync(this.events);
-    this.scheduler?.resourceStore.loadDataAsync(this.resources);
-
     this.scheduler?.scrollable.scrollTo(scrollX, scrollY);
-
   }
 }

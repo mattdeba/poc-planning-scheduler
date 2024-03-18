@@ -1,5 +1,5 @@
 <div class="filter-panel">
-  <bryntum-button [toggleable]=true [pressed]=true (onToggle)="toggleStates.nameFilter = $event.pressed;" text="Mes résa"></bryntum-button>
+  <bryntum-button [toggleable]=true [pressed]=true (onToggle)="toggleUsernames();refreshScheduler()" text="Mes résa"></bryntum-button>
   <span id="comboFiltre"></span>
 </div>
 <div class="app-container">
