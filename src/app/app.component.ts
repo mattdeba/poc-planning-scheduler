@@ -104,6 +104,7 @@ export class AppComponent {
             quantite: eventRecord.getData('quantite'),
             unite: eventRecord.getData('unite'),
             commentaire: eventRecord.getData('commentaire'),
+            article: eventRecord.getData('article'),
           }
         } else if (deselected.length > 0) {
           this.selectedEvent = null;
@@ -184,6 +185,7 @@ export class AppComponent {
       eventInList.quantite = this.selectedEvent.quantite;
       eventInList.unite = this.selectedEvent.unite;
       eventInList.commentaire = this.selectedEvent.commentaire;
+      eventInList.article = this.selectedEvent.article;
     } else {
       this.events.push({
         id: this.selectedEvent.id,
