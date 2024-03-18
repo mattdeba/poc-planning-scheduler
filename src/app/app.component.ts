@@ -4,7 +4,6 @@ import { LocaleManager, LocaleHelper } from '@bryntum/scheduler';
 import { resourcesRaw } from './resources';
 import {eventsRaw} from './events';
 import '@bryntum/scheduler/locales/scheduler.locale.FrFr.js';
-import {BryntumComboComponent} from "@bryntum/scheduler-angular";
 
 LocaleManager.locale = 'FrFr';
 const USERNAME = 'DES RIVES';
@@ -221,6 +220,9 @@ export class AppComponent {
           endDate: this.selectedEvent.endDate,
           resourceId: this.selectedEvent.resource.id,
           name: USERNAME,
+          reservationDate: new Date().toISOString(),
+          quantite: this.selectedEvent.quantite,
+          unite: this.selectedEvent.unite,
         });
       }
     }

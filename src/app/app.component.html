@@ -17,7 +17,7 @@
            <p class="event-reservation-date align-left">
                Reservation faite le:<br> {{selectedEvent.dateReservation | date:'dd/MM/yyyy'}} à {{selectedEvent.dateReservation | date:'HH:mm'}}
            </p>
-           <p class="align-left">Volume de travail:<br>10 Ha</p>
+           <p class="align-left">Volume de travail:<br>{{selectedEvent.quantite}} {{selectedEvent.unite}}</p>
            <p class="align-left">Responsable:<br>Alex<br>06.00.00.00.00</p>
            <p class="align-left">Dernière réservation par:<br>Léo </p>
            <div class="btn-container">
