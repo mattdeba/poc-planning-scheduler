@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Combo, Scheduler, Store, StringHelper} from '@bryntum/scheduler'
+import { Combo, EventModel, Scheduler, Store, StringHelper } from '@bryntum/scheduler'
 import { LocaleManager } from '@bryntum/scheduler';
 import { resourcesRaw } from './resources';
 import {eventsRaw} from './events';
@@ -14,17 +14,13 @@ const USERNAME = 'DES RIVES';
   styleUrls   : ['./app.component.scss']
 })
 export class AppComponent {
-  selectedResource: number | null = null;
   selectedEvent: { startDate: string } | null | any = null;
   editMode = false;
   toggleStates = {
     nameFilter: true,
   };
 
-  allResources = resourcesRaw;
   resources = resourcesRaw;
-
-  allEvents = eventsRaw;
   events = eventsRaw;
 
   scheduler: Scheduler | undefined;
@@ -41,13 +37,8 @@ export class AppComponent {
         multiSelect: true,
         valueField: 'id',
         onChange: ({value}) => {
-          if (value?.length == 0) {
-            this.resources = this.allResources;
-            this.toggleFilters(this.toggleStates);
-          }
-          const selectedResourceIds = value;
-          this.resources = this.allResources.filter(resource => selectedResourceIds.includes(resource.id));
-          this.scheduler?.resourceStore.loadDataAsync(this.resources);
+          //TODO refaire cette fonction pour filtrer les ressources en utilisant la fonction refreshScheduler.
+          this.refreshScheduler();
         }
       })
       this.scheduler = new Scheduler({
@@ -82,7 +73,7 @@ export class AppComponent {
       },
       allowOverlap: false,
       resources: this.resources,
-      events: this.allEvents,
+      events: this.events,
       features: {
         eventEdit: {
           disabled: true,
@@ -93,19 +84,22 @@ export class AppComponent {
         eventResize: {
           disabled: true
         },
+        eventMenu: {
+          disabled: true,
+        }
       },
       onEventSelectionChange: ({ action, selected, deselected, selection }) => {
         this.editMode = false;
         if (selected.length > 0) {
           const eventRecord = selected[0];
-          const resourceRecord = this.allResources.filter(resource => resource.id == eventRecord.resourceId)[0]
+          const resourceRecord = this.resources.filter(resource => resource.id == eventRecord.resourceId)[0]
           this.selectedEvent = {
             id: eventRecord.id,
-            name: resourceRecord.name,
+            materiel: resourceRecord.name,
             startDate: eventRecord.startDate,
             endDate: eventRecord.endDate,
             dateReservation: new Date(),
-            username: eventRecord.name,
+            name: eventRecord.name,
             resource: resourceRecord,
             quantite: eventRecord.getData('quantite'),
             unite: eventRecord.getData('unite'),
@@ -116,39 +110,28 @@ export class AppComponent {
         }
       },
       onEventAutoCreated: ({eventRecord, resourceRecord}) => {
-        const resource = this.allResources.filter(resource => resource.id == resourceRecord.id)[0]
+        const resource = this.resources.filter(resource => resource.id == resourceRecord.id)[0]
         eventRecord.name = USERNAME;
         this.scheduler?.selectEvent(eventRecord);
         this.editMode = true;
         this.selectedEvent = {
           id: eventRecord.id,
-          name: resource.name,
+          materiel: resource.name,
           startDate: eventRecord.startDate,
           endDate: eventRecord.endDate,
           dateReservation: new Date(),
           resource: resourceRecord,
+          name: USERNAME,
         }
       }
     });
-    this.toggleFilters(this.toggleStates);
-  }
-
-  toggleFilters(toggleStates: { nameFilter: boolean }) {
-    if (toggleStates.nameFilter) {
-      this.events = this.allEvents.filter(event => event.name === USERNAME);
-    } else {
-      this.events = this.allEvents;
-    }
-
-    this.scheduler?.eventStore.loadDataAsync(this.events);
-    this.scheduler?.resourceStore.loadDataAsync(this.resources);
   }
 
   deleteEvent(event:any) {
-    const eventIndex = this.allEvents.findIndex(e => e.id === event.id);
+    const eventIndex = this.events.findIndex(e => e.id === event.id);
 
     if (eventIndex !== -1) {
-      this.allEvents.splice(eventIndex, 1);
+      this.events.splice(eventIndex, 1);
     }
 
     const schedulerEvent = this.scheduler?.eventStore.getById(event.id);
@@ -192,17 +175,17 @@ export class AppComponent {
   }
 
   updateEvent() {
-    const eventInList = this.allEvents.find(e => e.id === this.selectedEvent.id);
+    const eventInList = this.events.find(e => e.id === this.selectedEvent.id);
     if (eventInList) {
       eventInList.startDate = this.selectedEvent.startDate;
       eventInList.endDate = this.selectedEvent.endDate;
       eventInList.resourceId = this.selectedEvent.resource.id;
-      eventInList.name = this.selectedEvent.username;
+      eventInList.name = this.selectedEvent.name;
       eventInList.quantite = this.selectedEvent.quantite;
       eventInList.unite = this.selectedEvent.unite;
       eventInList.commentaire = this.selectedEvent.commentaire;
     } else {
-      this.allEvents.push({
+      this.events.push({
         id: this.selectedEvent.id,
         startDate: this.selectedEvent.startDate,
         endDate: this.selectedEvent.endDate,
@@ -215,7 +198,20 @@ export class AppComponent {
         article: this.selectedEvent.article,
       });
     }
-    this.scheduler?.eventStore.loadDataAsync(this.allEvents);
+    this.refreshScheduler();
     this.editMode = false;
+  }
+
+  refreshScheduler = () => {
+    const scrollX = this.scheduler?.scrollable.x;
+    const scrollY = this.scheduler?.scrollable.y;
+
+    const event = this.scheduler?.eventStore.getById(this.selectedEvent.id) as EventModel;
+    if (event) this.scheduler?.selectEvent(event);
+    this.scheduler?.eventStore.loadDataAsync(this.events);
+    this.scheduler?.resourceStore.loadDataAsync(this.resources);
+
+    this.scheduler?.scrollable.scrollTo(scrollX, scrollY);
+
   }
 }
