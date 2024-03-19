@@ -16,9 +16,9 @@ const USERNAME = 'DES RIVES';
 export class AppComponent {
   selectedEvent: { startDate: string } | null | any = null;
   editMode = false;
-  filters: { usernames: string[], materiels: string[] } = {
-    usernames: [],
-    materiels: [],
+  filters: { usernames: string[], materielIds: number[] } = {
+    usernames: ['DES RIVES'],
+    materielIds: [],
   }
 
   resources = resourcesRaw;
@@ -38,7 +38,7 @@ export class AppComponent {
         multiSelect: true,
         valueField: 'id',
         onChange: ({value}) => {
-          //TODO refaire cette fonction pour filtrer les ressources en utilisant la fonction refreshScheduler.
+          this.filters.materielIds = value;
           this.refreshScheduler();
         }
       })
@@ -127,6 +127,7 @@ export class AppComponent {
         }
       }
     });
+      this.refreshScheduler();
   }
 
   deleteEvent(event:any) {
@@ -217,6 +218,9 @@ export class AppComponent {
     const filtered = { events: this.events, resources: this.resources};
     if (this.filters.usernames.length > 0) {
       filtered.events = filtered.events.filter(event => this.filters.usernames.includes(event.name))
+    }
+    if (this.filters.materielIds.length > 0) {
+      filtered.resources = filtered.resources.filter(resource => this.filters.materielIds.includes(resource.id))
     }
     return filtered;
   }
