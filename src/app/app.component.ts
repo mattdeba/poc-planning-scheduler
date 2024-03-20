@@ -16,15 +16,18 @@ const USERNAME = 'DES RIVES';
 export class AppComponent {
   selectedEvent: { startDate: string } | null | any = null;
   editMode = false;
-  filters: { usernames: string[], materielIds: number[] } = {
+  filters: { usernames: string[], materielIds: number[], toValidateOnly: boolean } = {
     usernames: ['DES RIVES'],
     materielIds: [],
+    toValidateOnly: false,
   }
 
   resources = resourcesRaw;
   resourcesDisplay = resourcesRaw;
   events = eventsRaw;
   eventsDisplay = eventsRaw;
+
+  isSchedulerReadOnly = false;
 
   scheduler: Scheduler | undefined;
 
@@ -46,6 +49,7 @@ export class AppComponent {
       })
       this.scheduler = new Scheduler({
       rowHeight: 60,
+      onBeforeDragCreate: () => !this.isSchedulerReadOnly,
       eventRenderer({eventRecord, resourceRecord, renderData}) {
         renderData.style = 'border-radius: 5px;';
         return eventRecord.name;
@@ -130,6 +134,7 @@ export class AppComponent {
         },
       });
       this.refreshSchedulerEventsAndResources();
+      this.sortEventsFirst();
   }
 
   deleteEvent(event:any) {
@@ -187,6 +192,11 @@ export class AppComponent {
     }
   }
 
+  toggleToValidateOnly() {
+    this.filters.toValidateOnly = !this.filters.toValidateOnly;
+    this.isSchedulerReadOnly = this.filters.toValidateOnly;
+  }
+
   sortEventsFirst() {
     this.scheduler?.resourceStore.sort((a: any, b: any) => {
       const aHasEvents = this.eventsDisplay.some(event => event.resourceId === a.id);
@@ -239,6 +249,9 @@ export class AppComponent {
     }
     if (this.filters.materielIds.length > 0) {
       filtered.resources = filtered.resources.filter(resource => this.filters.materielIds.includes(resource.id))
+    }
+    if (this.filters.toValidateOnly) {
+      filtered.events = filtered.events.filter(event => event.validated === false)
     }
     this.eventsDisplay = filtered.events;
     this.resourcesDisplay = filtered.resources;

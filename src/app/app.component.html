@@ -1,6 +1,7 @@
 <div class="filter-panel">
-    <bryntum-button (onClick)="sortEventsFirst()" text="matériels avec résa en premier"></bryntum-button>
-    <bryntum-button [toggleable]=true [pressed]=true (onToggle)="toggleUsernames();refreshSchedulerEvents()" text="Mes résa"></bryntum-button>
+    <bryntum-button (onClick)="sortEventsFirst()" text="Remonter les résa"></bryntum-button>
+    <bryntum-button [toggleable]=true [pressed]=true (onToggle)="toggleUsernames();refreshSchedulerEvents();sortEventsFirst()" text="Mes résa"></bryntum-button>
+    <bryntum-button [toggleable]=true [pressed]=false (onToggle)="toggleToValidateOnly();refreshSchedulerEvents();sortEventsFirst()" text="A valider"></bryntum-button>
   <span id="comboFiltre"></span>
 </div>
 <div class="app-container">
@@ -23,8 +24,8 @@
            <p class="align-left">Article:<br>{{ selectedEvent.article }}</p>
            <p class="align-left">Commentaire:<br>{{selectedEvent.commentaire}}</p>
            <div class="btn-container">
+               <bryntum-button (onClick)="editEvent(selectedEvent)" text="Modifier"></bryntum-button>
                <bryntum-button (onClick)="deleteEvent(selectedEvent)" text="Supprimer" [color]="'b-red'"></bryntum-button>
-               <bryntum-button (onClick)="editEvent(selectedEvent)" text="Modifier" [color]="'b-green'"></bryntum-button>
            </div>
        </ng-container>
         <ng-container *ngIf="editMode">
