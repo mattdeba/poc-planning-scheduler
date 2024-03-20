@@ -236,6 +236,8 @@ export class AppComponent {
         unite: this.selectedEvent.unite,
         commentaire: this.selectedEvent.commentaire,
         article: this.selectedEvent.article,
+        validationChecked: false,
+        validated: false,
       });
     }
     this.refreshSchedulerEvents();
@@ -251,7 +253,7 @@ export class AppComponent {
       filtered.resources = filtered.resources.filter(resource => this.filters.materielIds.includes(resource.id))
     }
     if (this.filters.toValidateOnly) {
-      filtered.events = filtered.events.filter(event => event.validated === false)
+      filtered.events = filtered.events.filter(event => !event.validationChecked)
     }
     this.eventsDisplay = filtered.events;
     this.resourcesDisplay = filtered.resources;
@@ -287,5 +289,27 @@ export class AppComponent {
     this.scheduler?.resourceStore.loadDataAsync(this.resourcesDisplay);
     if (event) this.scheduler?.selectEvent(event);
     this.scheduler?.scrollable.scrollTo(this.scheduler?.scrollable.y, scrollY);
+  }
+
+  validateEvent = () => {
+    const eventInList = this.events.find(e => e.id === this.selectedEvent.id);
+    if (eventInList) {
+      eventInList.validationChecked = true;
+      eventInList.validated = true;
+    }
+    this.selectedEvent = null;
+    this.refreshSchedulerEvents();
+    this.editMode = false;
+  }
+
+  refuseEvent = () => {
+    const eventInList = this.events.find(e => e.id === this.selectedEvent.id);
+    if (eventInList) {
+      eventInList.validationChecked = true;
+      eventInList.validated = false;
+    }
+    this.selectedEvent = null;
+    this.refreshSchedulerEvents();
+    this.editMode = false;
   }
 }
