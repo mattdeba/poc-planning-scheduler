@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Combo, EventModel, Scheduler, Store, StringHelper } from '@bryntum/scheduler'
+import { Combo, EventModel, EventStore, Scheduler, Store, StringHelper } from '@bryntum/scheduler'
 import { LocaleManager } from '@bryntum/scheduler';
 import { resourcesRaw } from './resources';
 import {eventsRaw} from './events';
@@ -22,7 +22,9 @@ export class AppComponent {
   }
 
   resources = resourcesRaw;
+  resourcesDisplay = resourcesRaw;
   events = eventsRaw;
+  eventsDisplay = eventsRaw;
 
   scheduler: Scheduler | undefined;
 
@@ -39,7 +41,7 @@ export class AppComponent {
         valueField: 'id',
         onChange: ({value}) => {
           this.filters.materielIds = value;
-          this.refreshScheduler();
+          this.refreshSchedulerResources();
         }
       })
       this.scheduler = new Scheduler({
@@ -117,17 +119,17 @@ export class AppComponent {
         this.scheduler?.selectEvent(eventRecord);
         this.editMode = true;
         this.selectedEvent = {
-          id: eventRecord.id,
-          materiel: resource.name,
-          startDate: eventRecord.startDate,
-          endDate: eventRecord.endDate,
-          dateReservation: new Date(),
-          resource: resourceRecord,
-          name: USERNAME,
-        }
-      }
-    });
-      this.refreshScheduler();
+            id: eventRecord.id,
+            materiel: resource.name,
+            startDate: eventRecord.startDate,
+            endDate: eventRecord.endDate,
+            dateReservation: new Date(),
+            resource: resourceRecord,
+            name: USERNAME,
+          }
+        },
+      });
+      this.refreshSchedulerEventsAndResources();
   }
 
   deleteEvent(event:any) {
@@ -185,6 +187,22 @@ export class AppComponent {
     }
   }
 
+  sortEventsFirst() {
+    this.scheduler?.resourceStore.sort((a: any, b: any) => {
+      const aHasEvents = this.eventsDisplay.some(event => event.resourceId === a.id);
+      const bHasEvents = this.eventsDisplay.some(event => event.resourceId === b.id);
+      if (aHasEvents && !bHasEvents) {
+        return -1;
+      } else if (!aHasEvents && bHasEvents) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    this.scheduler?.resourceStore.clearSorters();
+    this.scheduler?.scrollToTop();
+  }
+
   updateEvent() {
     const eventInList = this.events.find(e => e.id === this.selectedEvent.id);
     if (eventInList) {
@@ -210,11 +228,11 @@ export class AppComponent {
         article: this.selectedEvent.article,
       });
     }
-    this.refreshScheduler();
+    this.refreshSchedulerEvents();
     this.editMode = false;
   }
 
-  applyFilters = (): { events: any[], resources: any[] } => {
+  applyFilters = () => {
     const filtered = { events: this.events, resources: this.resources};
     if (this.filters.usernames.length > 0) {
       filtered.events = filtered.events.filter(event => this.filters.usernames.includes(event.name))
@@ -222,19 +240,39 @@ export class AppComponent {
     if (this.filters.materielIds.length > 0) {
       filtered.resources = filtered.resources.filter(resource => this.filters.materielIds.includes(resource.id))
     }
-    return filtered;
+    this.eventsDisplay = filtered.events;
+    this.resourcesDisplay = filtered.resources;
   }
 
-  refreshScheduler = () => {
+  refreshSchedulerEvents = () => {
     const scrollX = this.scheduler?.scrollable.x;
     const scrollY = this.scheduler?.scrollable.y;
     const event = this.scheduler?.eventStore.getById(this.selectedEvent?.id) as EventModel;
 
-    const filtered = this.applyFilters();
-    this.scheduler?.eventStore.loadDataAsync(filtered.events);
-    this.scheduler?.resourceStore.loadDataAsync(filtered.resources);
-
+    this.applyFilters();
+    this.scheduler?.eventStore.loadDataAsync(this.eventsDisplay);
     if (event) this.scheduler?.selectEvent(event);
-    this.scheduler?.scrollable.scrollTo(scrollX, scrollY);
+    this.scheduler?.scrollable.scrollTo(this.scheduler?.scrollable.y, scrollY);
+  }
+  refreshSchedulerResources = () => {
+    const scrollX = this.scheduler?.scrollable.x;
+    const scrollY = this.scheduler?.scrollable.y;
+    const event = this.scheduler?.eventStore.getById(this.selectedEvent?.id) as EventModel;
+
+    this.applyFilters();
+    this.scheduler?.resourceStore.loadDataAsync(this.resourcesDisplay);
+    if (event) this.scheduler?.selectEvent(event);
+    this.scheduler?.scrollable.scrollTo(this.scheduler?.scrollable.y, scrollY);
+  }
+  refreshSchedulerEventsAndResources = () => {
+    const scrollX = this.scheduler?.scrollable.x;
+    const scrollY = this.scheduler?.scrollable.y;
+    const event = this.scheduler?.eventStore.getById(this.selectedEvent?.id) as EventModel;
+
+    this.applyFilters();
+    this.scheduler?.eventStore.loadDataAsync(this.eventsDisplay);
+    this.scheduler?.resourceStore.loadDataAsync(this.resourcesDisplay);
+    if (event) this.scheduler?.selectEvent(event);
+    this.scheduler?.scrollable.scrollTo(this.scheduler?.scrollable.y, scrollY);
   }
 }
