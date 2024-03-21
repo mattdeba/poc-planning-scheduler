@@ -16,11 +16,11 @@ const USERNAME = 'DES RIVES';
 export class AppComponent {
   selectedEvent: { startDate: string } | null | any = null;
   editMode = false;
-  filters: { usernames: string[], materielIds: number[], toValidateOnly: boolean } = {
-    usernames: ['DES RIVES'],
-    materielIds: [],
-    toValidateOnly: false,
-  }
+
+  validation: 'Toutes'|'A valider'|'Validée'|'Refusée' = 'Toutes';
+  postResa: 'Toutes'|'avec post résa'|'sans post résa' = 'Toutes';
+  utilisateur: any = 'Toutes';
+  materielIds: number[] = [];
 
   resources = resourcesRaw;
   resourcesDisplay = resourcesRaw;
@@ -43,7 +43,7 @@ export class AppComponent {
         multiSelect: true,
         valueField: 'id',
         onChange: ({value}) => {
-          this.filters.materielIds = value;
+          this.materielIds = value;
           this.refreshSchedulerResources();
         }
       })
@@ -152,6 +152,36 @@ export class AppComponent {
     this.selectedEvent = null;
   }
 
+  handleUser = (bodyToggle: any) => {
+    const { source, pressed } = bodyToggle;
+    if (pressed) {
+      this.utilisateur = source.text;
+      this.refreshSchedulerEvents();
+      this.sortEventsFirst();
+    }
+  }
+
+  handleValidation = (bodyToggle: any) => {
+    const { source, pressed } = bodyToggle;
+    if (pressed) {
+      this.validation = source.text;
+      if (this.validation === 'A valider' || this.validation === 'Refusée') {
+        this.postResa = 'sans post résa';
+      }
+      this.refreshSchedulerEvents();
+      this.sortEventsFirst();
+    }
+  }
+
+  handlePostResa = (bodyToggle: any) => {
+    const { source, pressed } = bodyToggle;
+    if (pressed) {
+      this.postResa = source.text;
+      this.refreshSchedulerEvents();
+      this.sortEventsFirst();
+    }
+  }
+
   editEvent(event:any) {
     this.editMode = true;
   }
@@ -182,19 +212,6 @@ export class AppComponent {
   }
   onUniteChange($event: any) {
     this.selectedEvent.unite = $event.value;
-  }
-
-  toggleUsernames() {
-    if (this.filters.usernames.length === 0) {
-      this.filters.usernames = ['DES RIVES'];
-    } else {
-      this.filters.usernames = [];
-    }
-  }
-
-  toggleToValidateOnly() {
-    this.filters.toValidateOnly = !this.filters.toValidateOnly;
-    this.isSchedulerReadOnly = this.filters.toValidateOnly;
   }
 
   sortEventsFirst() {
@@ -238,6 +255,7 @@ export class AppComponent {
         article: this.selectedEvent.article,
         validationChecked: false,
         validated: false,
+        postResa: false,
       });
     }
     this.refreshSchedulerEvents();
@@ -246,15 +264,28 @@ export class AppComponent {
 
   applyFilters = () => {
     const filtered = { events: this.events, resources: this.resources};
-    if (this.filters.usernames.length > 0) {
-      filtered.events = filtered.events.filter(event => this.filters.usernames.includes(event.name))
+    if (this.utilisateur === 'Mes réservations') {
+      filtered.events = filtered.events.filter(event => [USERNAME].includes(event.name))
     }
-    if (this.filters.materielIds.length > 0) {
-      filtered.resources = filtered.resources.filter(resource => this.filters.materielIds.includes(resource.id))
+    if (this.materielIds.length > 0) {
+      filtered.resources = filtered.resources.filter(resource => this.materielIds.includes(resource.id))
     }
-    if (this.filters.toValidateOnly) {
+    if (this.validation === 'A valider') {
       filtered.events = filtered.events.filter(event => !event.validationChecked)
     }
+    if (this.validation === 'Refusée') {
+      filtered.events = filtered.events.filter(event => event.validationChecked && !event.validated)
+    }
+    if (this.validation === 'Validée') {
+      filtered.events = filtered.events.filter(event => event.validationChecked && event.validated)
+    }
+    if (this.postResa === 'avec post résa' && (this.validation==='Toutes'||this.validation==='Validée')) {
+      filtered.events = filtered.events.filter(event => event.postResa)
+    }
+    if (this.postResa === 'sans post résa' && (this.validation==='Toutes'||this.validation==='Validée')) {
+      filtered.events = filtered.events.filter(event => !event.postResa)
+    }
+
     this.eventsDisplay = filtered.events;
     this.resourcesDisplay = filtered.resources;
   }
