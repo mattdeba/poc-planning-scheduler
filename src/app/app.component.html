@@ -1,76 +1,82 @@
-<div class="app-container">
-    <div class="filter-panel">
-        <bryntum-button (onClick)="sortEventsFirst()" text="Remonter les réservations"></bryntum-button>
-        <div>
-            <div class="filter-label">RESERVATIONS: </div>
-            <bryntum-button-group
-                    [toggleGroup]="true"
-                    [items]="[
+<div class="wrapper">
+    <div class="one item"></div>
+    <div class="two item">
+        <div class="filter-panel">
+            <bryntum-button class="custom-button" (onClick)="sortEventsFirst()" text="Remonter les réservations"></bryntum-button>
+            <div>
+                <div class="filter-label">RESERVATIONS: </div>
+                <bryntum-button-group
+                        [toggleGroup]="true"
+                        [items]="[
                     {text: 'Toutes', pressed: utilisateur === 'Toutes', onToggle: handleUser},
                     {text: 'Mes réservations', pressed: utilisateur === 'Mes réservations', onToggle: handleUser},
                 ]"
-            >
-            </bryntum-button-group>
-        </div>
-        <div>
-            <div class="filter-label">VALIDATION: </div>
-            <bryntum-button-group
-                    [toggleGroup]="true"
-                    [items]="[
+                >
+                </bryntum-button-group>
+            </div>
+            <div>
+                <div class="filter-label">VALIDATION: </div>
+                <bryntum-button-group
+                        [toggleGroup]="true"
+                        [items]="[
                     {text: 'Toutes', pressed: validation === 'Toutes', onToggle: handleValidation},
                     {text: 'A valider', pressed: validation === 'A valider', onToggle: handleValidation},
                     {text: 'Validée', pressed: validation === 'Validée', onToggle: handleValidation},
                     {text: 'Refusée', pressed: validation === 'Refusée', onToggle: handleValidation},
                 ]"
-            >
-            </bryntum-button-group>
-        </div>
-        <div>
-            <div class="filter-label">POST RESERVATION: </div>
-            <bryntum-button-group
-                    [toggleGroup]="true"
-                    [items]="[
+                >
+                </bryntum-button-group>
+            </div>
+            <div>
+                <div class="filter-label">POST RESERVATION: </div>
+                <bryntum-button-group
+                        [toggleGroup]="true"
+                        [items]="[
                     {text: 'Toutes', pressed: postResa === 'Toutes', onToggle: handlePostResa},
                     {text: 'avec post résa', pressed: postResa === 'avec post résa', onToggle: handlePostResa, disabled: validation==='A valider' || validation==='Refusée'},
                     {text: 'sans post résa', pressed: postResa === 'sans post résa', onToggle: handlePostResa},
                 ]"
-            >
-            </bryntum-button-group>
-        </div>
-        <div>
-        </div>
-        <div>
-            <div class="filter-label">MATERIELS: </div>
-            <span id="comboFiltre"></span>
+                >
+                </bryntum-button-group>
+            </div>
+            <div>
+            </div>
+            <div>
+                <div class="filter-label">MATERIELS: </div>
+                <span id="comboFiltre"></span>
+            </div>
         </div>
     </div>
-    <div class="scheduler-container" id="scheduler"></div>
-    <div *ngIf="selectedEvent" id="rightColumn" class="reservation-details">
-       <ng-container *ngIf="!editMode">
-           <h1 >Détails réservation</h1>
-           <div class="orange-separator"></div>
-           <p class="event-date">Du {{selectedEvent.startDate | date:'dd/MM/yyyy'}} - {{selectedEvent.startDate | date:'HH:mm'}}<br>
-               au {{selectedEvent.endDate | date:'dd/MM/yyyy'}} - {{selectedEvent.endDate | date:'HH:mm'}}
-           </p>
-           <p class="event-materiel">{{selectedEvent.materiel}}</p>
-           <p class="align-left user-name">Réservation pour {{ selectedEvent.name }}<br>06.00.00.00.00</p>
-           <p class="event-reservation-date align-left">
-               Reservation faite le:<br> {{selectedEvent.dateReservation | date:'dd/MM/yyyy'}} à {{selectedEvent.dateReservation | date:'HH:mm'}}
-           </p>
-           <p class="align-left">Volume de travail:<br>{{selectedEvent.quantite}} {{selectedEvent.unite}}</p>
-           <p class="align-left">Responsable:<br>Alex<br>06.00.00.00.00</p>
-           <p class="align-left">Dernière réservation par:<br>Léo </p>
-           <p class="align-left">Article:<br>{{ selectedEvent.article }}</p>
-           <p class="align-left">Commentaire:<br>{{selectedEvent.commentaire}}</p>
-           <div *ngIf="validation!=='A valider'" class="btn-container">
-               <bryntum-button (onClick)="editEvent(selectedEvent)" text="Modifier"></bryntum-button>
-               <bryntum-button (onClick)="deleteEvent(selectedEvent)" text="Supprimer" [color]="'b-red'"></bryntum-button>
-           </div>
-           <div *ngIf="validation==='A valider'" class="btn-container">
-               <bryntum-button (onClick)="validateEvent()" text="Valider" [color]="'b-green'"></bryntum-button>
-               <bryntum-button (onClick)="refuseEvent()" text="Refuser" [color]="'b-red'"></bryntum-button>
-           </div>
-       </ng-container>
+    <div class="three item">
+        <div class="scheduler-container" id="scheduler"></div>
+    </div>
+    <div class="four item">
+        <div *ngIf="selectedEvent" id="rightColumn" class="reservation-details">
+        <ng-container *ngIf="!editMode">
+            <h1 >Détails réservation</h1>
+            <div class="orange-separator"></div>
+            <p class="event-date">Du {{selectedEvent.startDate | date:'dd/MM/yyyy'}} - {{selectedEvent.startDate | date:'HH:mm'}}<br>
+                au {{selectedEvent.endDate | date:'dd/MM/yyyy'}} - {{selectedEvent.endDate | date:'HH:mm'}}
+            </p>
+            <p class="event-materiel">{{selectedEvent.materiel}}</p>
+            <p class="align-left user-name">Réservation pour {{ selectedEvent.name }}<br>06.00.00.00.00</p>
+            <p class="event-reservation-date align-left">
+                Reservation faite le:<br> {{selectedEvent.dateReservation | date:'dd/MM/yyyy'}} à {{selectedEvent.dateReservation | date:'HH:mm'}}
+            </p>
+            <p class="align-left">Volume de travail:<br>{{selectedEvent.quantite}} {{selectedEvent.unite}}</p>
+            <p class="align-left">Responsable:<br>Alex<br>06.00.00.00.00</p>
+            <p class="align-left">Dernière réservation par:<br>Léo </p>
+            <p class="align-left">Article:<br>{{ selectedEvent.article }}</p>
+            <p class="align-left">Commentaire:<br>{{selectedEvent.commentaire}}</p>
+            <div *ngIf="validation!=='A valider'" class="btn-container">
+                <bryntum-button (onClick)="editEvent(selectedEvent)" text="Modifier"></bryntum-button>
+                <bryntum-button (onClick)="deleteEvent(selectedEvent)" text="Supprimer" [color]="'b-red'"></bryntum-button>
+            </div>
+            <div *ngIf="validation==='A valider'" class="btn-container">
+                <bryntum-button (onClick)="validateEvent()" text="Valider" [color]="'b-green'"></bryntum-button>
+                <bryntum-button (onClick)="refuseEvent()" text="Refuser" [color]="'b-red'"></bryntum-button>
+            </div>
+        </ng-container>
         <ng-container *ngIf="editMode">
             <h1 class="form-title">Editer la réservation</h1>
             <div class="orange-separator form-separator"></div>
@@ -78,15 +84,16 @@
             <bryntum-date-time-field  id="startDate" name="startDate" [value]="selectedEvent.startDate" (onChange)="onDateChange($event)" class="b-align-start"></bryntum-date-time-field><br>
             <span class="align-left">Fin:</span>
             <bryntum-date-time-field id="endDate" name="endDate" [value]="selectedEvent.endDate" (onChange)="onDateChange($event)" class="b-align-start"></bryntum-date-time-field><br>
-          <span class="align-left">Matériel:</span>
-          <bryntum-combo [items]="resources" [width]=355 displayField="name" valueField="id" (onChange)="onResourceChange($event)" [value]="selectedEvent.resource" [multiSelect]=false></bryntum-combo>
-          <span class="align-left">Article:</span>
-          <bryntum-combo [items]="['article 1', 'article 2', 'article 3']" (onChange)="onArticleChange($event)" [width]=355 [multiSelect]=false></bryntum-combo>
-          <span class="align-left">Quantité:</span>
-          <span><bryntum-number-field [min]="0" [value]="selectedEvent.quantite" (onChange)="onQuantiteChange($event)"></bryntum-number-field><bryntum-combo [items]="['Ha', 'He']" (onChange)="onUniteChange($event)" [value]="selectedEvent.unite" [multiSelect]=false></bryntum-combo></span>
-          <span class="align-left">Commentaire:</span>
-          <span><bryntum-text-area-field [value]="selectedEvent.commentaire" (onChange)="onCommentaireChange($event)"></bryntum-text-area-field></span>
-          <bryntum-button (onClick)="updateEvent()" text="Valider"></bryntum-button>
+            <span class="align-left">Matériel:</span>
+            <bryntum-combo [items]="resources" [width]=355 displayField="name" valueField="id" (onChange)="onResourceChange($event)" [value]="selectedEvent.resource" [multiSelect]=false></bryntum-combo>
+            <span class="align-left">Article:</span>
+            <bryntum-combo [items]="['article 1', 'article 2', 'article 3']" (onChange)="onArticleChange($event)" [width]=355 [multiSelect]=false></bryntum-combo>
+            <span class="align-left">Quantité:</span>
+            <span><bryntum-number-field [min]="0" [value]="selectedEvent.quantite" (onChange)="onQuantiteChange($event)"></bryntum-number-field><bryntum-combo [items]="['Ha', 'He']" (onChange)="onUniteChange($event)" [value]="selectedEvent.unite" [multiSelect]=false></bryntum-combo></span>
+            <span class="align-left">Commentaire:</span>
+            <span><bryntum-text-area-field [value]="selectedEvent.commentaire" (onChange)="onCommentaireChange($event)"></bryntum-text-area-field></span>
+            <bryntum-button (onClick)="updateEvent()" text="Valider"></bryntum-button>
         </ng-container>
+    </div>
     </div>
 </div>

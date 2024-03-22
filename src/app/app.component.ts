@@ -50,7 +50,7 @@ export class AppComponent {
       this.scheduler = new Scheduler({
       rowHeight: 35,
       barMargin: 2,
-        height: 800,
+      height: 800,
       onBeforeDragCreate: () => !this.isSchedulerReadOnly,
       eventRenderer({eventRecord, resourceRecord, renderData}) {
         renderData.style = 'border-radius: 5px;';

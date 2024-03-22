@@ -5,7 +5,7 @@
 
 #scheduler {
   width: 100%;
-  height: 100vh; /* Utilise 100% de la hauteur de la fenêtre de visualisation */
+  max-height: 100%;
   margin: 0;
   padding: 0;
   overflow: hidden; /* Pour éviter tout débordement inutile */
@@ -18,12 +18,7 @@
 
 #rightColumn:not(:empty) {
     display: flex;
-    width: 600px; /* Ajustez cette valeur en fonction de la largeur de votre colonne de filtres */
-    transition: width 0.3s ease-in-out;
-}
-
-#rightColumn:empty {
-    width: 0;
+    width: 100%;
     transition: width 0.3s ease-in-out;
 }
 
@@ -32,20 +27,19 @@
 }
 .reservation-details {
   display: flex;
-  justify-content: center;
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
   height: 100%;
 
   h1 {
-    color: #45A046;
+    color: #27CA37;
     font-family: Roboto, sans-serif;
   }
 }
 
 .orange-separator {
   height: 1px;
-  background-color: orange;
+  background-color: #FFF0D8;
   width: 90%;
 }
 
@@ -57,7 +51,7 @@
 
 .event-materiel {
   font-weight: bold;
-  color: orange;
+  color: black;
   font-size: 1.2rem;
 }
 
@@ -80,7 +74,7 @@
 }
 
 .btn-edit {
-  background-color: orange;
+  background-color: #FFF0D8;
   color: white;
   margin: 10px;
 }
@@ -92,7 +86,7 @@
 }
 
 .btn-delete, .btn-edit {
-  border-radius: 5px; /* Ajustez cette valeur pour modifier le rayon de l'arrondi */
+  border-radius: 5px;
   padding: 1rem;
   border: none;
   font-weight: 700;
@@ -103,10 +97,30 @@
   height: 800px;
 }
 
-.b-my-class {
-  font-size: 5px;
-}
-
 .filter-label {
   margin: 10px 0 10px 0;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  gap: 10px;
+  grid-auto-rows: minmax(10px, auto);
+}
+.one {
+  grid-column: 1 / 25; // occupe toutes les 24 colonnes
+  grid-row: 1 / 5;
+  background: #FFF0D8;
+}
+.two {
+  grid-column: 1 / 6; // occupe les 6 premières colonnes
+  grid-row: 5 / 45;
+}
+.three {
+  grid-column: 6 / 19; // occupe les colonnes de 7 à 18
+  grid-row: 5 / 45;
+}
+.four {
+  grid-column: 19 / 25; // occupe les colonnes de 19 à 24
+  grid-row: 5 / 45;
 }
