@@ -177,6 +177,9 @@ export class AppComponent {
     const { source, pressed } = bodyToggle;
     if (pressed) {
       this.postResa = source.text;
+      if (this.postResa === 'avec post résa') {
+        this.validation = 'Validée';
+      }
       this.refreshSchedulerEvents();
       this.sortEventsFirst();
     }
@@ -280,7 +283,7 @@ export class AppComponent {
       filtered.events = filtered.events.filter(event => event.validationChecked && event.validated)
     }
     if (this.postResa === 'avec post résa' && (this.validation==='Toutes'||this.validation==='Validée')) {
-      filtered.events = filtered.events.filter(event => event.postResa)
+      filtered.events = filtered.events.filter(event => event.postResa && event.validated)
     }
     if (this.postResa === 'sans post résa' && (this.validation==='Toutes'||this.validation==='Validée')) {
       filtered.events = filtered.events.filter(event => !event.postResa)
