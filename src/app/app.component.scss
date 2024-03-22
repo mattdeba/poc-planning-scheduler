@@ -16,7 +16,7 @@
     justify-content: space-between;
 }
 
-.filter-panel, #rightColumn:not(:empty) {
+#rightColumn:not(:empty) {
     display: flex;
     width: 600px; /* Ajustez cette valeur en fonction de la largeur de votre colonne de filtres */
     transition: width 0.3s ease-in-out;
@@ -97,4 +97,16 @@
   border: none;
   font-weight: 700;
   cursor: pointer;
+}
+
+.filter-panel {
+  height: 800px;
+}
+
+.b-my-class {
+  font-size: 5px;
+}
+
+.filter-label {
+  margin: 10px 0 10px 0;
 }

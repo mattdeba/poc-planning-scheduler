@@ -39,7 +39,7 @@ export class AppComponent {
         appendTo: 'comboFiltre',
         store: resourceStore,
         displayField: 'name',
-        width: 400,
+        width: 355,
         multiSelect: true,
         valueField: 'id',
         onChange: ({value}) => {
@@ -48,7 +48,9 @@ export class AppComponent {
         }
       })
       this.scheduler = new Scheduler({
-      rowHeight: 60,
+      rowHeight: 35,
+      barMargin: 2,
+        height: 800,
       onBeforeDragCreate: () => !this.isSchedulerReadOnly,
       eventRenderer({eventRecord, resourceRecord, renderData}) {
         renderData.style = 'border-radius: 5px;';
@@ -56,7 +58,7 @@ export class AppComponent {
       },
       appendTo: 'scheduler',
       columns : [
-        { text : 'Code', field : 'code', width : 150 },
+        { text : 'Code', field : 'code', width : 90 },
         { text : 'Matériel', field : 'name', width : 300 },
       ],
       startDate : new Date(2024, 2, 4, 0),

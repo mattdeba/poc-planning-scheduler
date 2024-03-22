@@ -1,47 +1,49 @@
-<div>
-    <span>Matériel: </span>
-    <span id="comboFiltre"></span>
-</div>
-<div>
-    <span>Reservations: </span>
-    <bryntum-button-group
-            [toggleGroup]="true"
-            [items]="[
-                {text: 'Toutes', pressed: utilisateur === 'Toutes', onToggle: handleUser},
-                {text: 'Mes réservations', pressed: utilisateur === 'Mes réservations', onToggle: handleUser},
-            ]"
-    >
-    </bryntum-button-group>
-</div>
-<div>
-    <span>Validation: </span>
-    <bryntum-button-group
-            [toggleGroup]="true"
-            [items]="[
-                {text: 'Toutes', pressed: validation === 'Toutes', onToggle: handleValidation},
-                {text: 'A valider', pressed: validation === 'A valider', onToggle: handleValidation},
-                {text: 'Validée', pressed: validation === 'Validée', onToggle: handleValidation},
-                {text: 'Refusée', pressed: validation === 'Refusée', onToggle: handleValidation},
-            ]"
-    >
-    </bryntum-button-group>
-</div>
-<div>
-    <span>Post résa: </span>
-    <bryntum-button-group
-            [toggleGroup]="true"
-            [items]="[
-                {text: 'Toutes', pressed: postResa === 'Toutes', onToggle: handlePostResa},
-                {text: 'avec post résa', pressed: postResa === 'avec post résa', onToggle: handlePostResa, disabled: validation==='A valider' || validation==='Refusée'},
-                {text: 'sans post résa', pressed: postResa === 'sans post résa', onToggle: handlePostResa},
-            ]"
-    >
-    </bryntum-button-group>
-</div>
-<div>
-    <bryntum-button (onClick)="sortEventsFirst()" text="Remonter les réservations"></bryntum-button>
-</div>
 <div class="app-container">
+    <div class="filter-panel">
+        <bryntum-button (onClick)="sortEventsFirst()" text="Remonter les réservations"></bryntum-button>
+        <div>
+            <div class="filter-label">RESERVATIONS: </div>
+            <bryntum-button-group
+                    [toggleGroup]="true"
+                    [items]="[
+                    {text: 'Toutes', pressed: utilisateur === 'Toutes', onToggle: handleUser},
+                    {text: 'Mes réservations', pressed: utilisateur === 'Mes réservations', onToggle: handleUser},
+                ]"
+            >
+            </bryntum-button-group>
+        </div>
+        <div>
+            <div class="filter-label">VALIDATION: </div>
+            <bryntum-button-group
+                    [toggleGroup]="true"
+                    [items]="[
+                    {text: 'Toutes', pressed: validation === 'Toutes', onToggle: handleValidation},
+                    {text: 'A valider', pressed: validation === 'A valider', onToggle: handleValidation},
+                    {text: 'Validée', pressed: validation === 'Validée', onToggle: handleValidation},
+                    {text: 'Refusée', pressed: validation === 'Refusée', onToggle: handleValidation},
+                ]"
+            >
+            </bryntum-button-group>
+        </div>
+        <div>
+            <div class="filter-label">POST RESERVATION: </div>
+            <bryntum-button-group
+                    [toggleGroup]="true"
+                    [items]="[
+                    {text: 'Toutes', pressed: postResa === 'Toutes', onToggle: handlePostResa},
+                    {text: 'avec post résa', pressed: postResa === 'avec post résa', onToggle: handlePostResa, disabled: validation==='A valider' || validation==='Refusée'},
+                    {text: 'sans post résa', pressed: postResa === 'sans post résa', onToggle: handlePostResa},
+                ]"
+            >
+            </bryntum-button-group>
+        </div>
+        <div>
+        </div>
+        <div>
+            <div class="filter-label">MATERIELS: </div>
+            <span id="comboFiltre"></span>
+        </div>
+    </div>
     <div class="scheduler-container" id="scheduler"></div>
     <div *ngIf="selectedEvent" id="rightColumn" class="reservation-details">
        <ng-container *ngIf="!editMode">
