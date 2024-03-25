@@ -97,7 +97,9 @@
 }
 
 .filter-panel {
-  height: 800px;
+  height: 20px;
+  display: flex;
+  flex-direction: row;
 }
 
 .filter-label {

@@ -36,18 +36,18 @@ export class AppComponent {
     const resourceStore = new Store({
         data: this.resources,
       });
-      // const combo = new Combo({
-      //   appendTo: 'comboFiltre',
-      //   store: resourceStore,
-      //   displayField: 'name',
-      //   width: 355,
-      //   multiSelect: true,
-      //   valueField: 'id',
-      //   onChange: ({value}) => {
-      //     this.materielIds = value;
-      //     this.refreshSchedulerResources();
-      //   }
-      // })
+      const combo = new Combo({
+        appendTo: 'comboFiltre',
+        store: resourceStore,
+        displayField: 'name',
+        width: 355,
+        multiSelect: true,
+        valueField: 'id',
+        onChange: ({value}) => {
+          this.materielIds = value;
+          this.refreshSchedulerResources();
+        }
+      })
       this.scheduler = new Scheduler({
       rowHeight: 35,
       barMargin: 2,
