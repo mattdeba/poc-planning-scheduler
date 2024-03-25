@@ -85,14 +85,14 @@
             <span class="align-left">Fin:</span>
             <bryntum-date-time-field id="endDate" name="endDate" [value]="selectedEvent.endDate" (onChange)="onDateChange($event)" class="b-align-start"></bryntum-date-time-field><br>
             <span class="align-left">Matériel:</span>
-            <bryntum-combo [items]="resources" [width]=355 displayField="name" valueField="id" (onChange)="onResourceChange($event)" [value]="selectedEvent.resource" [multiSelect]=false></bryntum-combo>
+            <bryntum-combo [items]="resources" [width]=325 displayField="name" valueField="id" (onChange)="onResourceChange($event)" [value]="selectedEvent.resource" [multiSelect]=false></bryntum-combo>
             <span class="align-left">Article:</span>
-            <bryntum-combo [items]="['article 1', 'article 2', 'article 3']" (onChange)="onArticleChange($event)" [width]=355 [multiSelect]=false></bryntum-combo>
+            <bryntum-combo [items]="['article 1', 'article 2', 'article 3']" (onChange)="onArticleChange($event)" [width]=325 [multiSelect]=false></bryntum-combo>
             <span class="align-left">Quantité:</span>
             <span><bryntum-number-field [min]="0" [value]="selectedEvent.quantite" (onChange)="onQuantiteChange($event)"></bryntum-number-field><bryntum-combo [items]="['Ha', 'He']" (onChange)="onUniteChange($event)" [value]="selectedEvent.unite" [multiSelect]=false></bryntum-combo></span>
             <span class="align-left">Commentaire:</span>
-            <span><bryntum-text-area-field [value]="selectedEvent.commentaire" (onChange)="onCommentaireChange($event)"></bryntum-text-area-field></span>
-            <bryntum-button (onClick)="updateEvent()" text="Valider"></bryntum-button>
+            <span><bryntum-text-area-field [value]="selectedEvent.commentaire" [width]=325 (onChange)="onCommentaireChange($event)"></bryntum-text-area-field></span>
+            <bryntum-button (onClick)="updateEvent()" text="Valider" class="validate-button"></bryntum-button>
         </ng-container>
     </div>
     </div>
