@@ -32,7 +32,8 @@ export class AppComponent {
   scheduler: Scheduler | undefined;
 
   ngOnInit(): void {
-      const resourceStore = new Store({
+    const colors = ['#C8AA82', '#B8CAEA', '#CDF8CE', '#C6E1C1', '#EBEFB3', '#CCD6D5', '#CCD6D5'];
+    const resourceStore = new Store({
         data: this.resources,
       });
       const combo = new Combo({
@@ -53,7 +54,8 @@ export class AppComponent {
       height: 800,
       onBeforeDragCreate: () => !this.isSchedulerReadOnly,
       eventRenderer({eventRecord, resourceRecord, renderData}) {
-        renderData.style = 'border-radius: 5px;';
+        const resourceId = Number(resourceRecord.id);
+        renderData.style = `border-radius: 5px; background-color: ${colors[resourceId%7]}; color: #606263;`;
         return eventRecord.name;
       },
       appendTo: 'scheduler',
