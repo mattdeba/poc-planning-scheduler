@@ -36,22 +36,22 @@ export class AppComponent {
     const resourceStore = new Store({
         data: this.resources,
       });
-      const combo = new Combo({
-        appendTo: 'comboFiltre',
-        store: resourceStore,
-        displayField: 'name',
-        width: 355,
-        multiSelect: true,
-        valueField: 'id',
-        onChange: ({value}) => {
-          this.materielIds = value;
-          this.refreshSchedulerResources();
-        }
-      })
+      // const combo = new Combo({
+      //   appendTo: 'comboFiltre',
+      //   store: resourceStore,
+      //   displayField: 'name',
+      //   width: 355,
+      //   multiSelect: true,
+      //   valueField: 'id',
+      //   onChange: ({value}) => {
+      //     this.materielIds = value;
+      //     this.refreshSchedulerResources();
+      //   }
+      // })
       this.scheduler = new Scheduler({
       rowHeight: 35,
       barMargin: 2,
-      height: 800,
+      height: 700,
       onBeforeDragCreate: () => !this.isSchedulerReadOnly,
       eventRenderer({eventRecord, resourceRecord, renderData}) {
         const resourceId = Number(resourceRecord.id);
@@ -61,7 +61,7 @@ export class AppComponent {
       appendTo: 'scheduler',
       columns : [
         { text : 'Code', field : 'code', width : 90 },
-        { text : 'Matériel', field : 'name', width : 300 },
+        { text : 'Matériel', field : 'name', width : 307 },
       ],
       startDate : new Date(2024, 2, 4, 0),
       endDate   : new Date(2024, 2, 11, 0),
