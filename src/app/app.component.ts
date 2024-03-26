@@ -159,33 +159,44 @@ export class AppComponent {
   }
 
   handleUser = (bodyToggle: any) => {
-    const { source, pressed } = bodyToggle;
-    if (pressed) {
-      this.utilisateur = source.text;
+    const { checked } = bodyToggle;
+    if (checked && this.utilisateur != 'Mes réservations') {
+      this.utilisateur = 'Mes réservations';
+      this.refreshSchedulerEvents();
+      this.sortEventsFirst();
+    }
+    if (!checked && this.utilisateur != 'Toutes') {
+      this.utilisateur = 'Toutes';
       this.refreshSchedulerEvents();
       this.sortEventsFirst();
     }
   }
 
   handleValidation = (bodyToggle: any) => {
-    const { source, pressed } = bodyToggle;
-    if (pressed) {
-      this.validation = source.text;
-      if (this.validation === 'A valider' || this.validation === 'Refusée') {
-        this.postResa = 'sans post résa';
-      }
+    const { checked } = bodyToggle;
+    if (checked && this.validation !== 'A valider') {
+      this.postResa = 'Toutes';  // On remet à zéro le toggle postResa si on sélectionne les resa à valider
+      this.validation = 'A valider';
+      this.refreshSchedulerEvents();
+      this.sortEventsFirst();
+    }
+    if (!checked && this.validation != 'Toutes') {
+      this.validation = 'Toutes';
       this.refreshSchedulerEvents();
       this.sortEventsFirst();
     }
   }
 
   handlePostResa = (bodyToggle: any) => {
-    const { source, pressed } = bodyToggle;
-    if (pressed) {
-      this.postResa = source.text;
-      if (this.postResa === 'avec post résa') {
-        this.validation = 'Validée';
-      }
+    const { checked } = bodyToggle;
+    if (checked && this.postResa != 'sans post résa') {
+      this.postResa = 'sans post résa';
+      this.validation = 'Validée'; // On remet à zéro la validation si la post résa est à saisir.
+      this.refreshSchedulerEvents();
+      this.sortEventsFirst();
+    }
+    if (!checked && this.postResa != 'Toutes') {
+      this.postResa = 'Toutes';
       this.refreshSchedulerEvents();
       this.sortEventsFirst();
     }
