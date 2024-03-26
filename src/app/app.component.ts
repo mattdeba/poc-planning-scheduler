@@ -41,6 +41,8 @@ export class AppComponent {
         store: resourceStore,
         displayField: 'name',
         width: 355,
+        height: 60,
+        placeholder: 'Sélectionner des matériels',
         multiSelect: true,
         valueField: 'id',
         onChange: ({value}) => {

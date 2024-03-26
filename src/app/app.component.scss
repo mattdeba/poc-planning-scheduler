@@ -120,6 +120,9 @@
   grid-column: 1 / 6;
   grid-row: 5 / 9;
   border: 1px solid red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .three {
   grid-column: 6 / 19;
