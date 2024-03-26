@@ -7,23 +7,32 @@
             <bryntum-button class="custom-button" (onClick)="sortEventsFirst()" [icon]="'b-fa b-fa-chevron-up'"></bryntum-button>
             <bryntum-button class="custom-button" (onClick)="handleLeftButtonClick()" [icon]="'b-fa b-fa-chevron-left'" [width]="100"></bryntum-button>
             <bryntum-button class="custom-button" (onClick)="handleRightButtonClick()" [icon]="'b-fa b-fa-chevron-right'" [width]="100"></bryntum-button>
-            <bryntum-slide-toggle
+        <div class="slider">
+            <bryntum-slide-toggle class="slider"
                     [checked]="utilisateur === 'Mes réservations'"
                     (onChange)="handleUser($event)"
                     [text]="'Mes réservations'"
             >
             </bryntum-slide-toggle>
-            <bryntum-slide-toggle
+        </div>
+
+        <div class="slider">
+            <bryntum-slide-toggle class="slider"
                 [checked]="validation === 'A valider'"
                 (onChange)="handleValidation($event)"
                 [text]="'A valider'"
             >
             </bryntum-slide-toggle>
+        </div>
+
+        <div class="slider">
             <bryntum-slide-toggle
                 [checked]="postResa==='sans post résa'"
                 (onChange)="handlePostResa($event)"
                 [text]="'Post à saisir'"
             ></bryntum-slide-toggle>
+        </div>
+
 <!--            <div>-->
 <!--                <div class="filter-label">POST RESERVATION: </div>-->
 <!--                <bryntum-button-group-->
