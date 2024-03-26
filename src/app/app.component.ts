@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Combo, EventModel, EventStore, Scheduler, Store, StringHelper } from '@bryntum/scheduler'
 import { LocaleManager } from '@bryntum/scheduler';
 import { resourcesRaw } from './resources';
@@ -14,6 +14,7 @@ const USERNAME = 'DES RIVES';
   styleUrls   : ['./app.component.scss']
 })
 export class AppComponent {
+  constructor(private cdr: ChangeDetectorRef) { }
   selectedEvent: { startDate: string } | null | any = null;
   editMode = false;
 
@@ -174,13 +175,12 @@ export class AppComponent {
 
   handleValidation = (bodyToggle: any) => {
     const { checked } = bodyToggle;
-    if (checked && this.validation !== 'A valider') {
-      this.postResa = 'Toutes';  // On remet à zéro le toggle postResa si on sélectionne les resa à valider
+    if (checked) {
       this.validation = 'A valider';
       this.refreshSchedulerEvents();
       this.sortEventsFirst();
     }
-    if (!checked && this.validation != 'Toutes') {
+    if (!checked) {
       this.validation = 'Toutes';
       this.refreshSchedulerEvents();
       this.sortEventsFirst();
@@ -189,13 +189,12 @@ export class AppComponent {
 
   handlePostResa = (bodyToggle: any) => {
     const { checked } = bodyToggle;
-    if (checked && this.postResa != 'sans post résa') {
+    if (checked) {
       this.postResa = 'sans post résa';
-      this.validation = 'Validée'; // On remet à zéro la validation si la post résa est à saisir.
       this.refreshSchedulerEvents();
       this.sortEventsFirst();
     }
-    if (!checked && this.postResa != 'Toutes') {
+    if (!checked) {
       this.postResa = 'Toutes';
       this.refreshSchedulerEvents();
       this.sortEventsFirst();
