@@ -163,12 +163,12 @@ export class AppComponent {
     if (checked && this.utilisateur != 'Mes réservations') {
       this.utilisateur = 'Mes réservations';
       this.refreshSchedulerEvents();
-      this.sortEventsFirst();
+      // this.sortEventsFirst();
     }
     if (!checked && this.utilisateur != 'Toutes') {
       this.utilisateur = 'Toutes';
       this.refreshSchedulerEvents();
-      this.sortEventsFirst();
+      // this.sortEventsFirst();
     }
   }
 
@@ -315,9 +315,7 @@ export class AppComponent {
         unite: this.selectedEvent.unite,
         commentaire: this.selectedEvent.commentaire,
         article: this.selectedEvent.article,
-        validationChecked: false,
-        validated: false,
-        postResa: false,
+        status: 'toValid',
       });
     }
     this.refreshSchedulerEvents();
@@ -333,21 +331,20 @@ export class AppComponent {
       filtered.resources = filtered.resources.filter(resource => this.materielIds.includes(resource.id))
     }
     if (this.validation === 'A valider') {
-      filtered.events = filtered.events.filter(event => !event.validationChecked)
+      filtered.events = filtered.events.filter(event => event.status === 'toValid')
     }
     if (this.validation === 'Refusée') {
-      filtered.events = filtered.events.filter(event => event.validationChecked && !event.validated)
+      filtered.events = filtered.events.filter(event => event.status === 'refused')
     }
     if (this.validation === 'Validée') {
-      filtered.events = filtered.events.filter(event => event.validationChecked && event.validated)
+      filtered.events = filtered.events.filter(event => event.status === 'validated')
     }
-    if (this.postResa === 'avec post résa' && (this.validation==='Toutes'||this.validation==='Validée')) {
-      filtered.events = filtered.events.filter(event => event.postResa && event.validated)
+    if (this.postResa === 'avec post résa') {
+      filtered.events = filtered.events.filter(event => event.status === 'validatedAndPost')
     }
-    if (this.postResa === 'sans post résa' && (this.validation==='Toutes'||this.validation==='Validée')) {
-      filtered.events = filtered.events.filter(event => !event.postResa)
+    if (this.postResa === 'sans post résa') {
+      filtered.events = filtered.events.filter(event => event.status === 'validated')
     }
-
     this.eventsDisplay = filtered.events;
     this.resourcesDisplay = filtered.resources;
   }
@@ -387,8 +384,7 @@ export class AppComponent {
   validateEvent = () => {
     const eventInList = this.events.find(e => e.id === this.selectedEvent.id);
     if (eventInList) {
-      eventInList.validationChecked = true;
-      eventInList.validated = true;
+      eventInList.status = 'validated';
     }
     this.selectedEvent = null;
     this.refreshSchedulerEvents();
@@ -398,8 +394,7 @@ export class AppComponent {
   refuseEvent = () => {
     const eventInList = this.events.find(e => e.id === this.selectedEvent.id);
     if (eventInList) {
-      eventInList.validationChecked = true;
-      eventInList.validated = false;
+      eventInList.status = 'refused';
     }
     this.selectedEvent = null;
     this.refreshSchedulerEvents();
