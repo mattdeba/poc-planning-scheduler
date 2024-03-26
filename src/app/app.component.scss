@@ -97,9 +97,9 @@
 }
 
 .filter-panel {
-  height: 20px;
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .filter-label {
@@ -119,7 +119,6 @@
 .two {
   grid-column: 1 / 6;
   grid-row: 5 / 9;
-  border: 1px solid red;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -127,7 +126,6 @@
 .three {
   grid-column: 6 / 19;
   grid-row: 5 / 9;
-  border: 1px solid red;
 }
 .four {
   grid-column: 1 / 19;

@@ -191,6 +191,34 @@ export class AppComponent {
     }
   }
 
+  handleRightButtonClick = () => {
+    if( this.scheduler?.startDate && this.scheduler.endDate) {
+      const currentStartDate = this.scheduler.startDate;
+      const currentEndDate = this.scheduler.endDate;
+
+      const newStartDate = new Date(currentStartDate.getTime());
+      newStartDate.setDate(currentStartDate.getDate() + 7);
+      const newEndDate = new Date(currentEndDate.getTime());
+      newEndDate.setDate(currentEndDate.getDate() + 7);
+
+      this.scheduler.setTimeSpan(newStartDate, newEndDate);
+    }
+  }
+
+  handleLeftButtonClick = () => {
+    if( this.scheduler?.startDate && this.scheduler.endDate) {
+      const currentStartDate = this.scheduler.startDate;
+      const currentEndDate = this.scheduler.endDate;
+
+      const newStartDate = new Date(currentStartDate.getTime());
+      newStartDate.setDate(currentStartDate.getDate() - 7);
+      const newEndDate = new Date(currentEndDate.getTime());
+      newEndDate.setDate(currentEndDate.getDate() - 7);
+
+      this.scheduler.setTimeSpan(newStartDate, newEndDate);
+    }
+  }
+
   editEvent(event:any) {
     this.editMode = true;
   }
@@ -224,19 +252,33 @@ export class AppComponent {
   }
 
   sortEventsFirst() {
-    this.scheduler?.resourceStore.sort((a: any, b: any) => {
-      const aHasEvents = this.eventsDisplay.some(event => event.resourceId === a.id);
-      const bHasEvents = this.eventsDisplay.some(event => event.resourceId === b.id);
-      if (aHasEvents && !bHasEvents) {
-        return -1;
-      } else if (!aHasEvents && bHasEvents) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
-    this.scheduler?.resourceStore.clearSorters();
-    this.scheduler?.scrollToTop();
+    if (this.scheduler?.startDate && this.scheduler.endDate) {
+
+      const { startDate, endDate } = this.scheduler;
+      this.scheduler?.resourceStore.sort((a: any, b: any) => {
+        const aHasEventsThisWeek = this.eventsDisplay.some(event =>
+          event.resourceId === a.id &&
+          (new Date(event.startDate) >= startDate) &&
+          (new Date(event.endDate) <= endDate)
+        );
+        const bHasEventsThisWeek = this.eventsDisplay.some(event =>
+          event.resourceId === b.id &&
+          (new Date(event.startDate) >= startDate) &&
+          (new Date(event.endDate) <= endDate)
+        );
+
+        if (aHasEventsThisWeek && !bHasEventsThisWeek) {
+          return -1;
+        } else if (!aHasEventsThisWeek && bHasEventsThisWeek) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+
+      this.scheduler?.resourceStore.clearSorters();
+      this.scheduler?.scrollToTop();
+    }
   }
 
   updateEvent() {

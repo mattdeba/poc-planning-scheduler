@@ -3,9 +3,11 @@
     <div class="two">
         <div id="comboFiltre"></div>
     </div>
-    <div class="three">
-        <div class="filter-panel">
-            <bryntum-button class="custom-button" (onClick)="sortEventsFirst()" text="Remonter les réservations"></bryntum-button>
+    <div class="three filter-panel">
+            <bryntum-button class="custom-button" (onClick)="sortEventsFirst()" [icon]="'b-fa b-fa-chevron-up'"></bryntum-button>
+            <bryntum-button class="custom-button" (onClick)="handleLeftButtonClick()" [icon]="'b-fa b-fa-chevron-left'" [width]="100"></bryntum-button>
+            <bryntum-button class="custom-button" (onClick)="handleRightButtonClick()" [icon]="'b-fa b-fa-chevron-right'" [width]="100"></bryntum-button>
+
             <div>
                 <div class="filter-label">RESERVATIONS: </div>
                 <bryntum-button-group
@@ -44,7 +46,6 @@
             </div>
             <div>
             </div>
-        </div>
     </div>
     <div class="four">
         <div class="scheduler-container" id="scheduler"></div>
