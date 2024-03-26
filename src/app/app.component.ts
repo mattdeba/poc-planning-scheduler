@@ -4,6 +4,7 @@ import { LocaleManager } from '@bryntum/scheduler';
 import { resourcesRaw } from './resources';
 import {eventsRaw} from './events';
 import '@bryntum/scheduler/locales/scheduler.locale.FrFr.js';
+import { BehaviorSubject } from 'rxjs';
 
 LocaleManager.locale = 'FrFr';
 const USERNAME = 'DES RIVES';
@@ -18,8 +19,9 @@ export class AppComponent {
   selectedEvent: { startDate: string } | null | any = null;
   editMode = false;
 
-  validation: 'Toutes'|'A valider'|'Validée'|'Refusée' = 'Toutes';
-  postResa: 'Toutes'|'avec post résa'|'sans post résa' = 'Toutes';
+  validation: BehaviorSubject<'Toutes'|'A valider'|'Validée'|'Refusée'> = new BehaviorSubject<'Toutes'|'A valider'|'Validée'|'Refusée'>('Toutes');
+  postResa: BehaviorSubject<'Toutes'|'avec post résa'|'sans post résa'> = new BehaviorSubject<'Toutes'|'avec post résa'|'sans post résa'>('Toutes');
+
   utilisateur: any = 'Toutes';
   materielIds: number[] = [];
 
@@ -164,41 +166,39 @@ export class AppComponent {
     if (checked && this.utilisateur != 'Mes réservations') {
       this.utilisateur = 'Mes réservations';
       this.refreshSchedulerEvents();
-      // this.sortEventsFirst();
+      this.sortEventsFirst();
     }
     if (!checked && this.utilisateur != 'Toutes') {
       this.utilisateur = 'Toutes';
       this.refreshSchedulerEvents();
-      // this.sortEventsFirst();
+      this.sortEventsFirst();
     }
   }
 
   handleValidation = (bodyToggle: any) => {
     const { checked } = bodyToggle;
     if (checked) {
-      this.validation = 'A valider';
-      this.refreshSchedulerEvents();
-      this.sortEventsFirst();
+      this.validation.next('A valider');
+      this.postResa.next('Toutes');
     }
     if (!checked) {
-      this.validation = 'Toutes';
-      this.refreshSchedulerEvents();
-      this.sortEventsFirst();
+      this.validation.next('Toutes');
     }
+    this.refreshSchedulerEvents();
+    this.sortEventsFirst();
   }
 
   handlePostResa = (bodyToggle: any) => {
     const { checked } = bodyToggle;
     if (checked) {
-      this.postResa = 'sans post résa';
-      this.refreshSchedulerEvents();
-      this.sortEventsFirst();
+      this.postResa.next('sans post résa');
+      this.validation.next('Toutes');
     }
     if (!checked) {
-      this.postResa = 'Toutes';
-      this.refreshSchedulerEvents();
-      this.sortEventsFirst();
+      this.postResa.next('Toutes');
     }
+    this.refreshSchedulerEvents();
+    this.sortEventsFirst();
   }
 
   handleRightButtonClick = () => {
@@ -329,19 +329,19 @@ export class AppComponent {
     if (this.materielIds.length > 0) {
       filtered.resources = filtered.resources.filter(resource => this.materielIds.includes(resource.id))
     }
-    if (this.validation === 'A valider') {
+    if (this.validation.value === 'A valider') {
       filtered.events = filtered.events.filter(event => event.status === 'toValid')
     }
-    if (this.validation === 'Refusée') {
+    if (this.validation.value === 'Refusée') {
       filtered.events = filtered.events.filter(event => event.status === 'refused')
     }
-    if (this.validation === 'Validée') {
+    if (this.validation.value === 'Validée') {
       filtered.events = filtered.events.filter(event => event.status === 'validated')
     }
-    if (this.postResa === 'avec post résa') {
+    if (this.postResa.value === 'avec post résa') {
       filtered.events = filtered.events.filter(event => event.status === 'validatedAndPost')
     }
-    if (this.postResa === 'sans post résa') {
+    if (this.postResa.value === 'sans post résa') {
       filtered.events = filtered.events.filter(event => event.status === 'validated')
     }
     this.eventsDisplay = filtered.events;

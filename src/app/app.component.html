@@ -18,7 +18,7 @@
 
         <div class="slider">
             <bryntum-slide-toggle class="slider"
-                [checked]="validation === 'A valider'"
+                [checked]="validation.value === 'A valider'"
                 (onChange)="handleValidation($event)"
                 [text]="'A valider'"
             >
@@ -27,26 +27,11 @@
 
         <div class="slider">
             <bryntum-slide-toggle
-                [checked]="postResa==='sans post résa'"
+                [checked]="postResa.value==='sans post résa'"
                 (onChange)="handlePostResa($event)"
                 [text]="'Post à saisir'"
             ></bryntum-slide-toggle>
         </div>
-
-<!--            <div>-->
-<!--                <div class="filter-label">POST RESERVATION: </div>-->
-<!--                <bryntum-button-group-->
-<!--                        [toggleGroup]="true"-->
-<!--                        [items]="[-->
-<!--                    {text: 'Toutes', pressed: postResa === 'Toutes', onToggle: handlePostResa},-->
-<!--                    {text: 'avec post résa', pressed: postResa === 'avec post résa', onToggle: handlePostResa, disabled: validation==='A valider' || validation==='Refusée'},-->
-<!--                    {text: 'sans post résa', pressed: postResa === 'sans post résa', onToggle: handlePostResa},-->
-<!--                ]"-->
-<!--                >-->
-<!--                </bryntum-button-group>-->
-<!--            </div>-->
-            <div>
-            </div>
     </div>
     <div class="four">
         <div class="scheduler-container" id="scheduler"></div>
@@ -69,11 +54,11 @@
             <p class="align-left">Dernière réservation par:<br>Léo </p>
             <p class="align-left">Article:<br>{{ selectedEvent.article }}</p>
             <p class="align-left">Commentaire:<br>{{selectedEvent.commentaire}}</p>
-            <div *ngIf="validation!=='A valider'" class="btn-container">
+            <div *ngIf="validation.value!=='A valider'" class="btn-container">
                 <bryntum-button (onClick)="editEvent(selectedEvent)" text="Modifier"></bryntum-button>
                 <bryntum-button (onClick)="deleteEvent(selectedEvent)" text="Supprimer" [color]="'b-red'"></bryntum-button>
             </div>
-            <div *ngIf="validation==='A valider'" class="btn-container">
+            <div *ngIf="validation.value==='A valider'" class="btn-container">
                 <bryntum-button (onClick)="validateEvent()" text="Valider" [color]="'b-green'"></bryntum-button>
                 <bryntum-button (onClick)="refuseEvent()" text="Refuser" [color]="'b-red'"></bryntum-button>
             </div>
