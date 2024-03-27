@@ -1,10 +1,10 @@
 $cell-height:100px;
-$cell-width: 170px;
+$cell-width: 10vw; // change from fixed pixel value to viewport width
 $columns: 8;
 
 .header {
   width: $cell-width * $columns;
-  height: 100px;
+  height: $cell-height;
 }
 
 .dayCell {
@@ -28,12 +28,11 @@ $columns: 8;
   display: grid;
   grid-template-columns: repeat($columns, $cell-width);
   width: $cell-width * $columns;
-  min-height: 100px;
+  min-height: $cell-height;
 }
 
 #day1 {
   border-right: 1px solid black;
-  border-left: 1px solid black;
   grid-column: 2/3;
 }
 
@@ -68,7 +67,6 @@ $columns: 8;
 }
 
 .resourceCell {
-  grid-row: 1/2;
   grid-column: 1/2;
   display: flex;
   justify-content: center;
@@ -87,6 +85,7 @@ $columns: 8;
 .buttons {
   grid-row: 1/2;
   grid-column: 1/2;
+  border-right: 1px solid black;
 }
 
 .button {
