@@ -4,9 +4,12 @@ html {
   display        : flex;
   flex-direction : column;
   font-size      : 0.9rem;
-  background: mistyrose;
   font-family: Roboto, sans-serif;
 }
 app-root {
   flex : 1 1 100%;
 }
+.b-sch-event-content {
+  font-size: 0.8rem!important;
+}
+

@@ -53,8 +53,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "node_modules/@bryntum/scheduler/scheduler.classic-dark.css"
+              "node_modules/@bryntum/scheduler/scheduler.stockholm.css",
+              "src/styles.scss"
             ],
             "scripts": []
           },

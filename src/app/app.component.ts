@@ -60,7 +60,7 @@ export class AppComponent {
       height: 50,
       items    : {
         logo: {
-          text : '',
+          text : 'Accueil',
           icon : 'b-fa b-fa-home'
         },
         cuma: {
@@ -113,6 +113,7 @@ export class AppComponent {
     eventRenderer({eventRecord, resourceRecord, renderData}) {
       const resourceId = Number(resourceRecord.id);
       renderData.style = `border-radius: 5px; background-color: ${colors[resourceId%7]}; color: #606263;`;
+      renderData.eventStyle = `font-size: 3px`;
       return eventRecord.name;
     },
     appendTo: 'scheduler',
@@ -195,7 +196,6 @@ export class AppComponent {
       },
     });
     this.refreshSchedulerEventsAndResources();
-    this.sortEventsFirst();
   }
 
   deleteEvent(event:any) {
@@ -218,12 +218,10 @@ export class AppComponent {
     if (checked && this.utilisateur != 'Mes réservations') {
       this.utilisateur = 'Mes réservations';
       this.refreshSchedulerEvents();
-      this.sortEventsFirst();
     }
     if (!checked && this.utilisateur != 'Toutes') {
       this.utilisateur = 'Toutes';
       this.refreshSchedulerEvents();
-      this.sortEventsFirst();
     }
   }
 
@@ -237,7 +235,6 @@ export class AppComponent {
       this.validation.next('Toutes');
     }
     this.refreshSchedulerEvents();
-    this.sortEventsFirst();
   }
 
   handlePostResa = (bodyToggle: any) => {
@@ -250,7 +247,6 @@ export class AppComponent {
       this.postResa.next('Toutes');
     }
     this.refreshSchedulerEvents();
-    this.sortEventsFirst();
   }
 
   handleRightButtonClick = () => {
