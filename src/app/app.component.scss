@@ -89,43 +89,8 @@ $columns: 8;
   grid-column: 1/2;
 }
 
-#prec {
+.button {
   width: 50%;
   height: 100%;
   border: none;
-}
-
-#suiv {
-  width: 50%;
-  height: 100%;
-  border: none;
-}
-
-#reservation1 {
-  overflow-y: auto;
-}
-
-#reservation1first {
-  height: 33px;
-  background: green;
-}
-
-#reservation1second {
-  height: 33px;
-  background: rebeccapurple;
-}
-
-#reservation1third {
-  height: 33px;
-  background: orange;
-}
-
-#reservation1fourth {
-  height: 33px;
-  background: red;
-}
-
-#reservation1fifth {
-  height: 33px;
-  background: blue;
 }

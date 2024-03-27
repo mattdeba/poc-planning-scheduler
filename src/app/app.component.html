@@ -1,8 +1,8 @@
 <div class="header">
   <div class="row">
       <div class="buttons">
-        <button id="prec" (click)="prevWeek()">prec.</button>
-        <button id="suiv" (click)="nextWeek()">suiv.</button>
+        <button class="button" (click)="prevWeek()">prec.</button>
+        <button class="button" (click)="nextWeek()">suiv.</button>
       </div>
       <div *ngFor="let date of getDates(); let i = index" id="day{{i+1}}" class="dayCell">{{date}}</div>
   </div>
