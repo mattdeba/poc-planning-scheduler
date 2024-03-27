@@ -16,7 +16,7 @@ const USERNAME = 'DES RIVES';
 })
 export class AppComponent {
   constructor(private cdr: ChangeDetectorRef) { }
-  today: Date = new Date('2024/03/05');
+  startDate: BehaviorSubject<Date> = new BehaviorSubject<Date>(new Date('2024/03/05'));
   selectedEvent: { startDate: string } | null | any = null;
   editMode = false;
 
@@ -209,6 +209,7 @@ export class AppComponent {
 
       const newStartDate = new Date(currentStartDate.getTime());
       newStartDate.setDate(currentStartDate.getDate() + 7);
+      this.startDate.next(newStartDate);
       const newEndDate = new Date(currentEndDate.getTime());
       newEndDate.setDate(currentEndDate.getDate() + 7);
 
@@ -223,6 +224,7 @@ export class AppComponent {
 
       const newStartDate = new Date(currentStartDate.getTime());
       newStartDate.setDate(currentStartDate.getDate() - 7);
+      this.startDate.next(newStartDate);
       const newEndDate = new Date(currentEndDate.getTime());
       newEndDate.setDate(currentEndDate.getDate() - 7);
 
