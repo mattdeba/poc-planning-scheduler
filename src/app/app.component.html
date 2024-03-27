@@ -1,12 +1,14 @@
 <div class="wrapper">
-    <div class="one"></div>
+    <div class="one" >
+      <div class="bar-container" id="navBar"></div>
+    </div>
     <div class="two" id="comboFiltre">
     </div>
     <div class="three filter-panel">
-            <bryntum-button [margin]="'0 0 0 10'" [height]="60" (onClick)="sortEventsFirst()" [icon]="'b-fa b-fa-chevron-up'"></bryntum-button>
-            <bryntum-date-field [height]="60" (onChange)="onDateSelected($event)" [editable]="false" [clearable]="false" [value]="startDate.value"></bryntum-date-field>
-            <bryntum-button [height]="60" class="custom-button" (onClick)="handleLeftButtonClick()" [icon]="'b-fa b-fa-chevron-left'" [width]="100"></bryntum-button>
-            <bryntum-button [height]="60" class="custom-button" (onClick)="handleRightButtonClick()" [icon]="'b-fa b-fa-chevron-right'" [width]="100"></bryntum-button>
+            <bryntum-button [margin]="'0 0 0 10'" [height]="50" (onClick)="sortEventsFirst()" [icon]="'b-fa b-fa-chevron-up'"></bryntum-button>
+            <bryntum-date-field [height]="50" (onChange)="onDateSelected($event)" [editable]="false" [clearable]="false" [value]="startDate.value"></bryntum-date-field>
+            <bryntum-button [height]="50" class="custom-button" (onClick)="handleLeftButtonClick()" [icon]="'b-fa b-fa-chevron-left'" [width]="100"></bryntum-button>
+            <bryntum-button [height]="50" class="custom-button" (onClick)="handleRightButtonClick()" [icon]="'b-fa b-fa-chevron-right'" [width]="100"></bryntum-button>
         <div class="slider">
             <bryntum-slide-toggle class="slider"
                     [checked]="utilisateur === 'Mes réservations'"

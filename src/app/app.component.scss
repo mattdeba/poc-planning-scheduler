@@ -115,6 +115,9 @@
   grid-column: 1 / 25;
   grid-row: 1 / 10;
   background: #FFF0D8;
+  display: flex;
+  align-items: start;
+  justify-content: start;
 }
 .two {
   grid-column: 1 / 6;

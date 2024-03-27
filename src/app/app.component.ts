@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { Combo, EventModel, EventStore, Scheduler, Store, StringHelper } from '@bryntum/scheduler'
+import {Combo, EventModel, EventStore, Scheduler, Store, StringHelper, TabBar} from '@bryntum/scheduler'
 import { LocaleManager } from '@bryntum/scheduler';
 import { resourcesRaw } from './resources';
 import {eventsRaw} from './events';
@@ -40,111 +40,162 @@ export class AppComponent {
     const resourceStore = new Store({
         data: this.resources,
       });
-      const combo = new Combo({
-        appendTo: 'comboFiltre',
-        store: resourceStore,
-        displayField: 'name',
-        width: '100%',
-        height: 60,
-        placeholder: 'Sélectionner des matériels',
-        multiSelect: true,
-        valueField: 'id',
-        onChange: ({value}) => {
-          this.materielIds = value;
-          this.refreshSchedulerResources();
+    const combo = new Combo({
+      appendTo: 'comboFiltre',
+      store: resourceStore,
+      displayField: 'name',
+      width: '100%',
+      height: 50,
+      placeholder: 'Sélectionner des matériels',
+      multiSelect: true,
+      valueField: 'id',
+      onChange: ({value}) => {
+        this.materielIds = value;
+        this.refreshSchedulerResources();
+      }
+    })
+    const navbar = new TabBar({
+      appendTo : 'navBar',
+      width: '100%',
+      height: 50,
+      items    : {
+        logo: {
+          text : '',
+          icon : 'b-fa b-fa-home'
+        },
+        cuma: {
+          text : 'Cuma',
+          icon : 'b-fa b-fa-building'
+        },
+        reservation: {
+          text : 'Reservation',
+          icon : 'b-fa b-fa-calendar'
+        },
+        validationReservation: {
+          text : 'Validation Reservation',
+          icon : 'b-fa b-fa-check-circle'
+        },
+        postReservation: {
+          text : 'Post Reservation',
+          icon : 'b-fa b-fa-pen'
+        },
+        bonTravail: {
+          text : 'Bon Travail',
+          icon : 'b-fa b-fa-ticket'
+        },
+        saisieTemps: {
+          text : 'Saisie Temps',
+          icon : 'b-fa b-fa-clock'
+        },
+        validationDesBons: {
+          text : 'Validation des bons',
+          icon : 'b-fa b-fa-check-square'
+        },
+        stats: {
+          text : 'Stats',
+          icon : 'b-fa b-fa-chart-bar'
+        },
+        karnott: {
+          text : 'Karnott',
+          icon : 'b-fa b-fa-carrot'
+        },
+        profile: {
+          text : 'Profil',
+          icon : 'b-fa b-fa-user',
         }
-      })
-      this.scheduler = new Scheduler({
-      rowHeight: 35,
-      barMargin: 2,
-      height: '100%',
-      onBeforeDragCreate: () => !this.isSchedulerReadOnly,
-      eventRenderer({eventRecord, resourceRecord, renderData}) {
-        const resourceId = Number(resourceRecord.id);
-        renderData.style = `border-radius: 5px; background-color: ${colors[resourceId%7]}; color: #606263;`;
-        return eventRecord.name;
+      }
+    });
+    this.scheduler = new Scheduler({
+    rowHeight: 35,
+    barMargin: 2,
+    height: '100%',
+    onBeforeDragCreate: () => !this.isSchedulerReadOnly,
+    eventRenderer({eventRecord, resourceRecord, renderData}) {
+      const resourceId = Number(resourceRecord.id);
+      renderData.style = `border-radius: 5px; background-color: ${colors[resourceId%7]}; color: #606263;`;
+      return eventRecord.name;
+    },
+    appendTo: 'scheduler',
+    columns : [
+      { text : 'Code', field : 'code', width : 90 },
+      { text : 'Matériel', field : 'name', width : 307 },
+    ],
+    startDate : new Date(2024, 2, 4, 0),
+    endDate   : new Date(2024, 2, 11, 0),
+    viewPreset: {
+      displayDateFormat: 'H:mm',
+      shiftIncrement: 1,
+      shiftUnit: 'WEEK',
+      timeResolution: {
+        unit: 'minute',
+        increment: 30
       },
-      appendTo: 'scheduler',
-      columns : [
-        { text : 'Code', field : 'code', width : 90 },
-        { text : 'Matériel', field : 'name', width : 307 },
-      ],
-      startDate : new Date(2024, 2, 4, 0),
-      endDate   : new Date(2024, 2, 11, 0),
-      viewPreset: {
-        displayDateFormat: 'H:mm',
-        shiftIncrement: 1,
-        shiftUnit: 'WEEK',
-        timeResolution: {
-          unit: 'minute',
-          increment: 30
+      headers: [
+        {
+          unit: 'day',
+          increment: 1,
+          dateFormat: 'ddd D/M',
+          align: 'center'
         },
-        headers: [
-          {
-            unit: 'day',
-            increment: 1,
-            dateFormat: 'ddd D/M',
-            align: 'center'
-          },
-        ]
+      ]
+    },
+    allowOverlap: false,
+    resources: this.resources,
+    events: this.events,
+    features: {
+      eventEdit: {
+        disabled: true,
       },
-      allowOverlap: false,
-      resources: this.resources,
-      events: this.events,
-      features: {
-        eventEdit: {
-          disabled: true,
-        },
-        eventDrag: {
-          disabled: true,
-        },
-        eventResize: {
-          disabled: true
-        },
-        eventMenu: {
-          disabled: true,
-        }
+      eventDrag: {
+        disabled: true,
       },
-      onEventSelectionChange: ({ action, selected, deselected, selection }) => {
-        this.editMode = false;
-        if (selected.length > 0) {
-          const eventRecord = selected[0];
-          const resourceRecord = this.resources.filter(resource => resource.id == eventRecord.resourceId)[0]
-          this.selectedEvent = {
-            id: eventRecord.id,
-            materiel: resourceRecord.name,
-            startDate: eventRecord.startDate,
-            endDate: eventRecord.endDate,
-            dateReservation: new Date(),
-            name: eventRecord.name,
-            resource: resourceRecord,
-            quantite: eventRecord.getData('quantite'),
-            unite: eventRecord.getData('unite'),
-            commentaire: eventRecord.getData('commentaire'),
-            article: eventRecord.getData('article'),
-          }
-        } else if (deselected.length > 0) {
-          this.selectedEvent = null;
-        }
+      eventResize: {
+        disabled: true
       },
-      onEventAutoCreated: ({eventRecord, resourceRecord}) => {
-        const resource = this.resources.filter(resource => resource.id == resourceRecord.id)[0]
-        eventRecord.name = USERNAME;
-        this.scheduler?.selectEvent(eventRecord);
-        this.editMode = true;
+      eventMenu: {
+        disabled: true,
+      }
+    },
+    onEventSelectionChange: ({ action, selected, deselected, selection }) => {
+      this.editMode = false;
+      if (selected.length > 0) {
+        const eventRecord = selected[0];
+        const resourceRecord = this.resources.filter(resource => resource.id == eventRecord.resourceId)[0]
         this.selectedEvent = {
-            id: eventRecord.id,
-            materiel: resource.name,
-            startDate: eventRecord.startDate,
-            endDate: eventRecord.endDate,
-            dateReservation: new Date(),
-            resource: resourceRecord,
-            name: USERNAME,
-          }
-        },
-      });
-      this.refreshSchedulerEventsAndResources();
-      this.sortEventsFirst();
+          id: eventRecord.id,
+          materiel: resourceRecord.name,
+          startDate: eventRecord.startDate,
+          endDate: eventRecord.endDate,
+          dateReservation: new Date(),
+          name: eventRecord.name,
+          resource: resourceRecord,
+          quantite: eventRecord.getData('quantite'),
+          unite: eventRecord.getData('unite'),
+          commentaire: eventRecord.getData('commentaire'),
+          article: eventRecord.getData('article'),
+        }
+      } else if (deselected.length > 0) {
+        this.selectedEvent = null;
+      }
+    },
+    onEventAutoCreated: ({eventRecord, resourceRecord}) => {
+      const resource = this.resources.filter(resource => resource.id == resourceRecord.id)[0]
+      eventRecord.name = USERNAME;
+      this.scheduler?.selectEvent(eventRecord);
+      this.editMode = true;
+      this.selectedEvent = {
+          id: eventRecord.id,
+          materiel: resource.name,
+          startDate: eventRecord.startDate,
+          endDate: eventRecord.endDate,
+          dateReservation: new Date(),
+          resource: resourceRecord,
+          name: USERNAME,
+        }
+      },
+    });
+    this.refreshSchedulerEventsAndResources();
+    this.sortEventsFirst();
   }
 
   deleteEvent(event:any) {
