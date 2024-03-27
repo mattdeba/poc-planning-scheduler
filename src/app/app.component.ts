@@ -43,7 +43,7 @@ export class AppComponent {
         appendTo: 'comboFiltre',
         store: resourceStore,
         displayField: 'name',
-        width: 355,
+        width: '100%',
         height: 60,
         placeholder: 'Sélectionner des matériels',
         multiSelect: true,
