@@ -109,31 +109,31 @@
 .wrapper {
   display: grid;
   grid-template-columns: repeat(24, 1fr);
-  grid-template-rows: repeat(45, 1fr);
+  grid-template-rows: repeat(100, 1vh);
 }
 .one {
   grid-column: 1 / 25;
-  grid-row: 1 / 5;
+  grid-row: 1 / 10;
   background: #FFF0D8;
 }
 .two {
   grid-column: 1 / 6;
-  grid-row: 5 / 9;
+  grid-row: 10 / 20;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .three {
   grid-column: 6 / 19;
-  grid-row: 5 / 9;
+  grid-row: 10 / 20;
 }
 .four {
   grid-column: 1 / 19;
-  grid-row: 9 / 45;
+  grid-row: 20 / 95;
 }
 .five {
   grid-column: 19 / 25;
-  grid-row: 6 / 45;
+  grid-row: 10 / 95;
 }
 
 .validate-button {

@@ -4,6 +4,7 @@
     </div>
     <div class="three filter-panel">
             <bryntum-button class="custom-button" (onClick)="sortEventsFirst()" [icon]="'b-fa b-fa-chevron-up'"></bryntum-button>
+            <bryntum-date-field (onChange)="onDateSelected($event)" [editable]="false" [clearable]="false" [value]="today"></bryntum-date-field>
             <bryntum-button class="custom-button" (onClick)="handleLeftButtonClick()" [icon]="'b-fa b-fa-chevron-left'" [width]="100"></bryntum-button>
             <bryntum-button class="custom-button" (onClick)="handleRightButtonClick()" [icon]="'b-fa b-fa-chevron-right'" [width]="100"></bryntum-button>
         <div class="slider">
@@ -32,8 +33,7 @@
             ></bryntum-slide-toggle>
         </div>
     </div>
-    <div class="four">
-        <div class="scheduler-container" id="scheduler"></div>
+    <div class="four" id="scheduler">
     </div>
     <div class="five item">
         <div *ngIf="selectedEvent" id="rightColumn" class="reservation-details">

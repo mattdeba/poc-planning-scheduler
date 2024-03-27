@@ -16,6 +16,7 @@ const USERNAME = 'DES RIVES';
 })
 export class AppComponent {
   constructor(private cdr: ChangeDetectorRef) { }
+  today: Date = new Date('2024/03/05');
   selectedEvent: { startDate: string } | null | any = null;
   editMode = false;
 
@@ -56,7 +57,7 @@ export class AppComponent {
       this.scheduler = new Scheduler({
       rowHeight: 35,
       barMargin: 2,
-      height: 700,
+      height: '100%',
       onBeforeDragCreate: () => !this.isSchedulerReadOnly,
       eventRenderer({eventRecord, resourceRecord, renderData}) {
         const resourceId = Number(resourceRecord.id);
@@ -398,5 +399,16 @@ export class AppComponent {
     this.selectedEvent = null;
     this.refreshSchedulerEvents();
     this.editMode = false;
+  }
+
+  onDateSelected(event: any) {
+    const selectedDate = new Date(event.value);
+    const endDate = new Date(selectedDate);
+    endDate.setDate(selectedDate.getDate() + 7);
+
+    if(this.scheduler) {
+      this.scheduler.startDate = selectedDate;
+      this.scheduler.endDate = endDate;
+    }
   }
 }
