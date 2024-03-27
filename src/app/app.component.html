@@ -1,14 +1,20 @@
+<div class="header">
+  <div class="row">
+      <div class="buttons">
+        <button id="prec" (click)="prevWeek()">prec.</button>
+        <button id="suiv" (click)="nextWeek()">suiv.</button>
+      </div>
+      <div *ngFor="let date of getDates(); let i = index" id="day{{i+1}}" class="dayCell">{{date}}</div>
+  </div>
+</div>
+
 <div class="container">
-  <div class="timeline">
-    <div class="xCell">jour</div>
-    <div class="xCell7">jour7</div>
-  </div>
-  <div class="resourceline">
-    <div class="yCell">materiel</div>
-    <div class="yCell7">materiel10</div>
-  </div>
-  <div class="content">
-    <div class="cell">agriculteur</div>
-    <div class="cell7">agriculteur7</div>
+  <div class="row" *ngFor="let resource of resources" id="res{{resource}}">
+      <div class="resourceCell">tracteur {{resource}}</div>
+      <ng-container *ngFor="let reservation of reservations">
+        <div class="contentCell" *ngIf="getGridColumn(reservation, resource)" [style.gridColumn]="getGridColumn(reservation, resource)">
+          tracteur {{resource}} <br> pour {{reservation.username}}
+        </div>
+      </ng-container>
   </div>
 </div>

@@ -1,69 +1,131 @@
+$cell-height:100px;
+$cell-width: 170px;
+$columns: 8;
+
+.header {
+  width: $cell-width * $columns;
+  height: 100px;
+}
+
+.dayCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .container {
+  width: $cell-width * $columns;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  overflow-y: auto;
+  border-right: 1px solid black;
+}
+
+.row {
+  border-bottom: 1px solid black;
   display: grid;
-  grid-template-columns: repeat(100, 1fr);
-  grid-template-rows: repeat(100, 1vh);
+  grid-template-columns: repeat($columns, $cell-width);
+  width: $cell-width * $columns;
+  min-height: 100px;
 }
 
-.timeline {
-  grid-column: 15/101;
-  grid-row: 10/20;
-  border: 1px solid red;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(1, 1fr);
+#day1 {
+  border-right: 1px solid black;
+  border-left: 1px solid black;
+  grid-column: 2/3;
 }
 
-.resourceline {
-  grid-column: 1/15;
-  grid-row: 20/101;
-  border: 1px solid purple;
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  grid-template-rows: repeat(10, 1fr);
+#day2 {
+  border-right: 1px solid black;
+  grid-column: 3/4;
 }
 
-.content {
-  grid-column: 15/101;
-  grid-row: 20/101;
-  border: 1px solid green;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(10, 1fr);
+#day3 {
+  border-right: 1px solid black;
+  grid-column: 4/5;
 }
 
-.cell {
-  grid-column: 1/2;
-  grid-row: 1/2;
-  border: 1px solid orange;
+#day4 {
+  border-right: 1px solid black;
+  grid-column: 5/6;
 }
 
-.xCell {
-  grid-row: 1/2;
-  grid-column: 1/2;
-  border: 1px solid black;
+#day5 {
+  border-right: 1px solid black;
+  grid-column: 6/7;
 }
 
-.yCell {
-  grid-row: 1/2;
-  grid-column: 1/2;
-  border: 1px solid black;
-}
-
-
-.cell7 {
+#day6 {
+  border-right: 1px solid black;
   grid-column: 7/8;
-  grid-row: 10/11;
-  border: 1px solid orange;
 }
 
-.xCell7 {
-  grid-column: 7/8;
+#day7 {
+  border-right: 1px solid black;
+  grid-column: 8/9;
+}
+
+.resourceCell {
   grid-row: 1/2;
-  border: 1px solid black;
+  grid-column: 1/2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: 1px solid black;
 }
 
-.yCell7 {
+.contentCell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  text-align: center;
+}
+
+.buttons {
+  grid-row: 1/2;
   grid-column: 1/2;
-  grid-row: 10/11;
-  border: 1px solid black;
+}
+
+#prec {
+  width: 50%;
+  height: 100%;
+  border: none;
+}
+
+#suiv {
+  width: 50%;
+  height: 100%;
+  border: none;
+}
+
+#reservation1 {
+  overflow-y: auto;
+}
+
+#reservation1first {
+  height: 33px;
+  background: green;
+}
+
+#reservation1second {
+  height: 33px;
+  background: rebeccapurple;
+}
+
+#reservation1third {
+  height: 33px;
+  background: orange;
+}
+
+#reservation1fourth {
+  height: 33px;
+  background: red;
+}
+
+#reservation1fifth {
+  height: 33px;
+  background: blue;
 }
