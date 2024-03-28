@@ -15,6 +15,16 @@ export class AppComponent {
     {startDate: new Date('2024/04/02'), resource: 45, username: 'Matthieu'},
   ]
   startDateCalendar = new Date(); // Date de début, vous pouvez la définir comme vous le souhaitez
+  selectedReservation: {startDate: Date, resource: number, username: string} | null;
+  modalPosition: { x: number, y: number };
+
+  showModal(reservation: {startDate: Date, resource: number, username: string}, event: MouseEvent): void {
+    this.selectedReservation = reservation;
+    this.modalPosition = { x: event.clientX, y: event.clientY };
+  }
+  closeModal(): void {
+    this.selectedReservation = null;
+  }
 
   getDates(): string[] {
     let dates = [];
