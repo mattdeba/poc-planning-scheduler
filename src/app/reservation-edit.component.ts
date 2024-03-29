@@ -21,6 +21,10 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
           <label>Date de début:</label>
           <input [(ngModel)]="startDate" name="startDate" type="date" required>
         </div>
+        <div>
+          <label>Date de fin:</label>
+          <input [(ngModel)]="endDate" name="endDate" type="date" required>
+        </div>
         <button type="submit">Réserver</button>
         <button type="button" (click)="closeModal.emit()">Fermer</button>
       </form>
@@ -51,17 +55,18 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 })
 export class ReservationEditComponent {
   @Output() closeModal = new EventEmitter<void>();
-  @Output() submitReservation = new EventEmitter<{startDate: Date, resource: number, username: string}>();
+  @Output() submitReservation = new EventEmitter<{startDate: Date, endDate: Date, resource: number, username: string}>();
   @Input() resources: number[] = []
 
   username = '';
   resource: number | null = null;
   startDate: string | null = null;
+  endDate: string | null;
 
   submitForm(event: Event): void {
-    if (this.startDate && this.resource && this.username) {
+    if (this.startDate && this.resource && this.username && this.endDate) {
       event.preventDefault();
-      this.submitReservation.emit({startDate: new Date(this.startDate), resource: this.resource, username: this.username});
+      this.submitReservation.emit({startDate: new Date(this.startDate), endDate: new Date(this.endDate), resource: this.resource, username: this.username});
       this.closeModal.emit();
     }
   }

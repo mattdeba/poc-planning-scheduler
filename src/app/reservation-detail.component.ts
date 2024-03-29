@@ -42,7 +42,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   `]
 })
 export class ReservationDetailComponent {
-  @Input() reservation: {startDate: Date, resource: number, username: string} | null;
+  @Input() reservation: {startDate: Date, endDate: Date, resource: number, username: string} | null;
   @Output() close = new EventEmitter<void>();
   @Input() position: { x: number, y: number };
 

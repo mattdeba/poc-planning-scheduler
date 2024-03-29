@@ -9,18 +9,18 @@ export class AppComponent {
   title = 'bryntumScheduler';
   resources = [42, 43, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58]; // Ressources fixes
   reservations = [
-    {startDate: new Date(), resource: 42, username: 'Alice' },
-    {startDate: new Date('2024/04/18'), resource: 43, username: 'Bob'},
-    {startDate: new Date('2024/04/01'), resource: 45, username: 'Matthieu'},
-    {startDate: new Date('2024/04/02'), resource: 45, username: 'Matthieu'},
+    {startDate: new Date(), endDate: new Date(), resource: 42, username: 'Alice' },
+    {startDate: new Date('2024/03/27'), endDate: new Date('2024/04/01'), resource: 43, username: 'Bob'},
+    {startDate: new Date('2024/04/01'), endDate: new Date('2024/04/02'), resource: 45, username: 'Matthieu'},
+    {startDate: new Date('2024/04/10'), endDate: new Date('2024/04/12'), resource: 47, username: 'Alfred'},
   ]
   startDateCalendar = new Date(); // Date de début, vous pouvez la définir comme vous le souhaitez
-  selectedReservation: {startDate: Date, resource: number, username: string} | null;
+  selectedReservation: {startDate: Date, endDate: Date, resource: number, username: string} | null;
   modalPosition: { x: number, y: number };
   enableScroll = true;
   showEdition = false;
 
-  showModal(reservation: {startDate: Date, resource: number, username: string}, event: MouseEvent): void {
+  showModal(reservation: {startDate: Date, endDate: Date, resource: number, username: string}, event: MouseEvent): void {
     this.selectedReservation = reservation;
     this.modalPosition = { x: event.clientX, y: event.clientY };
     this.enableScroll = false;
@@ -40,14 +40,34 @@ export class AppComponent {
     return dates;
   }
 
-  getGridColumn(reservation: {startDate: Date, resource: number}, resource: number): string | null {
+  getGridColumn(reservation: {startDate: Date, endDate: Date, resource: number}, resource: number): string | null {
     const dates = this.getDates();
-    if (reservation.resource !== resource) {
+    if (reservation.resource != resource) {
       return null;
     }
+    let startIndex: number | null = null;
+    let endIndex: number | null = null;
     for (let i = 0; i < dates.length; i++) {
       if (dates[i] === reservation.startDate.toLocaleDateString()) {
-        return `${i + 2}/${i + 3}`;
+        startIndex = i;
+      }
+      if (dates[i] === reservation.endDate.toLocaleDateString()) {
+        endIndex = i;
+      }
+    }
+    if (startIndex !== null && endIndex !== null) {
+      return `${startIndex + 2}/${endIndex + 3}`;
+    } else if (startIndex !== null && endIndex === null) {
+      return `${startIndex + 2}/${dates.length + 3}`;
+    } else if (startIndex === null && endIndex !== null) {
+      return `2/${endIndex + 3}`;
+    } else if (startIndex === null && endIndex === null) {
+      console.log(reservation.resource);
+      let dateAfterSevenDays = new Date(this.startDateCalendar);
+      dateAfterSevenDays.setDate(this.startDateCalendar.getDate() + 6);
+
+      if (reservation.startDate < this.startDateCalendar && reservation.endDate > dateAfterSevenDays) {
+        return `2/${dates.length + 3}`;
       }
     }
     return null;
@@ -61,7 +81,7 @@ export class AppComponent {
     this.startDateCalendar.setDate(this.startDateCalendar.getDate() - 7);
   }
 
-  addReservation(reservation: {startDate: Date, resource: number, username: string}): void {
+  addReservation(reservation: {startDate: Date, endDate: Date,  resource: number, username: string}): void {
     this.reservations.push(reservation);
   }
 }
