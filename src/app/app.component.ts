@@ -4,7 +4,7 @@ import { LocaleManager } from '@bryntum/scheduler';
 import { resourcesRaw } from './resources';
 import {eventsRaw} from './events';
 import '@bryntum/scheduler/locales/scheduler.locale.FrFr.js';
-import { BehaviorSubject } from 'rxjs';
+import {BehaviorSubject, of} from 'rxjs';
 
 LocaleManager.locale = 'FrFr';
 const USERNAME = 'DES RIVES';
@@ -157,27 +157,23 @@ export class AppComponent {
         disabled: true,
       }
     },
-    onEventSelectionChange: ({ action, selected, deselected, selection }) => {
+    onEventDblClick: ({eventRecord}) => {
+      console.log('selection change');
       this.editMode = false;
-      if (selected.length > 0) {
-        const eventRecord = selected[0];
-        const resourceRecord = this.resources.filter(resource => resource.id == eventRecord.resourceId)[0]
-        this.selectedEvent = {
-          id: eventRecord.id,
-          materiel: resourceRecord.name,
-          startDate: eventRecord.startDate,
-          endDate: eventRecord.endDate,
-          dateReservation: new Date(),
-          name: eventRecord.name,
-          resource: resourceRecord,
-          quantite: eventRecord.getData('quantite'),
-          unite: eventRecord.getData('unite'),
-          commentaire: eventRecord.getData('commentaire'),
-          article: eventRecord.getData('article'),
-        }
-      } else if (deselected.length > 0) {
-        this.selectedEvent = null;
-      }
+      const resourceRecord = this.resources.filter(resource => resource.id == eventRecord.resourceId)[0]
+      this.selectedEvent = {
+        id: eventRecord.id,
+        materiel: resourceRecord.name,
+        startDate: eventRecord.startDate,
+        endDate: eventRecord.endDate,
+        dateReservation: new Date(),
+        name: eventRecord.name,
+        resource: resourceRecord,
+        quantite: eventRecord.getData('quantite'),
+        unite: eventRecord.getData('unite'),
+        commentaire: eventRecord.getData('commentaire'),
+        article: eventRecord.getData('article'),
+      };
     },
     onEventAutoCreated: ({eventRecord, resourceRecord}) => {
       const resource = this.resources.filter(resource => resource.id == resourceRecord.id)[0]
@@ -196,6 +192,12 @@ export class AppComponent {
       },
     });
     this.refreshSchedulerEventsAndResources();
+  }
+  cancelSelection() {
+    this.selectedEvent = null;
+    if (this.scheduler) {
+      this.scheduler.deselectAll();
+    }
   }
 
   deleteEvent(event:any) {
