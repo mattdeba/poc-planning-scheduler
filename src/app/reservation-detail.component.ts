@@ -9,6 +9,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
         <p>Matériel: {{reservation.resource}}</p>
         <p>Utilisateur: {{reservation.username}}</p>
         <p>Date début: {{reservation.startDate | date:'dd/MM/yyyy'}}</p>
+        <p>Date début: {{reservation.endDate | date:'dd/MM/yyyy'}}</p>
         <button (click)="closeModal()">Ok</button>
       </div>
     </div>
@@ -17,6 +18,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
       <p>Matériel: {{reservation.resource}}</p>
       <p>Utilisateur: {{reservation.username}}</p>
       <p>Date début: {{reservation.startDate | date:'dd/MM/yyyy'}}</p>
+      <p>Date fin: {{reservation.endDate | date:'dd/MM/yyyy'}}</p>
       <button (click)="closeModal()">Ok</button>
     </div>
   `,

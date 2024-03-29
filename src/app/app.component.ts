@@ -40,13 +40,16 @@ export class AppComponent {
     return dates;
   }
 
-  getGridColumn(reservation: {startDate: Date, endDate: Date, resource: number}, resource: number): string | null {
+  getGridColumn(reservation: {startDate: Date, endDate: Date, resource: number}, resource: number): {gridSpan: string, roundedLeft: boolean, roundedRight: boolean} | null {
     const dates = this.getDates();
     if (reservation.resource != resource) {
       return null;
     }
     let startIndex: number | null = null;
     let endIndex: number | null = null;
+    let roundedLeft = false;
+    let roundedRight = false;
+    let gridSpan: string | null = null;
     for (let i = 0; i < dates.length; i++) {
       if (dates[i] === reservation.startDate.toLocaleDateString()) {
         startIndex = i;
@@ -56,21 +59,26 @@ export class AppComponent {
       }
     }
     if (startIndex !== null && endIndex !== null) {
-      return `${startIndex + 2}/${endIndex + 3}`;
+      gridSpan = `${startIndex + 2}/${endIndex + 3}`;
+      roundedLeft = true;
+      roundedRight = true;
     } else if (startIndex !== null && endIndex === null) {
-      return `${startIndex + 2}/${dates.length + 3}`;
+      gridSpan = `${startIndex + 2}/${dates.length + 3}`;
+      roundedLeft = true;
     } else if (startIndex === null && endIndex !== null) {
-      return `2/${endIndex + 3}`;
+      gridSpan = `2/${endIndex + 3}`;
+      roundedRight = true;
     } else if (startIndex === null && endIndex === null) {
-      console.log(reservation.resource);
       let dateAfterSevenDays = new Date(this.startDateCalendar);
       dateAfterSevenDays.setDate(this.startDateCalendar.getDate() + 6);
 
       if (reservation.startDate < this.startDateCalendar && reservation.endDate > dateAfterSevenDays) {
-        return `2/${dates.length + 3}`;
+        gridSpan = `2/${dates.length + 3}`;
+        roundedLeft = false;
+        roundedRight = false;
       }
     }
-    return null;
+    return gridSpan ? {gridSpan, roundedLeft, roundedRight} : null;
   }
 
   nextWeek(): void {
