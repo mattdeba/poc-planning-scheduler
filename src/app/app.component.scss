@@ -93,3 +93,8 @@ $columns: 8;
   height: 100%;
   border: none;
 }
+
+.no-scroll {
+  overflow: hidden;
+  height: 100%;
+}

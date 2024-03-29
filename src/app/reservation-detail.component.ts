@@ -4,11 +4,11 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   selector: 'app-reservation-detail',
   template: `
     <div class="modal" *ngIf="reservation" [ngStyle]="{'top.px': position.y, 'left.px': position.x}">
-      <h2>Reservation Details</h2>
-      <p>Resource: {{reservation.resource}}</p>
-      <p>Username: {{reservation.username}}</p>
-      <p>Start Date: {{reservation.startDate | date}}</p>
-      <button (click)="closeModal()">Close</button>
+      <h2>Details réservation</h2>
+      <p>Matériel: {{reservation.resource}}</p>
+      <p>Utilisateur: {{reservation.username}}</p>
+      <p>Date début: {{reservation.startDate | date:'dd/MM/yyyy'}}</p>
+      <button (click)="closeModal()">Ok</button>
     </div>
   `,
   styles: [`

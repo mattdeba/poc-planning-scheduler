@@ -17,13 +17,19 @@ export class AppComponent {
   startDateCalendar = new Date(); // Date de début, vous pouvez la définir comme vous le souhaitez
   selectedReservation: {startDate: Date, resource: number, username: string} | null;
   modalPosition: { x: number, y: number };
+  enableScroll = true;
 
   showModal(reservation: {startDate: Date, resource: number, username: string}, event: MouseEvent): void {
     this.selectedReservation = reservation;
-    this.modalPosition = { x: event.clientX, y: event.clientY };
+    const targetElement = event.target as HTMLElement;
+    const xModalPosition = targetElement.offsetLeft;
+    const yModalPosition = targetElement.offsetTop + targetElement.offsetHeight;
+    this.modalPosition = { x: xModalPosition, y: yModalPosition };
+    this.enableScroll = false;
   }
   closeModal(): void {
     this.selectedReservation = null;
+    this.enableScroll = true;
   }
 
   getDates(): string[] {
