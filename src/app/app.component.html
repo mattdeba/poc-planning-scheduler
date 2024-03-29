@@ -15,7 +15,9 @@
       <div class="resourceCell">tracteur {{resource}}</div>
       <ng-container *ngFor="let reservation of reservations">
         <div class="contentCell" *ngIf="getGridColumn(reservation, resource)" [style.gridColumn]="getGridColumn(reservation, resource)" (click)="showModal(reservation, $event)">
-          tracteur {{resource}} <br> pour {{reservation.username}}
+          <div class="innerContentCell">
+            tracteur {{resource}} <br> pour {{reservation.username}}
+          </div>
         </div>
       </ng-container>
     </div>
