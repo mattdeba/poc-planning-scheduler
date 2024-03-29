@@ -1,4 +1,4 @@
-<button (click)="showEdition=true">Créer une réservation</button>
+<button (click)="showEdition=true" >Créer une réservation</button>
 <div class="scheduler">
   <div class="header">
     <div class="row-header">
@@ -22,4 +22,4 @@
   </div>
 </div>
 <app-reservation-detail [reservation]="selectedReservation" [position]="modalPosition" (close)="closeModal()"></app-reservation-detail>
-<app-reservation-edit *ngIf="showEdition"></app-reservation-edit>
+<app-reservation-edit *ngIf="showEdition" (closeModal)="showEdition=false"></app-reservation-edit>

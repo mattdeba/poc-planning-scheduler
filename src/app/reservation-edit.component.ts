@@ -1,13 +1,23 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 
 @Component({
   selector: 'app-reservation-edit',
   template: `
+    <div class="overlay"></div>
     <div class="modal">
       <div>Nouvelle réservation</div>
+      <button (click)="closeModal.emit()">Fermer</button>
     </div>
   `,
   styles: [`
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0);
+    }
     .modal {
       position: fixed;
       top: 50%;
@@ -17,5 +27,5 @@ import { Component } from '@angular/core';
   `]
 })
 export class ReservationEditComponent {
-
+  @Output() closeModal = new EventEmitter<void>();
 }
