@@ -1,4 +1,4 @@
-$cell-height:100px;
+$cell-height:80px;
 $cell-width: 10vw; // change from fixed pixel value to viewport width
 $columns: 8;
 
@@ -11,16 +11,30 @@ $columns: 8;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-top: 1px solid black;
 }
 
 .container {
   width: $cell-width * $columns;
-  height: 600px;
+  height: 500px;
   display: flex;
   flex-direction: column;
   align-items: start;
   overflow-y: auto;
   border-right: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.scheduler {
+  border-left: 1px solid black;
+}
+
+.row-header {
+  border-bottom: 1px solid black;
+  display: grid;
+  grid-template-columns: repeat($columns, $cell-width);
+  width: $cell-width * $columns;
+  min-height: $cell-height;
 }
 
 .row {
@@ -29,6 +43,9 @@ $columns: 8;
   grid-template-columns: repeat($columns, $cell-width);
   width: $cell-width * $columns;
   min-height: $cell-height;
+  &:last-child {
+    border-bottom: none;
+  }
 }
 
 #day1 {
@@ -86,6 +103,7 @@ $columns: 8;
   grid-row: 1/2;
   grid-column: 1/2;
   border-right: 1px solid black;
+  border-top: 1px solid black;
 }
 
 .button {

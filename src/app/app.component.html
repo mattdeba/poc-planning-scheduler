@@ -1,21 +1,23 @@
-<div class="header">
-  <div class="row">
+<div class="scheduler">
+  <div class="header">
+    <div class="row-header">
       <div class="buttons">
         <button class="button" (click)="prevWeek()">prec.</button>
         <button class="button" (click)="nextWeek()">suiv.</button>
       </div>
       <div *ngFor="let date of getDates(); let i = index" id="day{{i+1}}" class="dayCell">{{date}}</div>
+    </div>
   </div>
-</div>
 
-<div class="container" [style.overflow-y]="enableScroll ? 'auto': 'hidden'">
-  <div class="row" *ngFor="let resource of resources" id="res{{resource}}">
+  <div class="container" [style.overflow-y]="enableScroll ? 'auto': 'hidden'">
+    <div class="row" *ngFor="let resource of resources" id="res{{resource}}">
       <div class="resourceCell">tracteur {{resource}}</div>
       <ng-container *ngFor="let reservation of reservations">
         <div class="contentCell" *ngIf="getGridColumn(reservation, resource)" [style.gridColumn]="getGridColumn(reservation, resource)" (click)="showModal(reservation, $event)">
           tracteur {{resource}} <br> pour {{reservation.username}}
         </div>
       </ng-container>
+    </div>
   </div>
 </div>
 <app-reservation-detail [reservation]="selectedReservation" [position]="modalPosition" (close)="closeModal()"></app-reservation-detail>
