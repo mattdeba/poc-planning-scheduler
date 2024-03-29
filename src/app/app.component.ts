@@ -21,10 +21,7 @@ export class AppComponent {
 
   showModal(reservation: {startDate: Date, resource: number, username: string}, event: MouseEvent): void {
     this.selectedReservation = reservation;
-    const targetElement = event.target as HTMLElement;
-    const xModalPosition = targetElement.offsetLeft;
-    const yModalPosition = targetElement.offsetTop + targetElement.offsetHeight;
-    this.modalPosition = { x: xModalPosition, y: yModalPosition };
+    this.modalPosition = { x: event.clientX, y: event.clientY };
     this.enableScroll = false;
   }
   closeModal(): void {
