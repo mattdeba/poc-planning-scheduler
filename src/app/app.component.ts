@@ -60,4 +60,8 @@ export class AppComponent {
   prevWeek(): void {
     this.startDateCalendar.setDate(this.startDateCalendar.getDate() - 7);
   }
+
+  addReservation(reservation: {startDate: Date, resource: number, username: string}): void {
+    this.reservations.push(reservation);
+  }
 }
