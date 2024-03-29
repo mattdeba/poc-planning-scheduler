@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'app-reservation-edit',
@@ -12,8 +12,10 @@ import {Component, EventEmitter, Output} from '@angular/core';
           <input [(ngModel)]="username" name="username" required>
         </div>
         <div>
-          <label>Ressource:</label>
-          <input [(ngModel)]="resource" name="resource" type="number" required>
+          <label>Matériel:</label>
+          <select [(ngModel)]="resource" name="resource" required>
+            <option *ngFor="let res of resources" [value]="res">{{res}}</option>
+          </select>
         </div>
         <div>
           <label>Date de début:</label>
@@ -50,6 +52,7 @@ import {Component, EventEmitter, Output} from '@angular/core';
 export class ReservationEditComponent {
   @Output() closeModal = new EventEmitter<void>();
   @Output() submitReservation = new EventEmitter<{startDate: Date, resource: number, username: string}>();
+  @Input() resources: number[] = []
 
   username = '';
   resource: number | null = null;
