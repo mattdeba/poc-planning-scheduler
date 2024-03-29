@@ -18,6 +18,7 @@ export class AppComponent {
   selectedReservation: {startDate: Date, resource: number, username: string} | null;
   modalPosition: { x: number, y: number };
   enableScroll = true;
+  showEdition = false;
 
   showModal(reservation: {startDate: Date, resource: number, username: string}, event: MouseEvent): void {
     this.selectedReservation = reservation;
