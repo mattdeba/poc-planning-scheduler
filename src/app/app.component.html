@@ -1,20 +1,35 @@
-<div class="header">
-  <div class="row">
+<button (click)="showEdition=true" >Créer une réservation</button>
+<div class="scheduler">
+  <div class="header">
+    <div class="row-header">
       <div class="buttons">
         <button class="button" (click)="prevWeek()">prec.</button>
         <button class="button" (click)="nextWeek()">suiv.</button>
       </div>
       <div *ngFor="let date of getDates(); let i = index" id="day{{i+1}}" class="dayCell">{{date}}</div>
+    </div>
   </div>
-</div>
 
-<div class="container">
-  <div class="row" *ngFor="let resource of resources" id="res{{resource}}">
+  <div class="container" [style.overflow-y]="enableScroll ? 'auto': 'hidden'">
+    <div class="row" *ngFor="let resource of resources" id="res{{resource}}">
       <div class="resourceCell">tracteur {{resource}}</div>
       <ng-container *ngFor="let reservation of reservations">
-        <div class="contentCell" *ngIf="getGridColumn(reservation, resource)" [style.gridColumn]="getGridColumn(reservation, resource)">
-          tracteur {{resource}} <br> pour {{reservation.username}}
-        </div>
+          <div class="contentCell" *ngIf="getGridColumn(reservation, resource)" [style.gridColumn]="getGridColumn(reservation, resource)?.gridSpan"
+               (click)="showModal(reservation, $event)">
+            <div class="innerContentCell"
+                 [ngStyle]="{
+                   'border-top-left-radius': getGridColumn(reservation, resource)?.roundedLeft ? '10px' : '0',
+                   'border-bottom-left-radius': getGridColumn(reservation, resource)?.roundedLeft ? '10px' : '0',
+                   'border-top-right-radius': getGridColumn(reservation, resource)?.roundedRight ? '10px' : '0',
+                   'border-bottom-right-radius': getGridColumn(reservation, resource)?.roundedRight ? '10px' : '0'
+                 }"
+            >
+              tracteur {{resource}} <br> pour {{reservation.username}}
+            </div>
+          </div>
       </ng-container>
+    </div>
   </div>
 </div>
+<app-reservation-detail [reservation]="selectedReservation" [position]="modalPosition" (close)="closeModal()"></app-reservation-detail>
+<app-reservation-edit *ngIf="showEdition"  [resources]="resources" (closeModal)="showEdition=false" (submitReservation)="addReservation($event)"></app-reservation-edit>
