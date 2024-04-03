@@ -4,3 +4,10 @@
 .gridRow {
   display: grid;
 }
+.resourceNameCell {
+  grid-column: 1/2;
+  align-items: flex-start;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}

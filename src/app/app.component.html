@@ -8,5 +8,10 @@
 [ngStyle]="{'grid-template-columns': getGridTemplateHeaderColumns(),
 'grid-template-rows': getGridTemplateRows(resource)}"
 >
-  <div class="resourceNameCell">{{resource.id}}</div>
+<div class="resourceNameCell" [ngStyle]="{'grid-row': '1 / ' + (getMaxReservations(resource) + 1)}">{{resource.id}}</div>
+  <div *ngFor="let date of displayedDates" class="dateCell">
+    <div *ngFor="let reservation of reservationsByDate[resource.id + '-' + date.toISOString()]">
+      {{reservation.username}}
+    </div>
+  </div>
 </div>
