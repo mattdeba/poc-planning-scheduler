@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'bryntumScheduler';
-  resources = [42, 43, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58]; // Ressources fixes
+  resources = [{id: 42, size: 2}, {id: 43, size: 1}, {id: 45, size: 1}, {id: 46, size: 1}, {id: 47, size: 1}]; // Ressources fixes
   reservations = [
     {startDate: new Date(), endDate: new Date(), resource: 42, username: 'Alice' },
     {startDate: new Date('2024/03/27'), endDate: new Date('2024/04/01'), resource: 43, username: 'Bob'},

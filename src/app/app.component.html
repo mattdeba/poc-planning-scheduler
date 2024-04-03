@@ -11,21 +11,21 @@
   </div>
 
   <div class="container" [style.overflow-y]="enableScroll ? 'auto': 'hidden'">
-    <div class="row" *ngFor="let resource of resources" id="res{{resource}}">
+    <div class="row" *ngFor="let resource of resources" id="{{resource.id}}">
         <div class="lineCell" *ngFor="let i of [2, 3, 4, 5, 6, 7, 8]"  [style.gridColumn]="i/(i+1)"></div>
-        <div class="resourceCell">tracteur {{resource}}</div>
-      <ng-container *ngFor="let reservation of reservations">
-          <div class="contentCell" *ngIf="getGridColumn(reservation, resource)" [style.gridColumn]="getGridColumn(reservation, resource)?.gridSpan"
+        <div class="resourceCell">tracteur {{resource.id}}</div>
+      <ng-container *ngFor="let reservation of reservations"> <!--on cherche dans les résa s'il en existe une à afficher-->
+          <div class="contentCell" *ngIf="getGridColumn(reservation, resource.id)" [style.gridColumn]="getGridColumn(reservation, resource.id)?.gridSpan"
                (click)="showModal(reservation, $event)">
             <div class="innerContentCell"
                  [ngStyle]="{
-                   'border-top-left-radius': getGridColumn(reservation, resource)?.roundedLeft ? '10px' : '0',
-                   'border-bottom-left-radius': getGridColumn(reservation, resource)?.roundedLeft ? '10px' : '0',
-                   'border-top-right-radius': getGridColumn(reservation, resource)?.roundedRight ? '10px' : '0',
-                   'border-bottom-right-radius': getGridColumn(reservation, resource)?.roundedRight ? '10px' : '0'
+                   'border-top-left-radius': getGridColumn(reservation, resource.id)?.roundedLeft ? '10px' : '0',
+                   'border-bottom-left-radius': getGridColumn(reservation, resource.id)?.roundedLeft ? '10px' : '0',
+                   'border-top-right-radius': getGridColumn(reservation, resource.id)?.roundedRight ? '10px' : '0',
+                   'border-bottom-right-radius': getGridColumn(reservation, resource.id)?.roundedRight ? '10px' : '0'
                  }"
             >
-              tracteur {{resource}} <br> pour {{reservation.username}}
+              tracteur {{resource.id}} <br> pour {{reservation.username}}
             </div>
           </div>
       </ng-container>

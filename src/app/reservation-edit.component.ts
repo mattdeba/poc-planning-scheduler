@@ -14,7 +14,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
         <div>
           <label>Matériel:</label>
           <select [(ngModel)]="resource" name="resource" required>
-            <option *ngFor="let res of resources" [value]="res">{{res}}</option>
+            <option *ngFor="let res of resources" [value]="res.id">{{res.id}}</option>
           </select>
         </div>
         <div>
@@ -56,7 +56,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 export class ReservationEditComponent {
   @Output() closeModal = new EventEmitter<void>();
   @Output() submitReservation = new EventEmitter<{startDate: Date, endDate: Date, resource: number, username: string}>();
-  @Input() resources: number[] = []
+  @Input() resources: {id: number, size: number}[] = []
 
   username = '';
   resource: number | null = null;
