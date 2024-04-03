@@ -47,8 +47,8 @@ $border-color: #bbb3b3;
   border-bottom: 1px solid $border-color;
   display: grid;
   grid-template-columns: repeat($columns, $cell-width);
+  grid-template-rows: $cell-height;
   width: $cell-width * $columns;
-  min-height: $cell-height;
   &:last-child {
     border-bottom: none;
   }
@@ -91,6 +91,7 @@ $border-color: #bbb3b3;
 
 .resourceCell {
   grid-column: 1/2;
+  grid-row: 1/2;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -98,10 +99,12 @@ $border-color: #bbb3b3;
 }
 
 .contentCell {
+  grid-row: 1/2;
   display: flex;
   justify-content: center;
   align-items: center;
   background: white;
+  border-right: 1px solid $border-color;
   width: 100%;
   padding: 5px 0 5px 0;
 }
@@ -132,4 +135,9 @@ $border-color: #bbb3b3;
 .no-scroll {
   overflow: hidden;
   height: 100%;
+}
+
+.lineCell {
+  grid-row: 1/2;
+  border-right: 1px solid $border-color;
 }

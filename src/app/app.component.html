@@ -12,7 +12,8 @@
 
   <div class="container" [style.overflow-y]="enableScroll ? 'auto': 'hidden'">
     <div class="row" *ngFor="let resource of resources" id="res{{resource}}">
-      <div class="resourceCell">tracteur {{resource}}</div>
+        <div class="lineCell" *ngFor="let i of [2, 3, 4, 5, 6, 7, 8]"  [style.gridColumn]="i/(i+1)"></div>
+        <div class="resourceCell">tracteur {{resource}}</div>
       <ng-container *ngFor="let reservation of reservations">
           <div class="contentCell" *ngIf="getGridColumn(reservation, resource)" [style.gridColumn]="getGridColumn(reservation, resource)?.gridSpan"
                (click)="showModal(reservation, $event)">
