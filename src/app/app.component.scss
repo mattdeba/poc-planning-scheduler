@@ -1,12 +1,14 @@
+$nb-resa: 3;
+$resa-height: 100px;
 $cell-width: 100px;
-$cell-height: 100px;
+$cell-height: ($nb-resa + 1)*100px;
 $columns: 4;
 
 .grid {
   display: grid;
   width: $columns*$cell-width + 1px;
   grid-template-columns: repeat($columns, $cell-width);
-  grid-template-rows: $cell-width;
+  grid-template-rows: repeat($nb-resa+1, $resa-height);
   border-bottom: 1px solid black;
   border-top: 1px solid black;
   border-left: 1px solid black;
@@ -14,70 +16,67 @@ $columns: 4;
 
 .cell1 {
   width: $cell-width;
+  height: $cell-height;
   border-right: 1px solid black;
+  grid-row: 1/5;
   grid-column: 1/2;
-  grid-row: 1/2;
 }
+
 .cell2 {
   width: $cell-width;
+  height: $cell-height;
   border-right: 1px solid black;
+  grid-row: 1/5;
   grid-column: 2/3;
-  grid-row: 1/2;
-
 }
+
 .cell3 {
   width: $cell-width;
-  border-right: 1px solid black;
-  grid-column: 3/4;
-  grid-row: 1/2;
-
-}
-.cell4 {
-  width: $cell-width;
-  border-right: 1px solid black;
-  grid-column: 4/5;
-  grid-row: 1/2;
-}
-.resa-cell {
-  background: red;
   height: $cell-height;
-  grid-column: 1/4;
-  grid-row: 1/2;
+  border-right: 1px solid black;
+  grid-row: 1/5;
+  grid-column: 3/4;
 }
+
 .cell4 {
   width: $cell-width;
+  height: $cell-height;
   border-right: 1px solid black;
+  grid-row: 1/5;
   grid-column: 4/5;
-  grid-row: 1/2;
-  display: grid;
-  grid-template-rows: repeat(4, calc($cell-height / 4));
-  grid-template-columns: $cell-width;
 }
 
 .resa1 {
-  grid-row: 1/2;
-  grid-column: 1/2;
-  background: blue;
-  width: $cell-width;
+  height: $resa-height;
+  width: 100%;
+  grid-row: 2/3;
+  grid-column: 2/4;
+  background: red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .resa2 {
-  grid-row: 2/3;
-  grid-column: 1/2;
+  height: $resa-height;
+  width: 100%;
+  grid-row: 3/4;
+  grid-column: 2/4;
   background: green;
-  width: $cell-width;
 }
 
 .resa3 {
-  grid-row: 3/4;
-  grid-column: 1/2;
+  height: $resa-height;
+  width: 100%;
+  grid-row: 1/2;
+  grid-column: 1/5;
   background: orange;
-  width: $cell-width;
 }
 
-.resa4 {
-  grid-row: 4/5;
-  grid-column: 1/2;
-  background: yellow;
-  width: $cell-width;
+.resaContent {
+  height: 100%;
+  width: 100%;
+  margin: 5px 5px 5px 5px;
+  background: blue;
 }
