@@ -11,12 +11,13 @@
   </div>
 
   <div class="container" [style.overflow-y]="enableScroll ? 'auto': 'hidden'">
-    <div class="row" *ngFor="let resource of resources" id="{{resource.id}}">
-        <div class="lineCell" *ngFor="let i of [2, 3, 4, 5, 6, 7, 8]"  [style.gridColumn]="i/(i+1)"></div>
+    <div class="row" *ngFor="let resource of resources" id="{{resource.id}}" [style.grid-template-rows]="generateGridTemplateRows(resource.size)">
+        <ng-container *ngFor="let size of [].constructor(resource.size); let j = index">
+            <div class="lineCell" *ngFor="let i of [2, 3, 4, 5, 6, 7, 8]" [style.gridColumn]="i/(i+1)" [style.gridRow]="j+1/(j+2)"></div>
+        </ng-container>
         <div class="resourceCell">tracteur {{resource.id}}</div>
       <ng-container *ngFor="let reservation of reservations"> <!--on cherche dans les résa s'il en existe une à afficher-->
-          <div class="contentCell" *ngIf="getGridColumn(reservation, resource.id)" [style.gridColumn]="getGridColumn(reservation, resource.id)?.gridSpan"
-               (click)="showModal(reservation, $event)">
+          <div class="contentCell" *ngIf="getGridColumn(reservation, resource.id)" [style.gridColumn]="getGridColumn(reservation, resource.id)?.gridSpan"               (click)="showModal(reservation, $event)">
             <div class="innerContentCell"
                  [ngStyle]="{
                    'border-top-left-radius': getGridColumn(reservation, resource.id)?.roundedLeft ? '10px' : '0',

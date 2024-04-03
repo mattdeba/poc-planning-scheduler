@@ -92,4 +92,12 @@ export class AppComponent {
   addReservation(reservation: {startDate: Date, endDate: Date,  resource: number, username: string}): void {
     this.reservations.push(reservation);
   }
+
+  generateGridTemplateRows(size: number): string {
+    let rows = '';
+    for(let i = 0; i < size; i++) {
+      rows += '100px ';
+    }
+    return rows.trim();
+  }
 }
