@@ -9,6 +9,7 @@
   </div>
   <div *ngFor="let resource of resources" class="gridRow" [ngStyle]="getGridRowStyles(resource)">
     <div class="resourceNameCell" [ngStyle]="getResourceNameCellStyles(resource)">{{resource.id}}</div>
+    <div class="lineCell" *ngFor="let date of displayedDates; let index = index" [ngStyle]="getLineCellCoordinates(resource, index)"></div>
     <div *ngFor="let reservation of getReservationsByResource(resource.id)"
          [ngStyle]="getReservationCoordinates(reservation, resource.id)"
          class="reservationCell"

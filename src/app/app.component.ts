@@ -19,7 +19,7 @@ export class AppComponent {
     {id: 5, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/05'), resource: 42, username: 'Michel'},
   ]
   cellWidth = '10vw';
-  cellHeight = '50px';
+  cellHeight = '30px';
 
   next(): void {
     this.displayedDates = this.displayedDates.map(date => {
@@ -47,11 +47,19 @@ export class AppComponent {
     };
   }
 
+  getLineCellCoordinates(resource: any, index: number) {
+    const nbReservations = this.getReservationsByResource(resource.id).length;
+    return {
+      'grid-row': `1/${nbReservations+1}`,
+      'grid-column': `${index+2}/${index+3}`,
+    }
+  }
+
   getGridRowStyles(resource: any) {
     const reservations = this.getReservationsByResource(resource.id);
     return {
       'grid-template-columns': `${this.cellWidth} ` + Array(this.displayedDates.length).fill(`${this.cellWidth}`).join(' '),
-      'grid-template-rows': Array(reservations.length).fill(`${this.cellHeight}`).join(' ')
+      'grid-template-rows': Array(reservations.length).fill(`${this.cellHeight}`).join(' '),
     };
   }
 

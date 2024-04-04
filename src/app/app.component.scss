@@ -1,3 +1,5 @@
+$border-color: black;
+
 .header {
   display: grid;
 }
@@ -10,6 +12,9 @@
   justify-content: center;
   display: flex;
   flex-direction: column;
+  border-right: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
+  border-left: 1px solid $border-color;
 }
 
 .gridCell {
@@ -22,8 +27,22 @@
 
 .resourceHeaderCell {
   grid-row: 1/2;
+  border: 1px solid $border-color;
 }
 
 .dateHeaderCell {
   grid-row: 1/2;
+  border-right: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
+  border-top: 1px solid $border-color;
+}
+
+.lineCell {
+  border-right: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
+}
+
+.scheduler {
+  margin-top: 50px;
+  margin-left: 50px;
 }
