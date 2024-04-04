@@ -22,7 +22,14 @@ $border-color: black;
 }
 
 .reservationCell {
-  background: green;
+  background: transparent;
+  padding: 5px 0 5px 0;
+}
+
+.reservationContentCell {
+  background: navajowhite;
+  text-align: center;
+  cursor: pointer;;
 }
 
 .resourceHeaderCell {

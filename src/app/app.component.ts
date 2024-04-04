@@ -118,6 +118,21 @@ export class AppComponent {
     }
   }
 
+  getReservationContentBorders(reservation: any, resourceId: number) {
+    const reservations = this.getReservationsByResource(resourceId);
+    const reservationIndex = reservations.findIndex((r: any) => r.id === reservation.id) + 1;
+    const reservationStyle = this.getGridColumn(reservation);
+    if (!reservationStyle) {
+      return null
+    }
+    return {
+      'border-top-left-radius': reservationStyle.roundedLeft ? '10px' : '0',
+      'border-bottom-left-radius': reservationStyle.roundedLeft ? '10px' : '0',
+      'border-top-right-radius': reservationStyle.roundedRight ? '10px' : '0',
+      'border-bottom-right-radius': reservationStyle.roundedRight ? '10px' : '0'
+    }
+  }
+
   getGridColumn(reservation: any): any {
     const dates = this.displayedDates.map(d => d.toLocaleDateString());
     let startIndex: number | null = null;

@@ -16,7 +16,8 @@
     <div *ngFor="let reservation of getReservationsByResource(resource.id)"
          [ngStyle]="getReservationCoordinates(reservation, resource.id)"
          class="reservationCell"
-    >{{reservation.id}}
+    >
+      <div class="reservationContentCell" [ngStyle]="getReservationContentBorders(reservation, resource.id)">{{reservation.username}}</div>
     </div>
   </div>
 </div>
