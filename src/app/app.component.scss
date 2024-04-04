@@ -19,3 +19,11 @@
 .reservationCell {
   background: green;
 }
+
+.resourceHeaderCell {
+  grid-row: 1/2;
+}
+
+.dateHeaderCell {
+  grid-row: 1/2;
+}

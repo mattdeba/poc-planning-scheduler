@@ -9,9 +9,7 @@ export class AppComponent {
   title = 'bryntumScheduler';
   resources = [{id: 42}, {id: 43}, {id: 45}, {id: 46}, {id: 47}];
   displayedDates = [new Date('2024/04/01'), new Date('2024/04/02'), new Date('2024/04/03'), new Date('2024/04/04'),
-    new Date('2024/04/05'), new Date('2024/04/06'), new Date('2024/04/07'), new Date('2024/04/08'),
-    new Date('2024/04/09'), new Date('2024/04/10'), new Date('2024/04/11'), new Date('2024/04/12'),
-    new Date('2024/04/13'), new Date('2024/04/14'), new Date('2024/04/15')
+    new Date('2024/04/05'), new Date('2024/04/06'), new Date('2024/04/07'),
   ]
   reservations = [
     {id: 1, startDate: new Date('2024/04/01'), endDate: new Date('2024/04/02'), resource: 42, username: 'Christine'},
@@ -20,6 +18,8 @@ export class AppComponent {
     {id: 4, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/01'), resource: 42, username: 'Clémence'},
     {id: 5, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/05'), resource: 42, username: 'Michel'},
   ]
+  cellWidth = '10vw';
+  cellHeight = '50px';
 
   next(): void {
     this.displayedDates = this.displayedDates.map(date => {
@@ -39,15 +39,27 @@ export class AppComponent {
 
   getGridTemplateHeaderColumns() {
     const nbDates = this.displayedDates.length;
-    return '1fr ' + Array(nbDates).fill('1fr').join(' ');
+    const headerColumn = `${this.cellWidth} ` + Array(nbDates).fill(`${this.cellWidth}`).join(' ');
+    const headerRow = `${this.cellHeight}`;
+    return {
+      'grid-template-columns': headerColumn,
+      'grid-template-rows': headerRow,
+    };
   }
 
   getGridRowStyles(resource: any) {
     const reservations = this.getReservationsByResource(resource.id);
     return {
-      'grid-template-columns': this.getGridTemplateHeaderColumns(),
-      'grid-template-rows': Array(reservations.length).fill('50px').join(' ')
+      'grid-template-columns': `${this.cellWidth} ` + Array(this.displayedDates.length).fill(`${this.cellWidth}`).join(' '),
+      'grid-template-rows': Array(reservations.length).fill(`${this.cellHeight}`).join(' ')
     };
+  }
+
+  getDateHeaderStyle(index: number) {
+    const nbDates = this.displayedDates.length;
+    return {
+      'grid-column': `${index+2} / ${index+3}`
+    }
   }
 
   getResourceNameCellStyles(resource: any) {

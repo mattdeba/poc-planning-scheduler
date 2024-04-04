@@ -2,15 +2,17 @@
   <button class="button" (click)="prev()">prec.</button>
   <button class="button" (click)="next()">suiv.</button>
 </div>
-<div class="header" [ngStyle]="{'grid-template-columns': getGridTemplateHeaderColumns()}">
-  <div class="resourceHeaderCell">matériel\date</div>
-  <div class="dateHeaderCell" *ngFor="let date of displayedDates">{{date | date:'shortDate'}}</div>
-</div>
-<div *ngFor="let resource of resources" class="gridRow" [ngStyle]="getGridRowStyles(resource)">
-  <div class="resourceNameCell" [ngStyle]="getResourceNameCellStyles(resource)">{{resource.id}}</div>
-  <div *ngFor="let reservation of getReservationsByResource(resource.id)"
-       [ngStyle]="getReservationCoordinates(reservation, resource.id)"
-       class="reservationCell"
-  >{{reservation.id}}
+<div class="scheduler">
+  <div class="header" [ngStyle]="getGridTemplateHeaderColumns()">
+    <div class="resourceHeaderCell">matériel\date</div>
+    <div class="dateHeaderCell" *ngFor="let date of displayedDates; let index = index" [ngStyle]="getDateHeaderStyle(index)">{{date | date:'shortDate'}}</div>
+  </div>
+  <div *ngFor="let resource of resources" class="gridRow" [ngStyle]="getGridRowStyles(resource)">
+    <div class="resourceNameCell" [ngStyle]="getResourceNameCellStyles(resource)">{{resource.id}}</div>
+    <div *ngFor="let reservation of getReservationsByResource(resource.id)"
+         [ngStyle]="getReservationCoordinates(reservation, resource.id)"
+         class="reservationCell"
+    >{{reservation.id}}
+    </div>
   </div>
 </div>
