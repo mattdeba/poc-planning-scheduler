@@ -14,6 +14,7 @@ export class AppComponent {
     {id: 2, startDate: new Date('2024/04/02'), endDate: new Date('2024/04/03'), resource: 42, username: 'Matthieu'},
   ]
   reservationsByDate: any = null;
+  reservationsByResource: any = null;
   gridStyles: any = {};
 
   groupByDates() {
@@ -61,8 +62,36 @@ export class AppComponent {
     return Array(maxReservations).fill('50px').join(' ');
   }
 
+  getGridRowStyles(resource: any) {
+    return {
+      'grid-template-columns': this.getGridTemplateHeaderColumns(),
+      'grid-template-rows': this.getGridTemplateRows(resource)
+    };
+  }
+
+  getResourceNameCellStyles(resource: any) {
+    return {
+      'grid-row': '1 / ' + (this.getMaxReservations(resource) + 1)
+    };
+  }
+
+  groupByResources() {
+    this.reservationsByResource = this.resources.reduce<Record<number, any>>((acc, resource) => {
+      acc[resource.id] = this.reservations.filter(reservation => reservation.resource === resource.id);
+      return acc;
+    }, {});
+  }
+  getReservationCoordinates(reservation: any, resourceId: number) {
+    const reservations = this.reservationsByResource[resourceId];
+    return {
+      'grid-row': `${reservation.id}/${reservation.id + 1}`,
+      'grid-column': '3/4'
+    }
+  }
+
   ngOnInit() {
     this.groupByDates();
+    this.groupByResources();
     console.log(this.reservationsByDate);
     this.resources.forEach(resource => {
       this.gridStyles[resource.id] = {

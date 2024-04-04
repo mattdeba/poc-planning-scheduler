@@ -1,17 +1,8 @@
-<div class="header"
-[ngStyle]="{'grid-template-columns': getGridTemplateHeaderColumns()}"
->
+<div class="header" [ngStyle]="{'grid-template-columns': getGridTemplateHeaderColumns()}">
   <div class="resourceHeaderCell">matériel\date</div>
   <div class="dateHeaderCell" *ngFor="let date of displayedDates">{{date | date:'shortDate'}}</div>
 </div>
-<div *ngFor="let resource of resources" class="gridRow"
-[ngStyle]="{'grid-template-columns': getGridTemplateHeaderColumns(),
-'grid-template-rows': getGridTemplateRows(resource)}"
->
-<div class="resourceNameCell" [ngStyle]="{'grid-row': '1 / ' + (getMaxReservations(resource) + 1)}">{{resource.id}}</div>
-  <div *ngFor="let date of displayedDates" class="dateCell">
-    <div *ngFor="let reservation of reservationsByDate[resource.id + '-' + date.toISOString()]">
-      {{reservation.username}}
-    </div>
-  </div>
+<div *ngFor="let resource of resources" class="gridRow" [ngStyle]="getGridRowStyles(resource)">
+  <div class="resourceNameCell" [ngStyle]="getResourceNameCellStyles(resource)">{{resource.id}}</div>
+  <div *ngFor="let reservation of reservationsByResource[resource.id]" [ngStyle]="getReservationCoordinates(reservation, resource.id)">{{reservation.id}}</div>
 </div>
