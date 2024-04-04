@@ -1,10 +1,10 @@
 <div class="buttons">
+  <app-dropdown [options]="rawResources" (selectionChange)="filterSelection($event)"></app-dropdown>
   <button class="btn" (click)="prev()">prec.</button>
   <button class="btn" (click)="next()">suiv.</button>
   <button (click)="showEdition=true" class="btn" >Créer une réservation</button>
 </div>
 <div class="filterResource">
-  <app-dropdown [options]="rawResources" (selectionChange)="filterSelection($event)"></app-dropdown>
 </div>
 <div class="scheduler">
   <div class="header" [ngStyle]="getGridTemplateHeaderColumns()">

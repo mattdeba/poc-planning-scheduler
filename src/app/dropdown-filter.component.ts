@@ -4,7 +4,7 @@ import {Component, Input, Output, EventEmitter, ElementRef, HostListener} from '
   template: `
     <div class="dropdown">
       <button class="dropbtn" (click)="toggleDropdown()">Choix matériel</button>
-      <button class="resetbtn" (click)="resetFilter()">Reset</button>
+      <button class="resetbtn" (click)="resetFilter()">Reset choix</button>
       <div class="dropdown-content" *ngIf="isDropdownOpen">
         <div *ngFor="let option of options" [class.selected]="selectedOptions.includes(option.id)" (click)="updateSelectedOptions(option.id)">
           {{option.value}}
@@ -16,6 +16,7 @@ import {Component, Input, Output, EventEmitter, ElementRef, HostListener} from '
     .dropbtn, .resetbtn {
       cursor: pointer;
       width: 100px;
+      height: 50px;
     }
 
     .dropdown-content {
@@ -33,7 +34,7 @@ import {Component, Input, Output, EventEmitter, ElementRef, HostListener} from '
     }
 
     .dropdown-content .selected {
-      background-color: #ccc;
+      background-color: #686c72;
     }
   `]
 })
