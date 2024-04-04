@@ -55,8 +55,8 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 })
 export class ReservationEditComponent {
   @Output() closeModal = new EventEmitter<void>();
-  @Output() submitReservation = new EventEmitter<{startDate: Date, endDate: Date, resource: number, username: string}>();
-  @Input() resources: {id: number, size: number}[] = []
+  @Output() submitReservation = new EventEmitter<{id: number, startDate: Date, endDate: Date, resource: number, username: string}>();
+  @Input() resources: {id: number}[] = []
 
   username = '';
   resource: number | null = null;
@@ -66,7 +66,7 @@ export class ReservationEditComponent {
   submitForm(event: Event): void {
     if (this.startDate && this.resource && this.username && this.endDate) {
       event.preventDefault();
-      this.submitReservation.emit({startDate: new Date(this.startDate), endDate: new Date(this.endDate), resource: this.resource, username: this.username});
+      this.submitReservation.emit({id: this.resources.length + 2, startDate: new Date(this.startDate), endDate: new Date(this.endDate), resource: this.resource, username: this.username});
       this.closeModal.emit();
     }
   }

@@ -1,6 +1,7 @@
 <div class="buttons">
   <button class="button" (click)="prev()">prec.</button>
   <button class="button" (click)="next()">suiv.</button>
+  <button (click)="showEdition=true" >Créer une réservation</button>
 </div>
 <div class="filterResource">
   <app-dropdown [options]="rawResources" (selectionChange)="filterSelection($event)"></app-dropdown>
@@ -17,7 +18,11 @@
          [ngStyle]="getReservationCoordinates(reservation, resource.id)"
          class="reservationCell"
     >
-      <div class="reservationContentCell" [ngStyle]="getReservationContentBorders(reservation, resource.id)">{{reservation.username}}</div>
+      <div class="reservationContentCell" [ngStyle]="getReservationContentBorders(reservation, resource.id)"
+           (click)="showModal(reservation, $event)"
+      >{{reservation.username}}</div>
     </div>
   </div>
 </div>
+<app-reservation-detail [reservation]="selectedReservation" [position]="modalPosition" (close)="closeModal()"></app-reservation-detail>
+<app-reservation-edit *ngIf="showEdition"  [resources]="resources" (closeModal)="showEdition=false" (submitReservation)="addReservation($event)"></app-reservation-edit>

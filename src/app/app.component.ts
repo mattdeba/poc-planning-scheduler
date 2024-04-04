@@ -21,6 +21,11 @@ export class AppComponent {
   ]
   cellWidth = '10vw';
   cellHeight = '30px';
+  selectedReservation: {startDate: Date, endDate: Date, resource: number, username: string} | null;
+  modalPosition: { x: number, y: number };
+  enableScroll = true;
+  showEdition = false;
+
 
   next(): void {
     this.displayedDates = this.displayedDates.map(date => {
@@ -169,5 +174,19 @@ export class AppComponent {
       }
     }
     return gridSpan ? {gridSpan, roundedLeft, roundedRight} : null;
+  }
+
+  showModal(reservation: {startDate: Date, endDate: Date, resource: number, username: string}, event: MouseEvent): void {
+    this.selectedReservation = reservation;
+    this.modalPosition = { x: event.clientX, y: event.clientY };
+    this.enableScroll = false;
+  }
+  closeModal(): void {
+    this.selectedReservation = null;
+    this.enableScroll = true;
+  }
+
+  addReservation(reservation: {id: number, startDate: Date, endDate: Date,  resource: number, username: string}): void {
+    this.reservations.push(reservation);
   }
 }
