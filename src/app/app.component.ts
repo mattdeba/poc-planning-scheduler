@@ -15,6 +15,11 @@ export class AppComponent {
     {id: 3, startDate: new Date('2024/04/04'), endDate: new Date('2024/04/05'), resource: 42, username: 'Paul'},
     {id: 4, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/01'), resource: 42, username: 'Clémence'},
     {id: 5, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/05'), resource: 42, username: 'Michel'},
+    {id: 1, startDate: new Date('2024/04/01'), endDate: new Date('2024/04/02'), resource: 43, username: 'Christine'},
+    {id: 2, startDate: new Date('2024/04/02'), endDate: new Date('2024/04/03'), resource: 43, username: 'Matthieu'},
+    {id: 3, startDate: new Date('2024/04/04'), endDate: new Date('2024/04/05'), resource: 43, username: 'Paul'},
+    {id: 4, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/01'), resource: 43, username: 'Clémence'},
+    {id: 5, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/05'), resource: 43, username: 'Michel'},
   ]
   reservationsByDate: any = null;
   reservationsByResource: any = null;
@@ -50,18 +55,12 @@ export class AppComponent {
     return '1fr ' + Array(count).fill('1fr').join(' ');
   }
 
-  getMaxReservations(resource: any) {
-    let maxReservations = 0;
-    this.displayedDates.forEach(date => {
-      let resourceDateKey = `${resource.id}-${date.toISOString()}`;
-      let reservationsCount = this.reservationsByDate[resourceDateKey]?.length || 0;
-      maxReservations = Math.max(maxReservations, reservationsCount);
-    });
-    return maxReservations;
+  getNbReservations(resource: any) {
+    return this.reservations.filter(reservation => reservation.resource === resource.id).length;
   }
 
   getGridTemplateRows(resource: any) {
-    let maxReservations = this.getMaxReservations(resource);
+    let maxReservations = this.getNbReservations(resource);
     return Array(maxReservations).fill('50px').join(' ');
   }
 
@@ -74,7 +73,7 @@ export class AppComponent {
 
   getResourceNameCellStyles(resource: any) {
     return {
-      'grid-row': '1 / ' + (this.getMaxReservations(resource) + 1)
+      'grid-row': '1 / ' + (this.getNbReservations(resource) + 1)
     };
   }
 
@@ -86,9 +85,10 @@ export class AppComponent {
   }
   getReservationCoordinates(reservation: any, resourceId: number) {
     const reservations = this.reservationsByResource[resourceId];
+    const reservationIndex = reservations.findIndex((r: any) => r.id === reservation.id) + 1;
     const reservationStyle = this.getGridColumn(reservation);
     return {
-      'grid-row': `${reservation.id}/${reservation.id + 1}`,
+      'grid-row': `${reservationIndex}/${reservationIndex + 1}`,
       'grid-column': reservationStyle.gridSpan,
       'border-top-left-radius': reservationStyle.roundedLeft ? '10px' : '0',
       'border-bottom-left-radius': reservationStyle.roundedLeft ? '10px' : '0',
@@ -138,7 +138,6 @@ export class AppComponent {
   ngOnInit() {
     this.groupByDates();
     this.groupByResources();
-    console.log(this.reservationsByDate);
     this.resources.forEach(resource => {
       this.gridStyles[resource.id] = {
         gridTemplateColumns: this.getGridTemplateHeaderColumns(),
