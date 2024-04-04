@@ -12,6 +12,9 @@ export class AppComponent {
   reservations = [
     {id: 1, startDate: new Date('2024/04/01'), endDate: new Date('2024/04/02'), resource: 42, username: 'Christine'},
     {id: 2, startDate: new Date('2024/04/02'), endDate: new Date('2024/04/03'), resource: 42, username: 'Matthieu'},
+    {id: 3, startDate: new Date('2024/04/04'), endDate: new Date('2024/04/05'), resource: 42, username: 'Paul'},
+    {id: 4, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/01'), resource: 42, username: 'Clémence'},
+    {id: 5, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/05'), resource: 42, username: 'Michel'},
   ]
   reservationsByDate: any = null;
   reservationsByResource: any = null;
@@ -83,10 +86,53 @@ export class AppComponent {
   }
   getReservationCoordinates(reservation: any, resourceId: number) {
     const reservations = this.reservationsByResource[resourceId];
+    const reservationStyle = this.getGridColumn(reservation);
     return {
       'grid-row': `${reservation.id}/${reservation.id + 1}`,
-      'grid-column': '3/4'
+      'grid-column': reservationStyle.gridSpan,
+      'border-top-left-radius': reservationStyle.roundedLeft ? '10px' : '0',
+      'border-bottom-left-radius': reservationStyle.roundedLeft ? '10px' : '0',
+      'border-top-right-radius': reservationStyle.roundedRight ? '10px' : '0',
+      'border-bottom-right-radius': reservationStyle.roundedRight ? '10px' : '0'
     }
+  }
+
+  getGridColumn(reservation: any): any {
+    const dates = this.displayedDates.map(d => d.toLocaleDateString());
+    let startIndex: number | null = null;
+    let endIndex: number | null = null;
+    let roundedLeft = false;
+    let roundedRight = false;
+    let gridSpan: string | null = null;
+    for (let i = 0; i < dates.length; i++) {
+      if (dates[i] === reservation.startDate.toLocaleDateString()) {
+        startIndex = i;
+      }
+      if (dates[i] === reservation.endDate.toLocaleDateString()) {
+        endIndex = i;
+      }
+    }
+    if (startIndex !== null && endIndex !== null) {
+      gridSpan = `${startIndex + 2}/${endIndex + 3}`;
+      roundedLeft = true;
+      roundedRight = true;
+    } else if (startIndex !== null && endIndex === null) {
+      gridSpan = `${startIndex + 2}/${dates.length + 2}`;
+      roundedLeft = true;
+    } else if (startIndex === null && endIndex !== null) {
+      gridSpan = `2/${endIndex + 3}`;
+      roundedRight = true;
+    } else if (startIndex === null && endIndex === null) {
+      const firstDisplayedDate = this.displayedDates[0];
+      const lastDisplayedDate = this.displayedDates[this.displayedDates.length - 1];
+
+      if (reservation.startDate < firstDisplayedDate && reservation.endDate > lastDisplayedDate) {
+        gridSpan = `2/${dates.length + 2}`;
+        roundedLeft = false;
+        roundedRight = false;
+      }
+    }
+    return gridSpan ? {gridSpan, roundedLeft, roundedRight} : null;
   }
 
   ngOnInit() {
