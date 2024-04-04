@@ -7,20 +7,23 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'bryntumScheduler';
-  resources = [{id: 42}, {id: 43}, {id: 45}, {id: 46}, {id: 47}];
+  resources = [{id: 42, value: 'tracteur 1'}, {id: 43, value: 'tracteur 2'}, {id: 45, value: 'tracteur 3'}, {id: 46, value: 'tracteur 4'}, {id: 47, value: 'tracteur 5'}];
   rawResources = [{id: 42, value: 'Tracteur 42'}, {id: 43, value: 'Tracteur 43'}, {id: 45, value: 'Tracteur 45'}, {id: 46, value: 'Tracteur 46'}, {id: 47, value: 'Tracteur 47'}];
   displayedDates = [new Date('2024/04/01'), new Date('2024/04/02'), new Date('2024/04/03'), new Date('2024/04/04'),
     new Date('2024/04/05'), new Date('2024/04/06'), new Date('2024/04/07'),
+    new Date('2024/04/08'), new Date('2024/04/09'), new Date('2024/04/10'),
+    new Date('2024/04/11'), new Date('2024/04/12'), new Date('2024/04/13'),
+    new Date('2024/04/14'), new Date('2024/04/15')
   ]
   reservations = [
-    {id: 1, startDate: new Date('2024/04/01'), endDate: new Date('2024/04/02'), resource: 42, username: 'Christine'},
-    {id: 2, startDate: new Date('2024/04/02'), endDate: new Date('2024/04/03'), resource: 42, username: 'Matthieu'},
-    {id: 3, startDate: new Date('2024/04/04'), endDate: new Date('2024/04/05'), resource: 42, username: 'Paul'},
-    {id: 4, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/01'), resource: 42, username: 'Clémence'},
-    {id: 5, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/05'), resource: 42, username: 'Michel'},
+    {id: 1, startDate: new Date('2024/04/01'), endDate: new Date('2024/04/02'), resource: 42, username: 'Matthieu'},
+    {id: 2, startDate: new Date('2024/04/02'), endDate: new Date('2024/04/03'), resource: 43, username: 'Estelle'},
+    {id: 3, startDate: new Date('2024/04/04'), endDate: new Date('2024/04/05'), resource: 45, username: 'Céline'},
+    {id: 4, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/01'), resource: 46, username: 'Dimitri'},
+    {id: 5, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/05'), resource: 47, username: 'Guillaume'},
   ]
-  cellWidth = '10vw';
-  cellHeight = '30px';
+  cellWidth = '5vw';
+  cellHeight = '50px';
   selectedReservation: {startDate: Date, endDate: Date, resource: number, username: string} | null;
   modalPosition: { x: number, y: number };
   enableScroll = true;
@@ -91,14 +94,21 @@ export class AppComponent {
     };
   }
 
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   getReservationsByResource(resourceId: number): any[] {
-    const displayedDatesSet = new Set(this.displayedDates.map(date => date.getTime()));
+    const displayedDatesSet = new Set(this.displayedDates.map(date => this.formatDate(date)));
     return this.reservations.filter(reservation => {
       if (reservation.resource !== resourceId) {
         return false;
       }
       for (let date = new Date(reservation.startDate); date <= reservation.endDate; date.setDate(date.getDate() + 1)) {
-        if (displayedDatesSet.has(date.getTime())) {
+        if (displayedDatesSet.has(this.formatDate(date))) {
           return true;
         }
       }
@@ -110,22 +120,17 @@ export class AppComponent {
     const reservations = this.getReservationsByResource(resourceId);
     const reservationIndex = reservations.findIndex((r: any) => r.id === reservation.id) + 1;
     const reservationStyle = this.getGridColumn(reservation);
+    console.log(reservation, resourceId);
     if (!reservationStyle) {
       return null
     }
     return {
       'grid-row': `${reservationIndex}/${reservationIndex + 1}`,
-      'grid-column': reservationStyle.gridSpan,
-      'border-top-left-radius': reservationStyle.roundedLeft ? '10px' : '0',
-      'border-bottom-left-radius': reservationStyle.roundedLeft ? '10px' : '0',
-      'border-top-right-radius': reservationStyle.roundedRight ? '10px' : '0',
-      'border-bottom-right-radius': reservationStyle.roundedRight ? '10px' : '0'
+      'grid-column': reservationStyle.gridSpan
     }
   }
 
   getReservationContentBorders(reservation: any, resourceId: number) {
-    const reservations = this.getReservationsByResource(resourceId);
-    const reservationIndex = reservations.findIndex((r: any) => r.id === reservation.id) + 1;
     const reservationStyle = this.getGridColumn(reservation);
     if (!reservationStyle) {
       return null
@@ -186,7 +191,7 @@ export class AppComponent {
     this.enableScroll = true;
   }
 
-  addReservation(reservation: {id: number, startDate: Date, endDate: Date,  resource: number, username: string}): void {
-    this.reservations.push(reservation);
+  addReservation(reservation: {startDate: Date, endDate: Date,  resource: number, username: string}): void {
+    this.reservations.push({id: this.reservations.length + 1, ...reservation});
   }
 }

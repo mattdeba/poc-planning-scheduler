@@ -62,6 +62,7 @@ export class DropdownFilterComponent {
 
   resetFilter(): void {
     this.selectedOptions = [];
+    this.isDropdownOpen = false;
     this.selectionChange.emit(this.selectedOptions);
   }
 

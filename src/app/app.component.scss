@@ -1,4 +1,4 @@
-$border-color: black;
+$border-color: grey;
 
 .header {
   display: grid;
@@ -27,9 +27,13 @@ $border-color: black;
 }
 
 .reservationContentCell {
-  background: navajowhite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #7d80e3;
   text-align: center;
-  cursor: pointer;;
+  cursor: pointer;
+  height: 100%;
 }
 
 .resourceHeaderCell {
@@ -51,7 +55,7 @@ $border-color: black;
 
 .scheduler {
   margin-top: 50px;
-  margin-left: 50px;
+  margin-left: 10px;
 }
 
 .filterResource {
