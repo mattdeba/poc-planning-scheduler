@@ -2,6 +2,9 @@
   <button class="button" (click)="prev()">prec.</button>
   <button class="button" (click)="next()">suiv.</button>
 </div>
+<div class="filterResource">
+  <app-dropdown [options]="rawResources" (selectionChange)="filterSelection($event)"></app-dropdown>
+</div>
 <div class="scheduler">
   <div class="header" [ngStyle]="getGridTemplateHeaderColumns()">
     <div class="resourceHeaderCell">matériel\date</div>

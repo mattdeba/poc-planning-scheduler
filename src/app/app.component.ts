@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'bryntumScheduler';
   resources = [{id: 42}, {id: 43}, {id: 45}, {id: 46}, {id: 47}];
+  rawResources = [{id: 42, value: 'Tracteur 42'}, {id: 43, value: 'Tracteur 43'}, {id: 45, value: 'Tracteur 45'}, {id: 46, value: 'Tracteur 46'}, {id: 47, value: 'Tracteur 47'}];
   displayedDates = [new Date('2024/04/01'), new Date('2024/04/02'), new Date('2024/04/03'), new Date('2024/04/04'),
     new Date('2024/04/05'), new Date('2024/04/06'), new Date('2024/04/07'),
   ]
@@ -67,6 +68,14 @@ export class AppComponent {
     const nbDates = this.displayedDates.length;
     return {
       'grid-column': `${index+2} / ${index+3}`
+    }
+  }
+
+  filterSelection(resourcesSelected: number[]) {
+    if (resourcesSelected.length === 0) {
+      this.resources = this.rawResources;
+    } else {
+      this.resources = this.rawResources.filter(resource => resourcesSelected.includes(resource.id));
     }
   }
 
