@@ -7,8 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'bryntumScheduler';
-  resources = [{id: 42, value: 'tracteur 1'}, {id: 43, value: 'tracteur 2'}, {id: 45, value: 'tracteur 3'}, {id: 46, value: 'tracteur 4'}, {id: 47, value: 'tracteur 5'}];
   rawResources = [{id: 42, value: 'Tracteur 42'}, {id: 43, value: 'Tracteur 43'}, {id: 45, value: 'Tracteur 45'}, {id: 46, value: 'Tracteur 46'}, {id: 47, value: 'Tracteur 47'}];
+  resources = this.rawResources;
   displayedDates = [new Date('2024/04/01'), new Date('2024/04/02'), new Date('2024/04/03'), new Date('2024/04/04'),
     new Date('2024/04/05'), new Date('2024/04/06'), new Date('2024/04/07'),
     new Date('2024/04/08'), new Date('2024/04/09'), new Date('2024/04/10'),

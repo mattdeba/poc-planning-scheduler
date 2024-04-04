@@ -23,7 +23,7 @@ $border-color: grey;
 
 .reservationCell {
   background: transparent;
-  padding: 5px 0 5px 0;
+  padding: 4px 2px 4px 2px;
 }
 
 .reservationContentCell {
@@ -60,4 +60,15 @@ $border-color: grey;
 
 .filterResource {
   display: flex;
+}
+
+.btn {
+  width: 100px;
+  height: 50px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }

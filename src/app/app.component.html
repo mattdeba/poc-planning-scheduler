@@ -1,7 +1,7 @@
 <div class="buttons">
-  <button class="button" (click)="prev()">prec.</button>
-  <button class="button" (click)="next()">suiv.</button>
-  <button (click)="showEdition=true" >Créer une réservation</button>
+  <button class="btn" (click)="prev()">prec.</button>
+  <button class="btn" (click)="next()">suiv.</button>
+  <button (click)="showEdition=true" class="btn" >Créer une réservation</button>
 </div>
 <div class="filterResource">
   <app-dropdown [options]="rawResources" (selectionChange)="filterSelection($event)"></app-dropdown>
@@ -9,7 +9,7 @@
 <div class="scheduler">
   <div class="header" [ngStyle]="getGridTemplateHeaderColumns()">
     <div class="resourceHeaderCell"></div>
-    <div class="dateHeaderCell" *ngFor="let date of displayedDates; let index = index" [ngStyle]="getDateHeaderStyle(index)">{{date | date:'dd'}}</div>
+    <div class="dateHeaderCell" *ngFor="let date of displayedDates; let index = index" [ngStyle]="getDateHeaderStyle(index)">{{date | date:'dd/MM'}}</div>
   </div>
   <div *ngFor="let resource of resources" class="gridRow" [ngStyle]="getGridRowStyles(resource)">
     <div class="resourceNameCell" [ngStyle]="getResourceNameCellStyles(resource)">{{resource.value}}</div>
