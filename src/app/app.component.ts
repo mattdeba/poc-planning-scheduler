@@ -22,7 +22,7 @@ export class AppComponent {
     {id: 4, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/01'), resource: 46, username: 'Dimitri'},
     {id: 5, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/05'), resource: 47, username: 'Guillaume'},
   ]
-  cellWidth = '5vw';
+  cellWidth = '6vw';
   cellHeight = '50px';
   selectedReservation: {startDate: Date, endDate: Date, resource: number, username: string} | null;
   modalPosition: { x: number, y: number };

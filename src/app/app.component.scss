@@ -41,15 +41,32 @@ $border-color: #D8D9DA;
 
 .resourceHeaderCell {
   grid-row: 1/2;
-  border: 1px solid $border-color;
+  border-right: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;;
+  background: #F3F4F5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.resourceHeaderCellContent {
+  background: transparent;
+  color: #606263;
 }
 
 .dateHeaderCell {
   grid-row: 1/2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   border-right: 1px solid $border-color;
   border-bottom: 1px solid $border-color;
-  border-top: 1px solid $border-color;
   background: #F3F4F5;
+}
+
+.dateHeaderCellContent {
+  text-align: center;
+  background: transparent;
   color: #606263;
 }
 
