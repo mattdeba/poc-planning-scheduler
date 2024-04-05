@@ -15,13 +15,13 @@ import {Component, Input, Output, EventEmitter, ElementRef, HostListener} from '
   styles: [`
     .dropbtn, .resetbtn {
       cursor: pointer;
-      width: 100px;
+      width: 200px;
       height: 50px;
     }
 
     .dropdown-content {
       position: absolute;
-      width: 100px;
+      width: 200px;
       max-height: 100px;
       z-index: 1;
     }
