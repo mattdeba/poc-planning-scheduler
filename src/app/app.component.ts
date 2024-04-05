@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'bryntumScheduler';
-  rawResources = [{id: 42, value: 'Tracteur 42'}, {id: 43, value: 'Tracteur 43'}, {id: 45, value: 'Tracteur 45'}, {id: 46, value: 'Tracteur 46'}, {id: 47, value: 'Tracteur 47'}];
+  rawResources = [{id: 39, value: 'Tracteur JD'}, {id: 40, value: 'Tracteur New Holland'}, {id: 41, value: 'Tracteur Case IH'}, {id: 42, value: 'Benne Jeantil'}, {id: 43, value: 'Tonne à lisier'}];
   resources = this.rawResources;
   displayedDates = [new Date('2024/04/01'), new Date('2024/04/02'), new Date('2024/04/03'), new Date('2024/04/04'),
     new Date('2024/04/05'), new Date('2024/04/06'), new Date('2024/04/07'),
@@ -16,11 +16,11 @@ export class AppComponent {
     new Date('2024/04/14'), new Date('2024/04/15')
   ]
   reservations = [
-    {id: 1, startDate: new Date('2024/03/31'), endDate: new Date('2024/04/16'), resource: 42, username: 'Christine'},
-    {id: 2, startDate: new Date('2024/04/02'), endDate: new Date('2024/04/03'), resource: 42, username: 'Matthieu'},
-    {id: 3, startDate: new Date('2024/04/04'), endDate: new Date('2024/04/05'), resource: 42, username: 'Paul'},
-    {id: 4, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/01'), resource: 42, username: 'Clémence'},
-    {id: 5, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/05'), resource: 42, username: 'Michel'},
+    {id: 1, startDate: new Date('2024/03/31'), endDate: new Date('2024/04/16'), resource: 39, username: 'Matthieu'},
+    {id: 2, startDate: new Date('2024/04/02'), endDate: new Date('2024/04/03'), resource: 40, username: 'Estelle'},
+    {id: 3, startDate: new Date('2024/04/04'), endDate: new Date('2024/04/05'), resource: 41, username: 'Céline'},
+    {id: 4, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/01'), resource: 42, username: 'Guillaume'},
+    {id: 5, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/05'), resource: 43, username: 'Attmane'},
   ]
   cellWidth = '6vw';
   cellHeight = '50px';
