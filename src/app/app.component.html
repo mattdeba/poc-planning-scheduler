@@ -9,7 +9,7 @@
 <div class="scheduler">
   <div class="header" [ngStyle]="getGridTemplateHeaderColumns()">
     <div class="resourceHeaderCell">
-      <div class="resourceHeaderCellContent">MATERIEL</div>
+      <div class="resourceHeaderCellContent">MATÉRIEL</div>
     </div>
     <div class="dateHeaderCell" *ngFor="let date of displayedDates; let index = index" [ngStyle]="getDateHeaderStyle(index)">
       <div class="dateHeaderCellContent">{{date | date:'dd/MM'}}</div>
