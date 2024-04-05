@@ -12,8 +12,6 @@ export class AppComponent {
   displayedDates = [new Date('2024/04/01'), new Date('2024/04/02'), new Date('2024/04/03'), new Date('2024/04/04'),
     new Date('2024/04/05'), new Date('2024/04/06'), new Date('2024/04/07'),
     new Date('2024/04/08'), new Date('2024/04/09'), new Date('2024/04/10'),
-    new Date('2024/04/11'), new Date('2024/04/12'), new Date('2024/04/13'),
-    new Date('2024/04/14'), new Date('2024/04/15')
   ]
   reservations = [
     {id: 1, startDate: new Date('2024/03/31'), endDate: new Date('2024/04/16'), resource: 39, username: 'Matthieu'},
@@ -22,9 +20,9 @@ export class AppComponent {
     {id: 4, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/01'), resource: 42, username: 'Guillaume'},
     {id: 5, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/05'), resource: 43, username: 'Attmane'},
   ]
-  cellWidth = '6vw';
+  cellWidth = '8vw';
   cellHeight = '50px';
-  selectedReservation: {startDate: Date, endDate: Date, resource: number, username: string} | null;
+  selectedReservation: {startDate: Date, endDate: Date, resource: { id: number, value: string }, username: string} | null;
   modalPosition: { x: number, y: number };
   enableScroll = true;
   showEdition = false;
@@ -237,7 +235,10 @@ export class AppComponent {
   }
 
   showModal(reservation: {startDate: Date, endDate: Date, resource: number, username: string}, event: MouseEvent): void {
-    this.selectedReservation = reservation;
+    const resource = this.resources.find(r => r.id === reservation.resource);
+    if (resource) {
+      this.selectedReservation = {...reservation, resource };
+    }
     this.modalPosition = { x: event.clientX, y: event.clientY };
     this.enableScroll = false;
   }

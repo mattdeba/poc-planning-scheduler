@@ -6,7 +6,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
     <div class="modal-overlay" *ngIf="reservation" (click)="preventClose($event)">
       <div class="modal" [ngStyle]="{'top.px': position.y, 'left.px': position.x}">
         <h2>Details réservation</h2>
-        <p>Matériel: {{reservation.resource}}</p>
+        <p>Matériel: {{reservation.resource.value}}</p>
         <p>Utilisateur: {{reservation.username}}</p>
         <p>Date début: {{reservation.startDate | date:'dd/MM/yyyy'}}</p>
         <p>Date début: {{reservation.endDate | date:'dd/MM/yyyy'}}</p>
@@ -15,7 +15,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
     </div>
     <div class="modal" *ngIf="reservation" [ngStyle]="{'top.px': position.y, 'left.px': position.x}">
       <h2>Details réservation</h2>
-      <p>Matériel: {{reservation.resource}}</p>
+      <p>Matériel: {{reservation.resource.value}}</p>
       <p>Utilisateur: {{reservation.username}}</p>
       <p>Date début: {{reservation.startDate | date:'dd/MM/yyyy'}}</p>
       <p>Date fin: {{reservation.endDate | date:'dd/MM/yyyy'}}</p>
@@ -44,7 +44,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   `]
 })
 export class ReservationDetailComponent {
-  @Input() reservation: {startDate: Date, endDate: Date, resource: number, username: string} | null;
+  @Input() reservation: {startDate: Date, endDate: Date, resource: { id: number, value: string }, username: string} | null;
   @Output() close = new EventEmitter<void>();
   @Input() position: { x: number, y: number };
 
