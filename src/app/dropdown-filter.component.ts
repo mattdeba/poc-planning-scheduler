@@ -34,7 +34,7 @@ import {Component, Input, Output, EventEmitter, ElementRef, HostListener} from '
     }
 
     .dropdown-content .selected {
-      background-color: #686c72;
+      background-color: #9d9898;
     }
   `]
 })

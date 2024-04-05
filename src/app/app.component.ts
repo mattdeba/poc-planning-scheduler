@@ -18,9 +18,6 @@ export class AppComponent {
   reservations = [
     {id: 1, startDate: new Date('2024/04/01'), endDate: new Date('2024/04/02'), resource: 42, username: 'Matthieu'},
     {id: 2, startDate: new Date('2024/04/02'), endDate: new Date('2024/04/03'), resource: 43, username: 'Estelle'},
-    {id: 3, startDate: new Date('2024/04/04'), endDate: new Date('2024/04/05'), resource: 45, username: 'Céline'},
-    {id: 4, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/01'), resource: 46, username: 'Dimitri'},
-    {id: 5, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/05'), resource: 47, username: 'Guillaume'},
   ]
   cellWidth = '6vw';
   cellHeight = '50px';
@@ -69,6 +66,7 @@ export class AppComponent {
     return {
       'grid-template-columns': `${this.cellWidth} ` + Array(this.displayedDates.length).fill(`${this.cellWidth}`).join(' '),
       'grid-template-rows': Array(reservations.length).fill(`${this.cellHeight}`).join(' '),
+      'min-height': `${this.cellHeight}`
     };
   }
 
