@@ -16,8 +16,11 @@ export class AppComponent {
     new Date('2024/04/14'), new Date('2024/04/15')
   ]
   reservations = [
-    {id: 1, startDate: new Date('2024/04/01'), endDate: new Date('2024/04/02'), resource: 42, username: 'Matthieu'},
-    {id: 2, startDate: new Date('2024/04/02'), endDate: new Date('2024/04/03'), resource: 43, username: 'Estelle'},
+    {id: 1, startDate: new Date('2024/03/31'), endDate: new Date('2024/04/16'), resource: 42, username: 'Christine'},
+    {id: 2, startDate: new Date('2024/04/02'), endDate: new Date('2024/04/03'), resource: 42, username: 'Matthieu'},
+    {id: 3, startDate: new Date('2024/04/04'), endDate: new Date('2024/04/05'), resource: 42, username: 'Paul'},
+    {id: 4, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/01'), resource: 42, username: 'Clémence'},
+    {id: 5, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/05'), resource: 42, username: 'Michel'},
   ]
   cellWidth = '6vw';
   cellHeight = '50px';
@@ -25,6 +28,7 @@ export class AppComponent {
   modalPosition: { x: number, y: number };
   enableScroll = true;
   showEdition = false;
+  offset = 1;//nombre de colonnes pour les ressources.
 
 
   next(): void {
@@ -63,9 +67,10 @@ export class AppComponent {
 
   getGridRowStyles(resource: any) {
     const reservations = this.getReservationsByResource(resource.id);
+    const maxNbReservations = this.getMaxResaPerDay(reservations, this.displayedDates);
     return {
       'grid-template-columns': `${this.cellWidth} ` + Array(this.displayedDates.length).fill(`${this.cellWidth}`).join(' '),
-      'grid-template-rows': Array(reservations.length).fill(`${this.cellHeight}`).join(' '),
+      'grid-template-rows': Array(maxNbReservations).fill(`${this.cellHeight}`).join(' '),
       'min-height': `${this.cellHeight}`
     };
   }
@@ -114,22 +119,79 @@ export class AppComponent {
     });
   }
 
-  getReservationCoordinates(reservation: any, resourceId: number) {
+  getMaxResaPerDay(resas: any[], dates: any[]) {
+    let maxResaPerDay = 0;
+    dates.forEach(date => {
+      const reservationsOnDate = resas.filter(resa => resa.startDate <= date && resa.endDate >= date);
+      maxResaPerDay = Math.max(maxResaPerDay, reservationsOnDate.length);
+    })
+    return maxResaPerDay;
+  }
+
+  getReservationIndices(resa: any, dates: any[]) {
+    const timeDates = dates.map(d => d.toLocaleDateString());
+    let startIndex = null;
+    let endIndex = null;
+    for (let i = 0; i < dates.length; i++) {
+      if (timeDates[i] === resa.startDate.toLocaleDateString()) {
+        startIndex = i;
+      }
+      if (timeDates[i] === resa.endDate.toLocaleDateString()) {
+        endIndex = i;
+      }
+    }
+    if (startIndex !== null && endIndex !== null) {
+      return {startIndex, endIndex};
+    } else if (startIndex !== null && endIndex === null) {
+      return { startIndex, endIndex: timeDates.length - 1 }
+    } else if (startIndex === null && endIndex !== null) {
+      return {startIndex: 0, endIndex}
+    } else if (startIndex === null && endIndex === null) {
+      //ATTENTION dans la comparaison des dates avec le UTC et la date locale.
+      if (resa.startDate < this.displayedDates[0] && resa.endDate > this.displayedDates[this.displayedDates.length - 1]) {
+        return {startIndex: 0, endIndex: timeDates.length - 1}
+      }
+    }
+    return {startIndex: null, endIndex: null};
+  }
+
+  getReservationsByResourceWithCoordinates(resourceId: number): any[] {
     const reservations = this.getReservationsByResource(resourceId);
-    const reservationIndex = reservations.findIndex((r: any) => r.id === reservation.id) + 1;
-    const reservationStyle = this.getGridColumn(reservation);
-    console.log(reservation, resourceId);
-    if (!reservationStyle) {
-      return null
+    const nbLines = this.getMaxResaPerDay(reservations, this.displayedDates);
+    const spaces = Array.from({length: nbLines}, () => Array(this.displayedDates.length).fill(true));
+    reservations.forEach(resa => {
+      const { startIndex, endIndex } = this.getReservationIndices(resa, this.displayedDates);
+      if (startIndex!=null && endIndex!=null) {
+        for (let i = 0; i < nbLines; i++) {
+          if (spaces[i].slice(startIndex, endIndex + 1).every(space => space === true)) {
+            spaces[i].fill(false, startIndex, endIndex + 1);
+            resa.startColIndex = startIndex;
+            resa.endColIndex = endIndex;
+            resa.rowIndex = i;
+            break;
+          }
+        }
+      } else {
+        resa.startColIndex = null;
+        resa.endColIndex = null;
+        resa.rowIndex = null;
+      }
+    });
+    return reservations;
+  }
+
+  getReservationCoordinates(reservation: any) {
+    if (reservation.startColIndex!=null && reservation.endColIndex!=null && reservation.rowIndex!=null) {
+      return {
+        'grid-column': `${this.offset + reservation.startColIndex + 1}/${this.offset + reservation.endColIndex + 2}`,
+        'grid-row': `${reservation.rowIndex + 1}/${reservation.rowIndex + 2}`
+      }
     }
-    return {
-      'grid-row': `${reservationIndex}/${reservationIndex + 1}`,
-      'grid-column': reservationStyle.gridSpan
-    }
+    return null;
   }
 
   getReservationContentBorders(reservation: any, resourceId: number) {
-    const reservationStyle = this.getGridColumn(reservation);
+    const reservationStyle = this.getGridBorders(reservation);
     if (!reservationStyle) {
       return null
     }
@@ -141,13 +203,12 @@ export class AppComponent {
     }
   }
 
-  getGridColumn(reservation: any): any {
+  getGridBorders(reservation: any): any {
     const dates = this.displayedDates.map(d => d.toLocaleDateString());
     let startIndex: number | null = null;
     let endIndex: number | null = null;
     let roundedLeft = false;
     let roundedRight = false;
-    let gridSpan: string | null = null;
     for (let i = 0; i < dates.length; i++) {
       if (dates[i] === reservation.startDate.toLocaleDateString()) {
         startIndex = i;
@@ -157,26 +218,22 @@ export class AppComponent {
       }
     }
     if (startIndex !== null && endIndex !== null) {
-      gridSpan = `${startIndex + 2}/${endIndex + 3}`;
       roundedLeft = true;
       roundedRight = true;
     } else if (startIndex !== null && endIndex === null) {
-      gridSpan = `${startIndex + 2}/${dates.length + 2}`;
       roundedLeft = true;
     } else if (startIndex === null && endIndex !== null) {
-      gridSpan = `2/${endIndex + 3}`;
       roundedRight = true;
     } else if (startIndex === null && endIndex === null) {
       const firstDisplayedDate = this.displayedDates[0];
       const lastDisplayedDate = this.displayedDates[this.displayedDates.length - 1];
 
       if (reservation.startDate < firstDisplayedDate && reservation.endDate > lastDisplayedDate) {
-        gridSpan = `2/${dates.length + 2}`;
         roundedLeft = false;
         roundedRight = false;
       }
     }
-    return gridSpan ? {gridSpan, roundedLeft, roundedRight} : null;
+    return {roundedLeft, roundedRight};
   }
 
   showModal(reservation: {startDate: Date, endDate: Date, resource: number, username: string}, event: MouseEvent): void {

@@ -1,4 +1,4 @@
-const r1 = {sD: new Date('2024/04/01'), eD: new Date('2024/04/02')};
+const r1 = {sD: new Date('2024/03/31'), eD: new Date('2024/04/10')};
 const r2 = {sD: new Date('2024/04/02'), eD: new Date('2024/04/03')};
 const r3 = {sD: new Date('2024/04/03'), eD: new Date('2024/04/04')};
 const r4 = {sD: new Date('2024/03/27'), eD: new Date('2024/03/28')}
@@ -43,25 +43,37 @@ function getReservationIndices(resa, dates) {
   return {startIndex: null, endIndex: null};
 }
 
-function getReservationCoordinates(resas, dates) {
+function getReservationCoordinates(resas, dates, offset = 1) {
   const nbLines = getMaxResaPerDay(resas, dates);
   const spaces = Array.from({length: nbLines}, () => Array(dates.length).fill(true));
   resas.forEach(resa => {
     const { startIndex, endIndex } = getReservationIndices(resa, dates);
-    console.log(spaces);
     if (startIndex!=null && endIndex!=null) {
       for (let i = 0; i < nbLines; i++) {
         if (spaces[i].slice(startIndex, endIndex + 1).every(space => space === true)) {
           spaces[i].fill(false, startIndex, endIndex + 1);
-          console.log(`Reservation from ${resa.sD} to ${resa.eD} can be placed at row ${i}, columns ${startIndex} to ${endIndex}`);
+          resa.gridColSpan = `${offset + startIndex + 1}/${offset + endIndex + 2}`
+          resa.gridRowSpan = `${i + 1}/${i + 2}`
           break;
         }
       }
     } else {
-      console.log(`Reservation can't be placed`);
+      resa.gridRowSpan = null;
+      resa.gridColSpan = null;
     }
   });
+  return resas;
 }
 
-//getReservationCoordinates(resas, dates);
-getReservationCoordinates(resas, dates);
+// console.log(getReservationCoordinates(resas, dates));
+//
+// const r1Date = r1.sD;
+// const date = new Date('2024/06/12')
+// console.log(date.getDay());
+// console.log(date.getDate());
+// console.log(date.getMonth());
+// console.log(date.getFullYear());
+// console.log(date.getTime());
+// console.log(date.toISOString());
+
+console.log(getReservationIndices(r1, dates))
