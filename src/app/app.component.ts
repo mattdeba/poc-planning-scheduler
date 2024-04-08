@@ -29,6 +29,7 @@ export class AppComponent {
   showEdition = false;
   showDetail = false;
   offset = 1;//nombre de colonnes pour les ressources.
+  colors = ['#C8AA82', '#B8CAEA', '#CDF8CE', '#C6E1C1', '#EBEFB3', '#CCD6D5', '#CCD6D5'];
 
 
   next(): void {
@@ -192,7 +193,8 @@ export class AppComponent {
       'border-top-left-radius': reservationStyle.roundedLeft ? '10px' : '0',
       'border-bottom-left-radius': reservationStyle.roundedLeft ? '10px' : '0',
       'border-top-right-radius': reservationStyle.roundedRight ? '10px' : '0',
-      'border-bottom-right-radius': reservationStyle.roundedRight ? '10px' : '0'
+      'border-bottom-right-radius': reservationStyle.roundedRight ? '10px' : '0',
+      'background-color': this.colors[reservation.id % 5]
     }
   }
 
