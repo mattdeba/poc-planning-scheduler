@@ -40,16 +40,18 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
       background: rgba(0,0,0,0);
     }
     .modal {
+      padding: 20px;
+      font-size: 1.2em;
+      z-index: 1001;
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      width: 30%;
+      height: 80%;
       background: white;
-      padding: 20px;
-      border: 2px solid #333;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      font-size: 1.2em;
-      z-index: 1001;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      overflow: auto;
     }
   `]
 })
