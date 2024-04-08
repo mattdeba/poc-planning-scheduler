@@ -4,22 +4,14 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   selector: 'app-reservation-detail',
   template: `
     <div class="modal-overlay" *ngIf="reservation" (click)="preventClose($event)">
-      <div class="modal" [ngStyle]="{'top.px': position.y, 'left.px': position.x}">
-        <h2>Details réservation</h2>
-        <p>Matériel: {{reservation.resource.value}}</p>
-        <p>Utilisateur: {{reservation.username}}</p>
-        <p>Date début: {{reservation.startDate | date:'dd/MM/yyyy'}}</p>
-        <p>Date début: {{reservation.endDate | date:'dd/MM/yyyy'}}</p>
-        <button (click)="closeModal()">Ok</button>
-      </div>
-    </div>
-    <div class="modal" *ngIf="reservation" [ngStyle]="{'top.px': position.y, 'left.px': position.x}">
-      <h2>Details réservation</h2>
-      <p>Matériel: {{reservation.resource.value}}</p>
-      <p>Utilisateur: {{reservation.username}}</p>
-      <p>Date début: {{reservation.startDate | date:'dd/MM/yyyy'}}</p>
-      <p>Date fin: {{reservation.endDate | date:'dd/MM/yyyy'}}</p>
-      <button (click)="closeModal()">Ok</button>
+        <div class="modal" *ngIf="reservation" [ngStyle]="{'top.px': position.y, 'left.px': position.x}">
+            <p><strong>{{reservation.resource.value}}</strong> pour <strong>{{reservation.username}}</strong></p>
+            <p>du <strong>{{reservation.startDate | date:'dd/MM/yyyy'}}</strong> au <strong>{{reservation.endDate | date:'dd/MM/yyyy'}}</strong></p>
+            <div class="validation-buttons">
+                <button class="button" (click)="closeModal()">Ok</button>
+                <button class="button">Modifier</button>    
+            </div>
+        </div>
     </div>
   `,
   styles: [`
@@ -38,8 +30,32 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
       position: fixed;
       background: white;
       padding: 20px;
-      border: 1px solid black;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       z-index: 1001;
+    }
+    
+    p {
+      font-size: 1.5em;
+    }
+
+    .validation-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+      margin-top: 15px;
+    }
+
+    .button {
+      border: 1px solid #D8D9DA;
+      padding: 10px 20px;
+      transition: background-color 0.2s ease;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    .button:hover {
+      background-color: #D8D9DA;
+      color: white;
     }
   `]
 })

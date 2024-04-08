@@ -62,7 +62,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
       left: 50%;
       transform: translate(-50%, -50%);
       width: 30%;
-      height: 80%;
+      height: 55%;
       background: white;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       overflow: auto;
@@ -151,11 +151,17 @@ export class ReservationEditComponent {
   @Output() closeModal = new EventEmitter<void>();
   @Output() submitReservation = new EventEmitter<{startDate: Date, endDate: Date, resource: number, username: string}>();
   @Input() resources: {id: number, value: string}[] = []
+  @Input() reservationToEdit: {startDate: Date, endDate: Date, resource: { id: number, value: string }, username: string} | null;
 
   username = '';
   resource: number | null = null;
   startDate: string | null = new Date().toISOString().split('T')[0];
   endDate: string | null = new Date().toISOString().split('T')[0];
+
+  ngOnInit() {
+    this.startDate = this.reservationToEdit?.startDate?.toISOString().split('T')[0] || new Date().toISOString().split('T')[0];
+    this.endDate = this.reservationToEdit?.endDate?.toISOString().split('T')[0] || new Date().toISOString().split('T')[0];
+  }
 
   submitForm(event: Event): void {
     if (this.startDate && this.resource && this.username && this.endDate) {
