@@ -23,7 +23,7 @@ export class AppComponent {
   ]
   cellWidth = '8vw';
   cellHeight = '50px';
-  selectedReservation: {startDate: Date, endDate: Date, resource: { id: number, value: string }, username: string} | null;
+  selectedReservation: {id: number | undefined, startDate: Date, endDate: Date, resource: { id: number, value: string }, username: string} | null;
   modalPosition: { x: number, y: number };
   enableScroll = true;
   showEdition = false;
@@ -229,7 +229,7 @@ export class AppComponent {
     return {roundedLeft, roundedRight};
   }
 
-  showModal(reservation: {startDate: Date, endDate: Date, resource: number, username: string}, event: MouseEvent): void {
+  showModal(reservation: {id: number | undefined, startDate: Date, endDate: Date, resource: number, username: string}, event: MouseEvent): void {
     this.showDetail = true;
     const resource = this.resources.find(r => r.id === reservation.resource);
     if (resource) {
@@ -250,7 +250,15 @@ export class AppComponent {
     this.showEdition = true;
   }
 
-  addReservation(reservation: {startDate: Date, endDate: Date,  resource: number, username: string}): void {
-    this.reservations.push({id: this.reservations.length + 1, ...reservation});
+  addReservation(reservation: {id: number | undefined, startDate: Date, endDate: Date,  resource: number, username: string}): void {
+    if (reservation?.id !== undefined) {
+      const index = this.reservations.findIndex((r) => r.id === reservation.id);
+      if (index !== -1) {
+        this.reservations.splice(index, 1, reservation as {id: number, startDate: Date, endDate: Date,  resource: number, username: string});
+      }
+    }
+    else {
+      this.reservations.push({...reservation, id: this.reservations.length + 1});
+    }
   }
 }

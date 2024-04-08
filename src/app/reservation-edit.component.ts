@@ -38,7 +38,7 @@ import { formatDate } from './utils';
           <input class="user-choice" [(ngModel)]="username" name="username" required>
         </div>
         <div class="validation-buttons">
-            <button class="btn-validate" type="submit">Réserver</button>
+            <button class="btn-validate" type="submit">Sauvegarder</button>
             <button class="btn-close" type="button" (click)="closeModal.emit()">Annuler</button>      
         </div>
       </form>
@@ -150,9 +150,9 @@ import { formatDate } from './utils';
 })
 export class ReservationEditComponent {
   @Output() closeModal = new EventEmitter<void>();
-  @Output() submitReservation = new EventEmitter<{startDate: Date, endDate: Date, resource: number, username: string}>();
+  @Output() submitReservation = new EventEmitter<{id: number | undefined, startDate: Date, endDate: Date, resource: number, username: string}>();
   @Input() resources: {id: number, value: string}[] = []
-  @Input() reservationToEdit: {startDate: Date, endDate: Date, resource: { id: number, value: string }, username: string} | null;
+  @Input() reservationToEdit: {id: number | undefined, startDate: Date, endDate: Date, resource: { id: number, value: string }, username: string} | null;
 
   username = '';
   resource: number | null = null;
@@ -173,7 +173,7 @@ export class ReservationEditComponent {
       let end = new Date(this.endDate);
       start.setHours(0, 0, 0, 0);
       end.setHours(0, 0, 0, 0);
-      this.submitReservation.emit({startDate: start, endDate: end, resource: +this.resource, username: this.username});
+      this.submitReservation.emit({id: this.reservationToEdit?.id, startDate: start, endDate: end, resource: +this.resource, username: this.username});
       this.closeModal.emit();
     }
   }
