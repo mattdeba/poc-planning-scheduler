@@ -37,8 +37,8 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
           <input class="user-choice" [(ngModel)]="username" name="username" required>
         </div>
         <div class="validation-buttons">
-            <button class="button" type="submit">Réserver</button>
-            <button class="button" type="button" (click)="closeModal.emit()">Fermer</button>      
+            <button class="btn-validate" type="submit">Réserver</button>
+            <button class="btn-close" type="button" (click)="closeModal.emit()">Annuler</button>      
         </div>
       </form>
     </div>
@@ -111,6 +111,40 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
       margin-top: 15px;
       margin-bottom: 15px;
     }
+    
+    .btn-validate {
+      border: 1px solid #D8D9DA;
+      padding: 10px 20px;
+      transition: background-color 0.2s ease;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    .btn-validate:hover {
+      background-color: #D8D9DA;
+      color: white;
+    }
+    .btn-close {
+      border: 1px solid #D8D9DA;
+      padding: 10px 20px;
+      transition: background-color 0.2s ease;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    .btn-close:hover {
+      background-color: #D8D9DA;
+      color: white;
+    }
+    
+    .label {
+      margin-top: 20px;
+    }
+    .validation-buttons {
+      margin-top: 30px;
+    }
+
+    .edit-title {
+      padding: 20px;
+    }
   `]
 })
 export class ReservationEditComponent {
@@ -120,8 +154,8 @@ export class ReservationEditComponent {
 
   username = '';
   resource: number | null = null;
-  startDate: string | null = null;
-  endDate: string | null;
+  startDate: string | null = new Date().toISOString().split('T')[0];
+  endDate: string | null = new Date().toISOString().split('T')[0];
 
   submitForm(event: Event): void {
     if (this.startDate && this.resource && this.username && this.endDate) {
