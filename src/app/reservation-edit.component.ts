@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import { formatDate } from './utils';
 
 @Component({
   selector: 'app-reservation-edit',
@@ -55,13 +56,13 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 
     .modal {
       padding: 20px;
-      font-size: 1.2em;
+      font-size: 1.1em;
       z-index: 1001;
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 30%;
+      width: 20%;
       height: 55%;
       background: white;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -89,7 +90,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5em
+      font-size: 1.3em
     }
     
     .date-container, .materiel-container, .user-container {
@@ -159,8 +160,10 @@ export class ReservationEditComponent {
   endDate: string | null = new Date().toISOString().split('T')[0];
 
   ngOnInit() {
-    this.startDate = this.reservationToEdit?.startDate?.toISOString().split('T')[0] || new Date().toISOString().split('T')[0];
-    this.endDate = this.reservationToEdit?.endDate?.toISOString().split('T')[0] || new Date().toISOString().split('T')[0];
+    this.startDate = formatDate(this.reservationToEdit?.startDate) || new Date().toISOString().split('T')[0];
+    this.endDate = formatDate(this.reservationToEdit?.endDate) || new Date().toISOString().split('T')[0];
+    this.resource = this.reservationToEdit?.resource.id || null;
+    this.username = this.reservationToEdit?.username || '';
   }
 
   submitForm(event: Event): void {

@@ -9,7 +9,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
             <p>du <strong>{{reservation.startDate | date:'dd/MM/yyyy'}}</strong> au <strong>{{reservation.endDate | date:'dd/MM/yyyy'}}</strong></p>
             <div class="validation-buttons">
                 <button class="button" (click)="closeModal()">Ok</button>
-                <button class="button">Modifier</button>    
+                <button class="button" (click)="editReservation()">Modifier</button>    
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
     }
     
     p {
-      font-size: 1.5em;
+      font-size: 1.1em;
     }
 
     .validation-buttons {
@@ -63,9 +63,14 @@ export class ReservationDetailComponent {
   @Input() reservation: {startDate: Date, endDate: Date, resource: { id: number, value: string }, username: string} | null;
   @Output() close = new EventEmitter<void>();
   @Input() position: { x: number, y: number };
+  @Output() edit = new EventEmitter<{startDate: Date, endDate: Date, resource: { id: number, value: string }, username: string} | null>();
 
   closeModal(): void {
     this.close.emit();
+  }
+
+  editReservation(): void {
+    this.edit.emit(this.reservation);
   }
 
   preventClose(event: MouseEvent): void {

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { formatDate } from './utils';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,7 @@ export class AppComponent {
   modalPosition: { x: number, y: number };
   enableScroll = true;
   showEdition = false;
+  showDetail = false;
   offset = 1;//nombre de colonnes pour les ressources.
 
 
@@ -95,21 +97,14 @@ export class AppComponent {
     };
   }
 
-  formatDate(date: Date): string {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  }
-
   getReservationsByResource(resourceId: number): any[] {
-    const displayedDatesSet = new Set(this.displayedDates.map(date => this.formatDate(date)));
+    const displayedDatesSet = new Set(this.displayedDates.map(date => formatDate(date)));
     return this.reservations.filter(reservation => {
       if (reservation.resource !== resourceId) {
         return false;
       }
       for (let date = new Date(reservation.startDate); date <= reservation.endDate; date.setDate(date.getDate() + 1)) {
-        if (displayedDatesSet.has(this.formatDate(date))) {
+        if (displayedDatesSet.has(formatDate(date))) {
           return true;
         }
       }
@@ -235,6 +230,7 @@ export class AppComponent {
   }
 
   showModal(reservation: {startDate: Date, endDate: Date, resource: number, username: string}, event: MouseEvent): void {
+    this.showDetail = true;
     const resource = this.resources.find(r => r.id === reservation.resource);
     if (resource) {
       this.selectedReservation = {...reservation, resource };
@@ -242,9 +238,16 @@ export class AppComponent {
     this.modalPosition = { x: event.clientX, y: event.clientY };
     this.enableScroll = false;
   }
+
   closeModal(): void {
     this.selectedReservation = null;
+    this.showDetail = false;
     this.enableScroll = true;
+  }
+  switchToEditMode(reservation: any): void {
+    this.selectedReservation = reservation;
+    this.showDetail = false;
+    this.showEdition = true;
   }
 
   addReservation(reservation: {startDate: Date, endDate: Date,  resource: number, username: string}): void {
