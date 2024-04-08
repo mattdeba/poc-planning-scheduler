@@ -7,26 +7,39 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
     <div class="modal">
       <div class="edit-title">Editer la réservation</div>
       <form (submit)="submitForm($event)">
-        <div>
-            <label>Début:</label>
+        <div class="label">
+            <label for="startDate">Date de début:</label>
+        </div>
+        <div class="date-container">
             <input [(ngModel)]="startDate" name="startDate" type="date" required>
         </div>
-        <div>
-            <label>Fin:</label>
+        <div class="label">
+            <label for="endDate">Date de fin:</label>
+        </div>
+        <div class="date-container">
             <input [(ngModel)]="endDate" name="endDate" type="date" required>
         </div>
-        <div>
-          <label>Nom de la personne qui réserve:</label>
-          <input [(ngModel)]="username" name="username" required>
+
+        <div class="label">
+            <label for="resource">Matériel:</label>
         </div>
-        <div>
-          <label>Matériel:</label>
-          <select [(ngModel)]="resource" name="resource" required>
-            <option *ngFor="let res of resources" [value]="res.id">{{res.id}}</option>
-          </select>
+        <div class="materiel-container">
+            <div>
+                <select class="materiel-choice" [(ngModel)]="resource" name="resource" required>
+                    <option *ngFor="let res of resources" [value]="res.id">{{res.value}}</option>
+                </select>    
+            </div>
         </div>
-        <button type="submit">Réserver</button>
-        <button type="button" (click)="closeModal.emit()">Fermer</button>
+        <div class="label">
+            <label for="username">Adhérent:</label>
+        </div>
+        <div class="user-container">
+          <input class="user-choice" [(ngModel)]="username" name="username" required>
+        </div>
+        <div class="validation-buttons">
+            <button class="button" type="submit">Réserver</button>
+            <button class="button" type="button" (click)="closeModal.emit()">Fermer</button>      
+        </div>
       </form>
     </div>
   `,
@@ -55,9 +68,16 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
       overflow: auto;
     }
 
-    input[type="date"] {
-      border: 1px solid #ccc;
+    input{
+      border: 1px solid #F3F4F5;
       appearance: none;
+      position: relative;
+      background-size: 1.5em;
+      font-size: 1em;
+    }
+
+    select{
+      border: 1px solid #F3F4F5;
       position: relative;
       background-size: 1.5em;
       font-size: 1em;
@@ -71,12 +91,32 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
       justify-content: center;
       font-size: 1.5em
     }
+    
+    .date-container, .materiel-container, .user-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    
+    .user-choice {
+      background-color: white;
+    }
+
+    .validation-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
   `]
 })
 export class ReservationEditComponent {
   @Output() closeModal = new EventEmitter<void>();
   @Output() submitReservation = new EventEmitter<{startDate: Date, endDate: Date, resource: number, username: string}>();
-  @Input() resources: {id: number}[] = []
+  @Input() resources: {id: number, value: string}[] = []
 
   username = '';
   resource: number | null = null;
