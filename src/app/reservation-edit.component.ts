@@ -5,8 +5,16 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   template: `
     <div class="overlay"></div>
     <div class="modal">
-      <div>Nouvelle réservation</div>
+      <div class="edit-title">Editer la réservation</div>
       <form (submit)="submitForm($event)">
+        <div>
+            <label>Début:</label>
+            <input [(ngModel)]="startDate" name="startDate" type="date" required>
+        </div>
+        <div>
+            <label>Fin:</label>
+            <input [(ngModel)]="endDate" name="endDate" type="date" required>
+        </div>
         <div>
           <label>Nom de la personne qui réserve:</label>
           <input [(ngModel)]="username" name="username" required>
@@ -16,14 +24,6 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
           <select [(ngModel)]="resource" name="resource" required>
             <option *ngFor="let res of resources" [value]="res.id">{{res.id}}</option>
           </select>
-        </div>
-        <div>
-          <label>Date de début:</label>
-          <input [(ngModel)]="startDate" name="startDate" type="date" required>
-        </div>
-        <div>
-          <label>Date de fin:</label>
-          <input [(ngModel)]="endDate" name="endDate" type="date" required>
         </div>
         <button type="submit">Réserver</button>
         <button type="button" (click)="closeModal.emit()">Fermer</button>
@@ -37,8 +37,9 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0);
+      background: rgba(0, 0, 0, 0);
     }
+
     .modal {
       padding: 20px;
       font-size: 1.2em;
@@ -52,6 +53,23 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
       background: white;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       overflow: auto;
+    }
+
+    input[type="date"] {
+      border: 1px solid #ccc;
+      appearance: none;
+      position: relative;
+      background-size: 1.5em;
+      font-size: 1em;
+    }
+
+    .edit-title {
+      font-weight: bold;
+      color: #52c541;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em
     }
   `]
 })

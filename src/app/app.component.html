@@ -29,4 +29,4 @@
   </div>
 </div>
 <app-reservation-detail [reservation]="selectedReservation" [position]="modalPosition" (close)="closeModal()"></app-reservation-detail>
-<app-reservation-edit *ngIf="showEdition"  [resources]="resources" (closeModal)="showEdition=false" (submitReservation)="addReservation($event)"></app-reservation-edit>
+<app-reservation-edit [resources]="resources" (closeModal)="showEdition=false" (submitReservation)="addReservation($event)"></app-reservation-edit>
