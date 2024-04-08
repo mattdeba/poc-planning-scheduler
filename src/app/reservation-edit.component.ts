@@ -66,7 +66,11 @@ export class ReservationEditComponent {
   submitForm(event: Event): void {
     if (this.startDate && this.resource && this.username && this.endDate) {
       event.preventDefault();
-      this.submitReservation.emit({startDate: new Date(this.startDate), endDate: new Date(this.endDate), resource: +this.resource, username: this.username});
+      let start = new Date(this.startDate);
+      let end = new Date(this.endDate);
+      start.setHours(0, 0, 0, 0);
+      end.setHours(0, 0, 0, 0);
+      this.submitReservation.emit({startDate: start, endDate: end, resource: +this.resource, username: this.username});
       this.closeModal.emit();
     }
   }
