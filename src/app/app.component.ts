@@ -21,7 +21,7 @@ export class AppComponent {
     {id: 4, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/01'), resource: 42, username: 'Guillaume'},
     {id: 5, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/05'), resource: 43, username: 'Attmane'},
   ]
-  cellWidth = '8vw';
+  cellWidth = '9vw';
   cellHeight = '50px';
   selectedReservation: {id: number | undefined, startDate: Date, endDate: Date, resource: { id: number, value: string }, username: string} | null;
   modalPosition: { x: number, y: number };
@@ -229,13 +229,32 @@ export class AppComponent {
     return {roundedLeft, roundedRight};
   }
 
+  calculateModalPosition(event: MouseEvent): { x: number, y: number } {
+    const buffer = 90;
+    const modalWidth = 200;
+    const modalHeight = 200;
+
+    let x = event.clientX;
+    let y = event.clientY;
+
+    if (window.innerWidth - event.clientX < modalWidth + buffer) {
+      x = window.innerWidth - modalWidth - buffer;
+    }
+
+    if (window.innerHeight - event.clientY < modalHeight + buffer) {
+      y = window.innerHeight - modalHeight - buffer;
+    }
+
+    return { x, y };
+  }
+
   showModal(reservation: {id: number | undefined, startDate: Date, endDate: Date, resource: number, username: string}, event: MouseEvent): void {
     this.showDetail = true;
     const resource = this.resources.find(r => r.id === reservation.resource);
     if (resource) {
       this.selectedReservation = {...reservation, resource };
     }
-    this.modalPosition = { x: event.clientX, y: event.clientY };
+    this.modalPosition = this.calculateModalPosition(event);
     this.enableScroll = false;
   }
 
