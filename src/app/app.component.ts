@@ -282,4 +282,15 @@ export class AppComponent {
       this.reservations.push({...reservation, id: this.reservations.length + 1});
     }
   }
+
+  deleteReservation() {
+    if (this.selectedReservation) {
+        const selectedReservationId = this.selectedReservation.id;
+        if (selectedReservationId) {
+            this.reservations = this.reservations.filter(r => r.id !== selectedReservationId);
+        }
+        this.selectedReservation = null;
+        this.closeModal();
+    }
+  }
 }

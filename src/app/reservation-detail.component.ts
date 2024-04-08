@@ -10,6 +10,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
             <div class="validation-buttons">
                 <button class="button" (click)="closeModal()">Ok</button>
                 <button class="button" (click)="editReservation()">Modifier</button>    
+                <button class="button" (click)="deleteReservation()">Supprimer</button>    
             </div>
         </div>
     </div>
@@ -62,6 +63,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class ReservationDetailComponent {
   @Input() reservation: {startDate: Date, endDate: Date, resource: { id: number, value: string }, username: string} | null;
   @Output() close = new EventEmitter<void>();
+  @Output() delete = new EventEmitter<void>();
   @Input() position: { x: number, y: number };
   @Output() edit = new EventEmitter<{startDate: Date, endDate: Date, resource: { id: number, value: string }, username: string} | null>();
 
@@ -71,6 +73,10 @@ export class ReservationDetailComponent {
 
   editReservation(): void {
     this.edit.emit(this.reservation);
+  }
+
+  deleteReservation(): void {
+    this.delete.emit();
   }
 
   preventClose(event: MouseEvent): void {
