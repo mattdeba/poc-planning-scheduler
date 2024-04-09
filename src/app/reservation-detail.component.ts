@@ -9,8 +9,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
             <p>du <strong>{{reservation.startDate | date:'dd/MM/yyyy'}}</strong> au <strong>{{reservation.endDate | date:'dd/MM/yyyy'}}</strong></p>
             <div class="validation-buttons">
                 <button class="button" (click)="closeModal()">Ok</button>
-                <button class="button" (click)="editReservation()">Modifier</button>    
-                <button class="button" (click)="deleteReservation()">Supprimer</button>    
+                <button class="button" (click)="editReservation()">Modifier</button>
+                <button class="button" (click)="deleteReservation()">Supprimer</button>
             </div>
         </div>
     </div>
@@ -34,7 +34,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       z-index: 1001;
     }
-    
+
     p {
       font-size: 1.1em;
     }
@@ -61,11 +61,11 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   `]
 })
 export class ReservationDetailComponent {
-  @Input() reservation: {startDate: Date, endDate: Date, resource: { id: number, value: string }, username: string} | null;
+  @Input() reservation: {startDate: string, endDate: string, resource: { id: number, value: string }, username: string} | null;
   @Output() close = new EventEmitter<void>();
   @Output() delete = new EventEmitter<void>();
   @Input() position: { x: number, y: number };
-  @Output() edit = new EventEmitter<{startDate: Date, endDate: Date, resource: { id: number, value: string }, username: string} | null>();
+  @Output() edit = new EventEmitter<{startDate: string, endDate: string, resource: { id: number, value: string }, username: string} | null>();
 
   closeModal(): void {
     this.close.emit();

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { formatDate } from './utils';
+import { dateToString } from './utils';
 
 @Component({
   selector: 'app-root',
@@ -10,20 +10,20 @@ export class AppComponent {
   title = 'bryntumScheduler';
   rawResources = [{id: 39, value: 'Tracteur JD'}, {id: 40, value: 'Tracteur New Holland'}, {id: 41, value: 'Tracteur Case IH'}, {id: 42, value: 'Benne Jeantil'}, {id: 43, value: 'Tonne à lisier'}];
   resources = this.rawResources;
-  displayedDates = [new Date('2024/04/01'), new Date('2024/04/02'), new Date('2024/04/03'), new Date('2024/04/04'),
-    new Date('2024/04/05'), new Date('2024/04/06'), new Date('2024/04/07'),
-    new Date('2024/04/08'), new Date('2024/04/09'), new Date('2024/04/10'),
+  displayedDates = ['2024-04-01', '2024-04-02','2024-04-03', '2024-04-04',
+    '2024-04-05', '2024-04-06', '2024-04-07',
+    '2024-04-08', '2024-04-09', '2024-04-10',
   ]
   reservations = [
-    {id: 1, startDate: new Date('2024/03/31'), endDate: new Date('2024/04/16'), resource: 39, username: 'Matthieu'},
-    {id: 2, startDate: new Date('2024/04/02'), endDate: new Date('2024/04/03'), resource: 40, username: 'Estelle'},
-    {id: 3, startDate: new Date('2024/04/04'), endDate: new Date('2024/04/05'), resource: 41, username: 'Céline'},
-    {id: 4, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/01'), resource: 42, username: 'Guillaume'},
-    {id: 5, startDate: new Date('2024/03/30'), endDate: new Date('2024/04/05'), resource: 43, username: 'Attmane'},
+    {id: 1, startDate: '2024-03-31', endDate: '2024-04-16', resource: 39, username: 'Matthieu'},
+    {id: 2, startDate: '2024-04-02', endDate: '2024-04-03', resource: 40, username: 'Estelle'},
+    {id: 3, startDate: '2024-04-04', endDate: '2024-04-05', resource: 41, username: 'Céline'},
+    {id: 4, startDate: '2024-03-30', endDate: '2024-04-01', resource: 42, username: 'Guillaume'},
+    {id: 5, startDate: '2024-03-30', endDate: '2024-04-05', resource: 43, username: 'Attmane'},
   ]
   cellWidth = '9vw';
   cellHeight = '50px';
-  selectedReservation: {id: number | undefined, startDate: Date, endDate: Date, resource: { id: number, value: string }, username: string} | null;
+  selectedReservation: {id: number | undefined, startDate: string, endDate: string, resource: { id: number, value: string }, username: string} | null;
   modalPosition: { x: number, y: number };
   enableScroll = true;
   showEdition = false;
@@ -35,17 +35,19 @@ export class AppComponent {
   next(): void {
     this.displayedDates = this.displayedDates.map(date => {
       const newDate = new Date(date);
+      newDate.setHours(newDate.getHours() + 12);
       newDate.setDate(newDate.getDate() + this.displayedDates.length);
-      return newDate;
-    });
+      return dateToString(newDate);
+    }) as string[];
   }
 
   prev(): void {
     this.displayedDates = this.displayedDates.map(date => {
       const newDate = new Date(date);
+      newDate.setHours(newDate.getHours() + 12);
       newDate.setDate(newDate.getDate() - this.displayedDates.length);
-      return newDate;
-    });
+      return dateToString(newDate);
+    }) as string[];
   }
 
   getGridTemplateHeaderColumns() {
@@ -99,13 +101,15 @@ export class AppComponent {
   }
 
   getReservationsByResource(resourceId: number): any[] {
-    const displayedDatesSet = new Set(this.displayedDates.map(date => formatDate(date)));
+    const displayedDatesSet = new Set(this.displayedDates);
     return this.reservations.filter(reservation => {
       if (reservation.resource !== resourceId) {
         return false;
       }
-      for (let date = new Date(reservation.startDate); date <= reservation.endDate; date.setDate(date.getDate() + 1)) {
-        if (displayedDatesSet.has(formatDate(date))) {
+      for (let i = 0; i < this.displayedDates.length; i++) {
+        const currentDate = new Date(this.displayedDates[i]);
+        currentDate.setHours(12);
+        if (displayedDatesSet.has(dateToString(currentDate))) {
           return true;
         }
       }
@@ -113,7 +117,7 @@ export class AppComponent {
     });
   }
 
-  getMaxResaPerDay(resas: any[], dates: any[]) {
+  getMaxResaPerDay(resas: any[], dates: string[]) {
     let maxResaPerDay = 0;
     dates.forEach(date => {
       const reservationsOnDate = resas.filter(resa => resa.startDate <= date && resa.endDate >= date);
@@ -122,28 +126,26 @@ export class AppComponent {
     return maxResaPerDay;
   }
 
-  getReservationIndices(resa: any, dates: any[]) {
-    const timeDates = dates.map(d => d.toLocaleDateString());
+  getReservationIndices(resa: any, dates: string[]) {
     let startIndex = null;
     let endIndex = null;
     for (let i = 0; i < dates.length; i++) {
-      if (timeDates[i] === resa.startDate.toLocaleDateString()) {
+      if (this.displayedDates[i] === resa.startDate) {
         startIndex = i;
       }
-      if (timeDates[i] === resa.endDate.toLocaleDateString()) {
+      if (this.displayedDates[i] === resa.endDate) {
         endIndex = i;
       }
     }
     if (startIndex !== null && endIndex !== null) {
       return {startIndex, endIndex};
     } else if (startIndex !== null && endIndex === null) {
-      return { startIndex, endIndex: timeDates.length - 1 }
+      return { startIndex, endIndex: this.displayedDates.length - 1 }
     } else if (startIndex === null && endIndex !== null) {
       return {startIndex: 0, endIndex}
     } else if (startIndex === null && endIndex === null) {
-      //ATTENTION dans la comparaison des dates avec le UTC et la date locale.
       if (resa.startDate < this.displayedDates[0] && resa.endDate > this.displayedDates[this.displayedDates.length - 1]) {
-        return {startIndex: 0, endIndex: timeDates.length - 1}
+        return {startIndex: 0, endIndex: this.displayedDates.length - 1}
       }
     }
     return {startIndex: null, endIndex: null};
@@ -181,7 +183,9 @@ export class AppComponent {
         'grid-row': `${reservation.rowIndex + 1}/${reservation.rowIndex + 2}`
       }
     }
-    return null;
+    return {
+      'display': 'none'
+    };
   }
 
   getReservationContentBorders(reservation: any, resourceId: number) {
@@ -199,16 +203,15 @@ export class AppComponent {
   }
 
   getGridBorders(reservation: any): any {
-    const dates = this.displayedDates.map(d => d.toLocaleDateString());
     let startIndex: number | null = null;
     let endIndex: number | null = null;
     let roundedLeft = false;
     let roundedRight = false;
-    for (let i = 0; i < dates.length; i++) {
-      if (dates[i] === reservation.startDate.toLocaleDateString()) {
+    for (let i = 0; i < this.displayedDates.length; i++) {
+      if (this.displayedDates[i] === reservation.startDate) {
         startIndex = i;
       }
-      if (dates[i] === reservation.endDate.toLocaleDateString()) {
+      if (this.displayedDates[i] === reservation.endDate) {
         endIndex = i;
       }
     }
@@ -250,7 +253,7 @@ export class AppComponent {
     return { x, y };
   }
 
-  showModal(reservation: {id: number | undefined, startDate: Date, endDate: Date, resource: number, username: string}, event: MouseEvent): void {
+  showModal(reservation: {id: number | undefined, startDate: string, endDate: string, resource: number, username: string}, event: MouseEvent): void {
     this.showDetail = true;
     const resource = this.resources.find(r => r.id === reservation.resource);
     if (resource) {
@@ -271,11 +274,11 @@ export class AppComponent {
     this.showEdition = true;
   }
 
-  addReservation(reservation: {id: number | undefined, startDate: Date, endDate: Date,  resource: number, username: string}): void {
+  addReservation(reservation: {id: number | undefined, startDate: string, endDate: string,  resource: number, username: string}): void {
     if (reservation?.id !== undefined) {
       const index = this.reservations.findIndex((r) => r.id === reservation.id);
       if (index !== -1) {
-        this.reservations.splice(index, 1, reservation as {id: number, startDate: Date, endDate: Date,  resource: number, username: string});
+        this.reservations.splice(index, 1, reservation as {id: number, startDate: string, endDate: string,  resource: number, username: string});
       }
     }
     else {

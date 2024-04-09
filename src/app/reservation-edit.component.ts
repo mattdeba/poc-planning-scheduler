@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import { formatDate } from './utils';
+import {dateToString, getTodayString } from './utils';
 
 @Component({
   selector: 'app-reservation-edit',
@@ -28,7 +28,7 @@ import { formatDate } from './utils';
             <div>
                 <select class="materiel-choice" [(ngModel)]="resource" name="resource" required>
                     <option *ngFor="let res of resources" [value]="res.id">{{res.value}}</option>
-                </select>    
+                </select>
             </div>
         </div>
         <div class="label">
@@ -39,7 +39,7 @@ import { formatDate } from './utils';
         </div>
         <div class="validation-buttons">
             <button class="btn-validate" type="submit">Sauvegarder</button>
-            <button class="btn-close" type="button" (click)="closeModal.emit()">Annuler</button>      
+            <button class="btn-close" type="button" (click)="closeModal.emit()">Annuler</button>
         </div>
       </form>
     </div>
@@ -62,8 +62,8 @@ import { formatDate } from './utils';
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 20%;
-      height: 55%;
+      width: 30%;
+      height: 60%;
       background: white;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       overflow: auto;
@@ -92,14 +92,14 @@ import { formatDate } from './utils';
       justify-content: center;
       font-size: 1.3em
     }
-    
+
     .date-container, .materiel-container, .user-container {
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
     }
-    
+
     .user-choice {
       background-color: white;
     }
@@ -112,7 +112,7 @@ import { formatDate } from './utils';
       margin-top: 15px;
       margin-bottom: 15px;
     }
-    
+
     .btn-validate {
       border: 1px solid #D8D9DA;
       padding: 10px 20px;
@@ -135,7 +135,7 @@ import { formatDate } from './utils';
       background-color: #D8D9DA;
       color: white;
     }
-    
+
     .label {
       margin-top: 20px;
     }
@@ -150,18 +150,18 @@ import { formatDate } from './utils';
 })
 export class ReservationEditComponent {
   @Output() closeModal = new EventEmitter<void>();
-  @Output() submitReservation = new EventEmitter<{id: number | undefined, startDate: Date, endDate: Date, resource: number, username: string}>();
+  @Output() submitReservation = new EventEmitter<{id: number | undefined, startDate: string, endDate: string, resource: number, username: string}>();
   @Input() resources: {id: number, value: string}[] = []
-  @Input() reservationToEdit: {id: number | undefined, startDate: Date, endDate: Date, resource: { id: number, value: string }, username: string} | null;
+  @Input() reservationToEdit: {id: number | undefined, startDate: string, endDate: string, resource: { id: number, value: string }, username: string} | null;
 
   username = '';
   resource: number | null = null;
-  startDate: string | null = new Date().toISOString().split('T')[0];
-  endDate: string | null = new Date().toISOString().split('T')[0];
+  startDate: string | null = getTodayString();
+  endDate: string | null = getTodayString();
 
   ngOnInit() {
-    this.startDate = formatDate(this.reservationToEdit?.startDate) || new Date().toISOString().split('T')[0];
-    this.endDate = formatDate(this.reservationToEdit?.endDate) || new Date().toISOString().split('T')[0];
+    this.startDate = this.reservationToEdit?.startDate || getTodayString();
+    this.endDate = this.reservationToEdit?.endDate || getTodayString();
     this.resource = this.reservationToEdit?.resource.id || null;
     this.username = this.reservationToEdit?.username || '';
   }
@@ -169,11 +169,9 @@ export class ReservationEditComponent {
   submitForm(event: Event): void {
     if (this.startDate && this.resource && this.username && this.endDate) {
       event.preventDefault();
-      let start = new Date(this.startDate);
-      let end = new Date(this.endDate);
-      start.setHours(0, 0, 0, 0);
-      end.setHours(0, 0, 0, 0);
-      this.submitReservation.emit({id: this.reservationToEdit?.id, startDate: start, endDate: end, resource: +this.resource, username: this.username});
+      const start = new Date(this.startDate);
+      const end = new Date(this.endDate);
+      this.submitReservation.emit({id: this.reservationToEdit?.id, startDate: dateToString(start), endDate: dateToString(end), resource: +this.resource, username: this.username});
       this.closeModal.emit();
     }
   }
