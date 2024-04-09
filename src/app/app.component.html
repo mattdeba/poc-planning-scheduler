@@ -2,6 +2,7 @@
   <app-dropdown [options]="rawResources" (selectionChange)="filterSelection($event)"></app-dropdown>
   <button class="btn" (click)="prev()">prec.</button>
   <button class="btn" (click)="next()">suiv.</button>
+  <button class="btn" (click)="sortReservationsFirst()">Remonter</button>
   <button (click)="selectedReservation=null;showEdition=true" class="btn" >Réserver</button>
 </div>
 <div class="filterResource">

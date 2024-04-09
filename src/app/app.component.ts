@@ -233,7 +233,7 @@ export class AppComponent {
 
   calculateModalPosition(event: MouseEvent): { x: number, y: number } {
     const buffer = 90;
-    const modalWidth = 200;
+    const modalWidth = 280;
     const modalHeight = 200;
 
     let x = event.clientX;
@@ -292,5 +292,20 @@ export class AppComponent {
         this.selectedReservation = null;
         this.closeModal();
     }
+  }
+
+  sortReservationsFirst() {
+    const reservationsByResourceIds: { [key: number]: number } = {};
+    for (const resource of this.resources) {
+      reservationsByResourceIds[resource.id] = 0;
+    }
+
+    for (const reservation of this.reservations) {
+      const datesInRange = this.displayedDates.filter(date => date >= reservation.startDate && date <= reservation.endDate);
+      if (datesInRange.length > 0) {
+        reservationsByResourceIds[reservation.resource] += datesInRange.length;
+      }
+    }
+    this.resources.sort((a, b) => reservationsByResourceIds[b.id] - reservationsByResourceIds[a.id]);
   }
 }
