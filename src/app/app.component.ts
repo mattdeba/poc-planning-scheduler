@@ -18,8 +18,8 @@ export class AppComponent {
     {id: 4, startDate: '2024-03-30', endDate: '2024-04-01', resource: 42, username: 'Guillaume'},
     {id: 5, startDate: '2024-03-30', endDate: '2024-04-05', resource: 43, username: 'Attmane'},
   ]
-  cellWidth = '9vw';
-  semiCellWidth = '4.5vw'
+  cellWidth = '8vw';
+  semiCellWidth = '4vw'
   cellHeight = '50px';
   selectedReservation: {id: number | undefined, startDate: string, endDate: string, resource: { id: number, value: string }, username: string} | null;
   modalPosition: { x: number, y: number };
