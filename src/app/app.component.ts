@@ -30,7 +30,8 @@ export class AppComponent {
   showDetail = false;
   offset = 1;//nombre de colonnes pour les ressources.
   colors = ['#C8AA82', '#B8CAEA', '#CDF8CE', '#C6E1C1', '#EBEFB3', '#CCD6D5', '#CCD6D5'];
-
+  schedulerStart = '2024-04-01';
+  schedulerLength = 10;
 
   next(): void {
     this.displayedDates = this.displayedDates.map(date => {
