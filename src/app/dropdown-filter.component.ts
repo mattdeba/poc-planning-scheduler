@@ -3,8 +3,8 @@ import {Component, Input, Output, EventEmitter, ElementRef, HostListener} from '
   selector: 'app-dropdown',
   template: `
     <div class="dropdown">
-      <button class="dropbtn" (click)="toggleDropdown()">Choix matériel</button>
-      <button class="resetbtn" (click)="resetFilter()">Reset choix</button>
+      <button class="dropbtn" (click)="toggleDropdown()">Filtre Matériel</button>
+      <button class="resetbtn" (click)="resetFilter()">Reset</button>
       <div class="dropdown-content" *ngIf="isDropdownOpen">
         <div *ngFor="let option of options" [class.selected]="selectedOptions.includes(option.id)" (click)="updateSelectedOptions(option.id)">
           {{option.value}}
@@ -15,13 +15,26 @@ import {Component, Input, Output, EventEmitter, ElementRef, HostListener} from '
   styles: [`
     .dropbtn, .resetbtn {
       cursor: pointer;
-      width: 200px;
+      border: 1px solid  #D8D9DA;
+      color: #606263;
+      font-size: 1em;
+      
+      &:hover{
+        background: #F3F4F5;
+      }
+    }
+    .dropbtn{
+      width: 110px;
+      height: 50px;
+    }
+    .resetbtn {
+      width: 60px;
       height: 50px;
     }
 
     .dropdown-content {
       position: absolute;
-      width: 200px;
+      width: 170px;
       max-height: 100px;
       z-index: 1;
     }

@@ -1,10 +1,11 @@
-<div class="buttons">
-  <app-dropdown [options]="rawResources" (selectionChange)="filterSelection($event)"></app-dropdown>
-  <button class="btn" (click)="prev()"><i class="fas fa-chevron-left"></i></button>
-  <button class="btn" (click)="next()"><i class="fas fa-chevron-right"></i></button>
-  <button class="btn" (click)="sortReservationsFirst()">Remonter</button>
-  <button (click)="selectedReservation=null;showEdition=true" class="btn" >Réserver</button>
-  <input class="inputDate" type="date" [value]="schedulerStart" (change)="updateStartDate($event)">
+
+<div class="buttons" [ngStyle]="getButtonsHeaderStyle()">
+    <button class="btn" id="leftButton" (click)="prev()"><i class="fas fa-chevron-left"></i></button>
+    <button class="btn" id="rightButton" (click)="next()"><i class="fas fa-chevron-right"></i></button>
+    <button class="btn" id="upButton" (click)="sortReservationsFirst()"><i class="fas fa-chevron-up"></i></button>
+    <input class="inputDate" id="pickDate"  type="date" [value]="schedulerStart" (change)="updateStartDate($event)">
+    <button (click)="selectedReservation=null;showEdition=true" class="btn btnReservation" id="bookEquipment" >Réserver un matériel</button>
+    <app-dropdown id="dropdownFilter" [options]="rawResources" (selectionChange)="filterSelection($event)"></app-dropdown>
 </div>
 <div class="filterResource">
 </div>

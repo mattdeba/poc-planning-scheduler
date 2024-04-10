@@ -19,6 +19,7 @@ export class AppComponent {
     {id: 5, startDate: '2024-03-30', endDate: '2024-04-05', resource: 43, username: 'Attmane'},
   ]
   cellWidth = '9vw';
+  semiCellWidth = '4.5vw'
   cellHeight = '50px';
   selectedReservation: {id: number | undefined, startDate: string, endDate: string, resource: { id: number, value: string }, username: string} | null;
   modalPosition: { x: number, y: number };
@@ -80,6 +81,13 @@ export class AppComponent {
       'grid-template-columns': headerColumn,
       'grid-template-rows': headerRow,
     };
+  }
+
+  getButtonsHeaderStyle() {
+    return {
+      'grid-template-columns': `${this.semiCellWidth} ` + Array(this.displayedDates.length * 2).fill(`${this.semiCellWidth}`).join(' '),
+      'grid-template-rows': `${this.cellHeight}`,
+    }
   }
 
   getLineCellCoordinates(resource: any, index: number) {
