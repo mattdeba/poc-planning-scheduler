@@ -29,7 +29,7 @@ export class AppComponent {
   offset = 1;//nombre de colonnes pour les ressources.
   colors = ['#C8AA82', '#B8CAEA', '#CDF8CE', '#C6E1C1', '#EBEFB3', '#CCD6D5', '#CCD6D5'];
   schedulerStart = '2024-04-01';
-  schedulerLength = 7;
+  schedulerLength = 10;
 
   constructor() {
     this.updateDisplayedDates(this.schedulerStart);

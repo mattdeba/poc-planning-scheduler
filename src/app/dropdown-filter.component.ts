@@ -24,17 +24,25 @@ import {Component, Input, Output, EventEmitter, ElementRef, HostListener} from '
       }
     }
     .dropbtn{
-      width: 110px;
-      height: 50px;
+      grid-row: 1/2;
+      grid-column: 1/2;
     }
     .resetbtn {
-      width: 60px;
-      height: 50px;
+      grid-row: 1/2;
+      grid-column: 2/3;
+    }
+    
+    .dropdown {
+      display: grid;
+      grid-template-columns: 70% 30%;
+      grid-template-rows: 50px;
     }
 
     .dropdown-content {
-      position: absolute;
-      width: 170px;
+      position: relative;
+      top: 0;
+      left: 0;
+      width: 100%;
       max-height: 100px;
       z-index: 1;
     }
