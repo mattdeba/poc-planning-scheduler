@@ -7,7 +7,7 @@ export const dateToString = (date: Date):string => {
 
 export const stringToDate = (date: string): Date => {
   const dateDate = new Date(date);
-  dateDate.setHours(dateDate.getDate() + 12);
+  dateDate.setHours(dateDate.getHours() + 12); //la conversion en date fixe l'heure à midi au lieu de 00:00
   return dateDate;
 }
 

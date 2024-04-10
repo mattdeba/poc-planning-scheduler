@@ -4,7 +4,7 @@
   <button class="btn" (click)="next()">suiv.</button>
   <button class="btn" (click)="sortReservationsFirst()">Remonter</button>
   <button (click)="selectedReservation=null;showEdition=true" class="btn" >Réserver</button>
-    <input type="date" [value]="schedulerStart">
+  <input class="inputDate" type="date" [value]="schedulerStart" (change)="updateStartDate($event)">
 </div>
 <div class="filterResource">
 </div>

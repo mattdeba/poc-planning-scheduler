@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { dateToString } from './utils';
+import { dateToString, stringToDate } from './utils';
 
 @Component({
   selector: 'app-root',
@@ -33,6 +33,22 @@ export class AppComponent {
   schedulerStart = '2024-04-01';
   schedulerLength = 10;
 
+  updateStartDate(event: any) {
+    const newDate = event.target.value;
+    this.schedulerStart = event.target.value;
+    this.updateDisplayedDates(newDate);
+  }
+
+  updateDisplayedDates(dateString: string) {
+    let date = stringToDate(dateString);
+    let dates = [];
+    for (let i = 0; i < this.schedulerLength; i++) {
+      dates.push(dateToString(date));
+      date.setDate(date.getDate() + 1);
+    }
+    this.displayedDates = dates;
+  }
+
   next(): void {
     this.displayedDates = this.displayedDates.map(date => {
       const newDate = new Date(date);
@@ -40,6 +56,7 @@ export class AppComponent {
       newDate.setDate(newDate.getDate() + this.displayedDates.length);
       return dateToString(newDate);
     }) as string[];
+    this.schedulerStart = this.displayedDates[0];
   }
 
   prev(): void {
@@ -49,6 +66,7 @@ export class AppComponent {
       newDate.setDate(newDate.getDate() - this.displayedDates.length);
       return dateToString(newDate);
     }) as string[];
+    this.schedulerStart = this.displayedDates[0];
   }
 
   getGridTemplateHeaderColumns() {
