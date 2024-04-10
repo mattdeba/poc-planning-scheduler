@@ -10,10 +10,7 @@ export class AppComponent {
   title = 'bryntumScheduler';
   rawResources = [{id: 39, value: 'Tracteur JD'}, {id: 40, value: 'Tracteur New Holland'}, {id: 41, value: 'Tracteur Case IH'}, {id: 42, value: 'Benne Jeantil'}, {id: 43, value: 'Tonne à lisier'}];
   resources = this.rawResources;
-  displayedDates = ['2024-04-01', '2024-04-02','2024-04-03', '2024-04-04',
-    '2024-04-05', '2024-04-06', '2024-04-07',
-    '2024-04-08', '2024-04-09', '2024-04-10',
-  ]
+  displayedDates: string[] = []
   reservations = [
     {id: 1, startDate: '2024-03-31', endDate: '2024-04-16', resource: 39, username: 'Matthieu'},
     {id: 2, startDate: '2024-04-02', endDate: '2024-04-03', resource: 40, username: 'Estelle'},
@@ -31,12 +28,18 @@ export class AppComponent {
   offset = 1;//nombre de colonnes pour les ressources.
   colors = ['#C8AA82', '#B8CAEA', '#CDF8CE', '#C6E1C1', '#EBEFB3', '#CCD6D5', '#CCD6D5'];
   schedulerStart = '2024-04-01';
-  schedulerLength = 10;
+  schedulerLength = 7;
+
+  constructor() {
+    this.updateDisplayedDates(this.schedulerStart);
+  }
 
   updateStartDate(event: any) {
     const newDate = event.target.value;
-    this.schedulerStart = event.target.value;
-    this.updateDisplayedDates(newDate);
+    if (newDate != '') {
+      this.schedulerStart = event.target.value;
+      this.updateDisplayedDates(newDate);
+    }
   }
 
   updateDisplayedDates(dateString: string) {
