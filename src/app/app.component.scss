@@ -17,6 +17,7 @@ $border-color: #D8D9DA;
   border-bottom: 1px solid $border-color;
   background: #F3F4F5;
   color: #606263;
+  font-size: 0.9em;
 }
 
 .gridCell {
@@ -25,7 +26,7 @@ $border-color: #D8D9DA;
 
 .reservationCell {
   background: transparent;
-  padding: 4px 2px 4px 2px;
+  padding: 5px 3px 5px 3px;
 }
 
 .reservationContentCell {
@@ -36,6 +37,7 @@ $border-color: #D8D9DA;
   cursor: pointer;
   height: 100%;
   color: #606364;
+  font-size: 0.9em;
 }
 
 .resourceHeaderCell {
