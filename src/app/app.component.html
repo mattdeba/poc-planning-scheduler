@@ -6,8 +6,8 @@
     <input class="inputDate" id="pickDate"  type="date" [value]="schedulerStart" (change)="updateStartDate($event)">
     <button (click)="selectedReservation=null;showEdition=true" class="btn btnReservation" id="bookEquipment" >Réserver</button>
     <div class="toggle" id="toggleResa"><app-toggle [toggleName]="'Mes réservations'" (onChange)="handleOnlyUser($event)" [isChecked]="onlyUser"></app-toggle></div>
-    <div class="toggle" id="toggleValidation"><app-toggle [toggleName]="'A valider'" (onChange)="handleValidation($event)" [isChecked]="validation.value === 'toValid'"></app-toggle></div>
-    <div class="toggle" id="togglePostResa"><app-toggle [toggleName]="'Post à saisir'"></app-toggle></div>
+    <div class="toggle" id="toggleValidation"><app-toggle [toggleName]="'A valider'" (onChange)="handleValidation($event)" [isChecked]="validation.value==='toValid'"></app-toggle></div>
+    <div class="toggle" id="togglePostResa"><app-toggle [toggleName]="'Post à saisir'" [isChecked]="postResa.value==='withoutPostResa'" (onChange)="handlePostResa($event)"></app-toggle></div>
     <app-dropdown id="dropdownFilter" [options]="rawResources" (selectionChange)="filterSelection($event)"></app-dropdown>
 </div>
 <div class="filterResource">

@@ -33,7 +33,7 @@ export class AppComponent {
   schedulerStart = '2024-04-01';
   schedulerLength = 10;
   validation: BehaviorSubject<'all'|'toValid'|'validated'|'refused'> = new BehaviorSubject<'all'|'toValid'|'validated'|'refused'>('all');
-  postResa: BehaviorSubject<'all'|'avec post résa'|'sans post résa'> = new BehaviorSubject<'all'|'avec post résa'|'sans post résa'>('all');
+  postResa: BehaviorSubject<'all'|'withPostResa'|'withoutPostResa'> = new BehaviorSubject<'all'|'withPostResa'|'withoutPostResa'>('all');
   USERNAME = 'Matthieu';
   onlyUser = false;
 
@@ -57,8 +57,19 @@ export class AppComponent {
     this.applyFilters();
   }
 
+  handlePostResa = (checked: boolean) => {
+    if (checked) {
+      this.validation.next('all');
+      this.postResa.next('withoutPostResa');
+    }
+    if (!checked) {
+      this.postResa.next('all');
+    }
+    this.applyFilters();
+  }
+
   applyFilters = () => {
-    const filtered = {reservations: this.rawReservations};
+    const filtered = {reservations: this.rawReservations, resources: this.rawResources};
     if (this.onlyUser) {
       filtered.reservations = filtered.reservations.filter(reservation => [this.USERNAME].includes(reservation.username));
     }
@@ -70,7 +81,13 @@ export class AppComponent {
     }
     if (this.validation.value === 'validated') {
       filtered.reservations = filtered.reservations.filter(reservation => reservation.status === 'validated')
-    }    
+    }
+    if (this.postResa.value === 'withPostResa') {
+      filtered.reservations = filtered.reservations.filter(reservation => reservation.status === 'validatedAndPost')
+    }
+    if (this.postResa.value === 'withoutPostResa') {
+      filtered.reservations = filtered.reservations.filter(reservation => reservation.status === 'validated')
+    }
     this.reservations = filtered.reservations;
   }
 
