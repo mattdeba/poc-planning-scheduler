@@ -150,9 +150,9 @@ import {dateToString, getTodayString } from './utils';
 })
 export class ReservationEditComponent {
   @Output() closeModal = new EventEmitter<void>();
-  @Output() submitReservation = new EventEmitter<{id: number | undefined, startDate: string, endDate: string, resource: number, username: string}>();
+  @Output() submitReservation = new EventEmitter<{id: number | undefined, startDate: string, endDate: string, resource: number, username: string, status: string}>();
   @Input() resources: {id: number, value: string}[] = []
-  @Input() reservationToEdit: {id: number | undefined, startDate: string, endDate: string, resource: { id: number, value: string }, username: string} | null;
+  @Input() reservationToEdit: {id: number | undefined, startDate: string, endDate: string, resource: { id: number, value: string }, username: string, status: string} | null;
 
   username = '';
   resource: number | null = null;
@@ -171,7 +171,7 @@ export class ReservationEditComponent {
       event.preventDefault();
       const start = new Date(this.startDate);
       const end = new Date(this.endDate);
-      this.submitReservation.emit({id: this.reservationToEdit?.id, startDate: dateToString(start), endDate: dateToString(end), resource: +this.resource, username: this.username});
+      this.submitReservation.emit({id: this.reservationToEdit?.id, startDate: dateToString(start), endDate: dateToString(end), resource: +this.resource, username: this.username, status: 'toValid'});
       this.closeModal.emit();
     }
   }

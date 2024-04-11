@@ -12,16 +12,16 @@ export class AppComponent {
   resources = this.rawResources;
   displayedDates: string[] = []
   reservations = [
-    {id: 1, startDate: '2024-03-31', endDate: '2024-04-16', resource: 39, username: 'Matthieu'},
-    {id: 2, startDate: '2024-04-02', endDate: '2024-04-03', resource: 40, username: 'Estelle'},
-    {id: 3, startDate: '2024-04-04', endDate: '2024-04-05', resource: 41, username: 'Céline'},
-    {id: 4, startDate: '2024-03-30', endDate: '2024-04-01', resource: 42, username: 'Guillaume'},
-    {id: 5, startDate: '2024-03-30', endDate: '2024-04-05', resource: 43, username: 'Attmane'},
+    {id: 1, startDate: '2024-03-31', endDate: '2024-04-16', resource: 39, username: 'Matthieu', status: 'toValid'},
+    {id: 2, startDate: '2024-04-02', endDate: '2024-04-03', resource: 40, username: 'Estelle', status: 'validated'},
+    {id: 3, startDate: '2024-04-04', endDate: '2024-04-05', resource: 41, username: 'Céline', status: 'refused'},
+    {id: 4, startDate: '2024-03-30', endDate: '2024-04-01', resource: 42, username: 'Guillaume', status: 'validatedAndPost'},
+    {id: 5, startDate: '2024-03-30', endDate: '2024-04-05', resource: 43, username: 'Attmane', status: 'toValid'},
   ]
   cellWidth = '8vw';
   semiCellWidth = '4vw'
   cellHeight = '50px';
-  selectedReservation: {id: number | undefined, startDate: string, endDate: string, resource: { id: number, value: string }, username: string} | null;
+  selectedReservation: {id: number | undefined, startDate: string, endDate: string, resource: { id: number, value: string }, username: string, status: string} | null;
   modalPosition: { x: number, y: number };
   enableScroll = true;
   showEdition = false;
@@ -283,7 +283,7 @@ export class AppComponent {
     return { x, y };
   }
 
-  showModal(reservation: {id: number | undefined, startDate: string, endDate: string, resource: number, username: string}, event: MouseEvent): void {
+  showModal(reservation: {id: number | undefined, startDate: string, endDate: string, resource: number, username: string, status: string}, event: MouseEvent): void {
     this.showDetail = true;
     const resource = this.resources.find(r => r.id === reservation.resource);
     if (resource) {
@@ -304,11 +304,11 @@ export class AppComponent {
     this.showEdition = true;
   }
 
-  addReservation(reservation: {id: number | undefined, startDate: string, endDate: string,  resource: number, username: string}): void {
+  addReservation(reservation: {id: number | undefined, startDate: string, endDate: string,  resource: number, username: string, status: string}): void {
     if (reservation?.id !== undefined) {
       const index = this.reservations.findIndex((r) => r.id === reservation.id);
       if (index !== -1) {
-        this.reservations.splice(index, 1, reservation as {id: number, startDate: string, endDate: string,  resource: number, username: string});
+        this.reservations.splice(index, 1, reservation as {id: number, startDate: string, endDate: string,  resource: number, username: string, status: string});
       }
     }
     else {
