@@ -69,7 +69,7 @@ export class AppComponent {
   }
 
   applyFilters = () => {
-    const filtered = {reservations: this.rawReservations, resources: this.rawResources};
+    const filtered = {reservations: this.rawReservations};
     if (this.onlyUser) {
       filtered.reservations = filtered.reservations.filter(reservation => [this.USERNAME].includes(reservation.username));
     }
@@ -362,25 +362,27 @@ export class AppComponent {
 
   addReservation(reservation: {id: number | undefined, startDate: string, endDate: string,  resource: number, username: string, status: string}): void {
     if (reservation?.id !== undefined) {
-      const index = this.reservations.findIndex((r) => r.id === reservation.id);
+      const index = this.rawReservations.findIndex((r) => r.id === reservation.id);
       if (index !== -1) {
-        this.reservations.splice(index, 1, reservation as {id: number, startDate: string, endDate: string,  resource: number, username: string, status: string});
+        this.rawReservations.splice(index, 1, reservation as {id: number, startDate: string, endDate: string,  resource: number, username: string, status: string});
       }
     }
     else {
-      this.reservations.push({...reservation, id: this.reservations.length + 1});
+      this.rawReservations.push({...reservation, id: this.rawReservations.length + 1});
     }
+    this.applyFilters();
   }
 
   deleteReservation() {
     if (this.selectedReservation) {
         const selectedReservationId = this.selectedReservation.id;
         if (selectedReservationId) {
-            this.reservations = this.reservations.filter(r => r.id !== selectedReservationId);
+            this.rawReservations = this.rawReservations.filter(r => r.id !== selectedReservationId);
         }
         this.selectedReservation = null;
         this.closeModal();
     }
+    this.applyFilters();
   }
 
   sortReservationsFirst() {
