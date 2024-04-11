@@ -32,8 +32,8 @@ export class AppComponent {
   colors = ['#C8AA82', '#B8CAEA', '#CDF8CE', '#C6E1C1', '#EBEFB3', '#CCD6D5', '#CCD6D5'];
   schedulerStart = '2024-04-01';
   schedulerLength = 10;
-  validation: BehaviorSubject<'Toutes'|'A valider'|'Validée'|'Refusée'> = new BehaviorSubject<'Toutes'|'A valider'|'Validée'|'Refusée'>('Toutes');
-  postResa: BehaviorSubject<'Toutes'|'avec post résa'|'sans post résa'> = new BehaviorSubject<'Toutes'|'avec post résa'|'sans post résa'>('Toutes');
+  validation: BehaviorSubject<'all'|'toValid'|'validated'|'refused'> = new BehaviorSubject<'all'|'toValid'|'validated'|'refused'>('all');
+  postResa: BehaviorSubject<'all'|'avec post résa'|'sans post résa'> = new BehaviorSubject<'all'|'avec post résa'|'sans post résa'>('all');
   USERNAME = 'Matthieu';
   onlyUser = false;
 
@@ -45,12 +45,32 @@ export class AppComponent {
     this.onlyUser = checked;
     this.applyFilters();
   }
+  
+  handleValidation = (checked: boolean) => {
+    if (checked) {
+      this.validation.next('toValid');
+      this.postResa.next('all');
+    }
+    if (!checked) {
+      this.validation.next('all');
+    }
+    this.applyFilters();
+  }
 
   applyFilters = () => {
     const filtered = {reservations: this.rawReservations};
     if (this.onlyUser) {
       filtered.reservations = filtered.reservations.filter(reservation => [this.USERNAME].includes(reservation.username));
     }
+    if (this.validation.value === 'toValid') {
+      filtered.reservations = filtered.reservations.filter(reservation => reservation.status === 'toValid')
+    }
+    if (this.validation.value === 'refused') {
+      filtered.reservations = filtered.reservations.filter(reservation => reservation.status === 'refused')
+    }
+    if (this.validation.value === 'validated') {
+      filtered.reservations = filtered.reservations.filter(reservation => reservation.status === 'validated')
+    }    
     this.reservations = filtered.reservations;
   }
 
