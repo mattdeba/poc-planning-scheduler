@@ -5,7 +5,13 @@
     <button class="btn" id="upButton" (click)="sortReservationsFirst()"><i class="fas fa-chevron-up"></i></button>
     <input class="inputDate" id="pickDate"  type="date" [value]="schedulerStart" (change)="updateStartDate($event)">
     <button (click)="selectedReservation=null;showEdition=true" class="btn btnReservation" id="bookEquipment" >Réserver</button>
-    <div class="toggle" id="toggleResa"><app-toggle [toggleName]="'Mes réservations'"></app-toggle></div>
+    <div class="toggle" id="toggleResa"><app-toggle [toggleName]="'Mes réservations'" (onChange)="handleOnlyUser($event)" [isChecked]="onlyUser"></app-toggle></div>
+<!--    <bryntum-slide-toggle class="slider"-->
+<!--                          [checked]="utilisateur === 'Mes réservations'"-->
+<!--                          (onChange)="handleUser($event)"-->
+<!--                          [text]="'Mes réservations'"-->
+<!--    >-->
+<!--    </bryntum-slide-toggle>-->
     <div class="toggle" id="toggleValidation"><app-toggle [toggleName]="'A valider'"></app-toggle></div>
     <div class="toggle" id="togglePostResa"><app-toggle [toggleName]="'Post à saisir'"></app-toggle></div>
     <app-dropdown id="dropdownFilter" [options]="rawResources" (selectionChange)="filterSelection($event)"></app-dropdown>

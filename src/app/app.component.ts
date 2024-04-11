@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { dateToString, stringToDate } from './utils';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -11,13 +12,14 @@ export class AppComponent {
   rawResources = [{id: 39, value: 'Tracteur JD'}, {id: 40, value: 'Tracteur New Holland'}, {id: 41, value: 'Tracteur Case IH'}, {id: 42, value: 'Benne Jeantil'}, {id: 43, value: 'Tonne à lisier'}];
   resources = this.rawResources;
   displayedDates: string[] = []
-  reservations = [
+  rawReservations = [
     {id: 1, startDate: '2024-03-31', endDate: '2024-04-16', resource: 39, username: 'Matthieu', status: 'toValid'},
     {id: 2, startDate: '2024-04-02', endDate: '2024-04-03', resource: 40, username: 'Estelle', status: 'validated'},
     {id: 3, startDate: '2024-04-04', endDate: '2024-04-05', resource: 41, username: 'Céline', status: 'refused'},
     {id: 4, startDate: '2024-03-30', endDate: '2024-04-01', resource: 42, username: 'Guillaume', status: 'validatedAndPost'},
     {id: 5, startDate: '2024-03-30', endDate: '2024-04-05', resource: 43, username: 'Attmane', status: 'toValid'},
   ]
+  reservations = this.rawReservations;
   cellWidth = '8vw';
   semiCellWidth = '4vw'
   cellHeight = '50px';
@@ -30,9 +32,26 @@ export class AppComponent {
   colors = ['#C8AA82', '#B8CAEA', '#CDF8CE', '#C6E1C1', '#EBEFB3', '#CCD6D5', '#CCD6D5'];
   schedulerStart = '2024-04-01';
   schedulerLength = 10;
+  validation: BehaviorSubject<'Toutes'|'A valider'|'Validée'|'Refusée'> = new BehaviorSubject<'Toutes'|'A valider'|'Validée'|'Refusée'>('Toutes');
+  postResa: BehaviorSubject<'Toutes'|'avec post résa'|'sans post résa'> = new BehaviorSubject<'Toutes'|'avec post résa'|'sans post résa'>('Toutes');
+  USERNAME = 'Matthieu';
+  onlyUser = false;
 
   constructor() {
     this.updateDisplayedDates(this.schedulerStart);
+  }
+
+  handleOnlyUser = (checked: boolean) => {
+    this.onlyUser = checked;
+    this.applyFilters();
+  }
+
+  applyFilters = () => {
+    const filtered = {reservations: this.rawReservations};
+    if (this.onlyUser) {
+      filtered.reservations = filtered.reservations.filter(reservation => [this.USERNAME].includes(reservation.username));
+    }
+    this.reservations = filtered.reservations;
   }
 
   updateStartDate(event: any) {
