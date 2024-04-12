@@ -7,6 +7,7 @@ import {ReservationEditComponent} from "./reservation-edit.component";
 import {FormsModule} from "@angular/forms";
 import {DropdownFilterComponent} from "./dropdown-filter.component";
 import { ToggleComponent } from './toggle-button.component';
+import {NavbarComponent} from "./navbar.component";
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { ToggleComponent } from './toggle-button.component';
     ReservationDetailComponent,
     ReservationEditComponent,
     DropdownFilterComponent,
-    ToggleComponent
+    ToggleComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
