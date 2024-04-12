@@ -19,7 +19,7 @@ export class AppComponent {
   cellWidth = '8vw';
   resourceCellWidth = '16vw'
   semiCellWidth = '4vw'
-  cellHeight = '50px';
+  cellHeight = 50;
   selectedReservation: {id: number | undefined, startDate: string, endDate: string, resource: { id: number, value: string }, username: string, status: string} | null;
   modalPosition: { x: number, y: number };
   enableScroll = true;
@@ -130,7 +130,7 @@ export class AppComponent {
   getGridTemplateHeaderColumns() {
     const nbDates = this.displayedDates.length;
     const headerColumn = `${this.resourceCellWidth} ` + Array(nbDates).fill(`${this.cellWidth}`).join(' ');
-    const headerRow = `${this.cellHeight}`;
+    const headerRow = `${this.cellHeight}px`;
     return {
       'grid-template-columns': headerColumn,
       'grid-template-rows': headerRow,
@@ -140,7 +140,7 @@ export class AppComponent {
   getButtonsHeaderStyle() {
     return {
       'grid-template-columns': `${this.semiCellWidth} ` + Array(this.displayedDates.length * 2).fill(`${this.semiCellWidth}`).join(' '),
-      'grid-template-rows': `${this.cellHeight}`,
+      'grid-template-rows': `${this.cellHeight}px`,
     }
   }
 
@@ -157,8 +157,8 @@ export class AppComponent {
     const maxNbReservations = this.getMaxResaPerDay(reservations, this.displayedDates);
     return {
       'grid-template-columns': `${this.resourceCellWidth} ` + Array(this.displayedDates.length).fill(`${this.cellWidth}`).join(' '),
-      'grid-template-rows': Array(maxNbReservations).fill(`${this.cellHeight}`).join(' '),
-      'min-height': `${this.cellHeight}`
+      'grid-template-rows': Array(maxNbReservations).fill(`${this.cellHeight}px`).join(' '),
+      'min-height': `${this.cellHeight*maxNbReservations}px`
     };
   }
 

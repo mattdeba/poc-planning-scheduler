@@ -29,6 +29,22 @@ $border-color: #D8D9DA;
   padding: 5px 3px 5px 3px;
 }
 
+.scheduler {
+  width: 800px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-right: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+}
+
 .reservationContentCell {
   display: flex;
   justify-content: center;
