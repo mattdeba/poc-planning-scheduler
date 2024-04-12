@@ -21,18 +21,21 @@
       <div class="dateHeaderCellContent">{{date | date:'dd/MM'}}</div>
     </div>
   </div>
-  <div *ngFor="let resource of resources" class="gridRow" [ngStyle]="getGridRowStyles(resource)">
-    <div class="resourceNameCell" [ngStyle]="getResourceNameCellStyles(resource)">{{resource.value}}</div>
-    <div class="lineCell" *ngFor="let date of displayedDates; let index = index" [ngStyle]="getLineCellCoordinates(resource, index)"></div>
-    <div *ngFor="let reservation of getReservationsByResourceWithCoordinates(resource.id)"
-         [ngStyle]="getReservationCoordinates(reservation)"
-         class="reservationCell"
-    >
-      <div class="reservationContentCell" [ngStyle]="getReservationContentBorders(reservation, resource.id)"
-           (click)="showModal(reservation, $event)"
-      >{{reservation.username}}</div>
+  <div class="rowsContainer">
+    <div *ngFor="let resource of resources" class="gridRow" [ngStyle]="getGridRowStyles(resource)">
+      <div class="resourceNameCell" [ngStyle]="getResourceNameCellStyles(resource)">{{resource.value}}</div>
+      <div class="lineCell" *ngFor="let date of displayedDates; let index = index" [ngStyle]="getLineCellCoordinates(resource, index)"></div>
+      <div *ngFor="let reservation of getReservationsByResourceWithCoordinates(resource.id)"
+           [ngStyle]="getReservationCoordinates(reservation)"
+           class="reservationCell"
+      >
+        <div class="reservationContentCell" [ngStyle]="getReservationContentBorders(reservation, resource.id)"
+             (click)="showModal(reservation, $event)"
+        >{{reservation.username}}</div>
+      </div>
     </div>
   </div>
+
 </div>
 <app-reservation-detail *ngIf="showDetail" [reservation]="selectedReservation" [position]="modalPosition" (edit)="switchToEditMode($event)" (close)="closeModal()" (delete)="deleteReservation()"></app-reservation-detail>
 <app-reservation-edit *ngIf="showEdition" [reservationToEdit]="selectedReservation" [resources]="resources" (closeModal)="showEdition=false" (submitReservation)="addReservation($event)"></app-reservation-edit>
