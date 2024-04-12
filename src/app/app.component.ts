@@ -36,13 +36,14 @@ export class AppComponent {
 
   constructor() {
     this.updateDisplayedDates(this.schedulerStart);
+    this.sortReservationsFirst();
   }
 
   handleOnlyUser = (checked: boolean) => {
     this.onlyUser = checked;
     this.applyFilters();
   }
-  
+
   handleValidation = (checked: boolean) => {
     if (checked) {
       this.validation.next('toValid');

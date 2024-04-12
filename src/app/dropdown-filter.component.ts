@@ -18,7 +18,7 @@ import {Component, Input, Output, EventEmitter, ElementRef, HostListener} from '
       border: 1px solid  #D8D9DA;
       color: #606263;
       font-size: 1em;
-      
+
       &:hover{
         background: #F3F4F5;
       }
@@ -31,7 +31,7 @@ import {Component, Input, Output, EventEmitter, ElementRef, HostListener} from '
       grid-row: 1/2;
       grid-column: 2/3;
     }
-    
+
     .dropdown {
       display: grid;
       grid-template-columns: 70% 30%;
@@ -43,7 +43,8 @@ import {Component, Input, Output, EventEmitter, ElementRef, HostListener} from '
       top: 0;
       left: 0;
       width: 100%;
-      max-height: 100px;
+      max-height: 300px;
+      overflow-y: auto;
       z-index: 1;
     }
 
