@@ -52,26 +52,39 @@ import {Component} from "@angular/core";
   styles: [`
     .navbar {
       display: flex;
-      justify-content: space-between;
     }
 
     .menu-item {
       display: grid;
       grid-template-rows: 50px;
       grid-template-columns: 30px 100%;
+      padding-right: 5px;
+      border-bottom: 1px solid #D8D9DA;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &:hover{
+        cursor: pointer;
+        border-bottom: 1px solid #FEAC31;
+      }
     }
 
-    .icon{
+    .icon {
       display: flex;
       justify-content: center;
       align-items: center;
+      color: #7B7B7B;
     }
 
     .menu-text {
       display: flex;
       justify-content: flex-start;
       align-items: center;
+      color: #7B7B7B;
     }
+
   `]
 })
 export class NavbarComponent {
