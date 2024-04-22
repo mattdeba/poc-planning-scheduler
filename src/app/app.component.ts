@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import { dateToString, stringToDate } from './utils';
 import { BehaviorSubject } from 'rxjs';
 import { HostListener } from '@angular/core';
+import {SchedulerComponent} from "./scheduler-component";
 
 @Component({
   selector: 'app-root',
@@ -34,10 +35,21 @@ export class AppComponent {
   USERNAME = 'Matthieu';
   onlyUser = false;
 
+  @ViewChild(SchedulerComponent) schedulerComponent: SchedulerComponent;
+
   constructor() {
     this.updateDisplayedDates(this.schedulerStart);
     this.sortReservationsFirst();
     this.onResize();
+  }
+
+  ngAfterViewInit() {
+    //this.schedulerComponent.deleteReservation({id: 1004496});
+    //this.schedulerComponent.createOrUpdateReservation({id: 1, username: 'hello', endDate: '2024-04-12',  startDate: '2024-04-11', resource: 34081, status: 'toValid'});
+  }
+
+  showReservationDetail(reservation: any) {
+    console.log(reservation);
   }
 
   @HostListener('window:resize')

@@ -1,4 +1,4 @@
-import {Component, Input} from "@angular/core";
+import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {dateToString, stringToDate} from "./utils";
 
 @Component({
@@ -21,9 +21,9 @@ import {dateToString, stringToDate} from "./utils";
                [ngStyle]="getReservationCoordinates(reservation)"
                class="reservationCell"
           >
-            <div class="reservationContentCell" [ngStyle]="getReservationContentBorders(reservation, resource.id)">
-<!--                 (click)="showModal(reservation, $event)"-->
-            {{reservation.username}}</div>
+            <div class="reservationContentCell" [ngStyle]="getReservationContentBorders(reservation, resource.id)"
+                 (click)="getReservation(reservation)"
+            >{{reservation.username}}</div>
           </div>
         </div>
       </div>
@@ -142,6 +142,7 @@ export class SchedulerComponent {
   offset = 1;//nombre de colonnes pour les ressources.
   @Input() schedulerStart = '2024-04-11';
   @Input() schedulerLength = 10;
+  @Output() reservationClicked = new EventEmitter<any>();
 
   constructor() {
     this.updateDisplayedDates(this.schedulerStart);
@@ -152,6 +153,30 @@ export class SchedulerComponent {
     this.updateDisplayedDates(this.schedulerStart);
     this.sortReservationsFirst();
 
+  }
+
+  getReservation(reservation: any) {
+    this.reservationClicked.emit(reservation);
+  }
+
+  deleteReservation(reservation: any) {
+    const reservationId = reservation.id;
+    if (reservationId) {
+      this.rawReservations = this.rawReservations.filter(r => r.id !== reservationId);
+    }
+    this.reservations = this.rawReservations;
+  }
+
+  createOrUpdateReservation(reservation: any): void {
+    if (reservation?.id !== undefined) {
+      const index = this.rawReservations.findIndex((r) => r.id === reservation.id);
+      if (index !== -1) {
+        this.rawReservations.splice(index, 1, reservation);
+      }
+    }
+    else {
+      this.rawReservations.push({...reservation, id: this.rawReservations.length + 1});
+    }
   }
 
   sortReservationsFirst() {
