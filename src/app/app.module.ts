@@ -8,6 +8,7 @@ import {FormsModule} from "@angular/forms";
 import {DropdownFilterComponent} from "./dropdown-filter.component";
 import { ToggleComponent } from './toggle-button.component';
 import {NavbarComponent} from "./navbar.component";
+import {SchedulerComponent} from "./scheduler-component";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {NavbarComponent} from "./navbar.component";
     ReservationEditComponent,
     DropdownFilterComponent,
     ToggleComponent,
-    NavbarComponent
+    NavbarComponent,
+    SchedulerComponent
   ],
   imports: [
     BrowserModule,

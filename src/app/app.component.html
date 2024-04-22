@@ -1,41 +1,4 @@
-<navbar></navbar>
-<div class="buttons" [ngStyle]="getButtonsHeaderStyle()">
-    <button class="btn" id="leftButton" (click)="prev()"><i class="fas fa-chevron-left"></i></button>
-    <button class="btn" id="rightButton" (click)="next()"><i class="fas fa-chevron-right"></i></button>
-    <button class="btn" id="upButton" (click)="sortReservationsFirst()"><i class="fas fa-chevron-up"></i></button>
-    <input class="inputDate" id="pickDate"  type="date" [value]="schedulerStart" (change)="updateStartDate($event)">
-    <button (click)="selectedReservation=null;showEdition=true" class="btn btnReservation" id="bookEquipment" >Réserver</button>
-    <div class="toggle" id="toggleResa"><app-toggle [toggleName]="'Mes réservations'" (onChange)="handleOnlyUser($event)" [isChecked]="onlyUser"></app-toggle></div>
-    <div class="toggle" id="toggleValidation"><app-toggle [toggleName]="'A valider'" (onChange)="handleValidation($event)" [isChecked]="validation.value==='toValid'"></app-toggle></div>
-    <div class="toggle" id="togglePostResa"><app-toggle [toggleName]="'Post à saisir'" [isChecked]="postResa.value==='withoutPostResa'" (onChange)="handlePostResa($event)"></app-toggle></div>
-    <app-dropdown id="dropdownFilter" [options]="rawResources" (selectionChange)="filterSelection($event)"></app-dropdown>
+<div class="scheduler-container">
+  <app-scheduler></app-scheduler>
 </div>
-<div class="filterResource">
-</div>
-<div class="scheduler">
-  <div class="header" [ngStyle]="getGridTemplateHeaderColumns()">
-    <div class="resourceHeaderCell">
-      <div class="resourceHeaderCellContent">MATÉRIEL</div>
-    </div>
-    <div class="dateHeaderCell" *ngFor="let date of displayedDates; let index = index" [ngStyle]="getDateHeaderStyle(index)">
-      <div class="dateHeaderCellContent">{{date | date:'dd/MM'}}</div>
-    </div>
-  </div>
-  <div class="rowsContainer">
-    <div *ngFor="let resource of resources" class="gridRow" [ngStyle]="getGridRowStyles(resource)">
-      <div class="resourceNameCell" [ngStyle]="getResourceNameCellStyles(resource)">{{resource.value}}</div>
-      <div class="lineCell" *ngFor="let date of displayedDates; let index = index" [ngStyle]="getLineCellCoordinates(resource, index)"></div>
-      <div *ngFor="let reservation of getReservationsByResourceWithCoordinates(resource.id)"
-           [ngStyle]="getReservationCoordinates(reservation)"
-           class="reservationCell"
-      >
-        <div class="reservationContentCell" [ngStyle]="getReservationContentBorders(reservation, resource.id)"
-             (click)="showModal(reservation, $event)"
-        >{{reservation.username}}</div>
-      </div>
-    </div>
-  </div>
 
-</div>
-<app-reservation-detail *ngIf="showDetail" [reservation]="selectedReservation" [position]="modalPosition" (edit)="switchToEditMode($event)" (close)="closeModal()" (delete)="deleteReservation()"></app-reservation-detail>
-<app-reservation-edit *ngIf="showEdition" [reservationToEdit]="selectedReservation" [resources]="resources" (closeModal)="showEdition=false" (submitReservation)="addReservation($event)"></app-reservation-edit>
