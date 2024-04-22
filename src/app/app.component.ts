@@ -43,6 +43,16 @@ export class AppComponent {
     this.onResize();
   }
 
+  up() {
+    this.schedulerComponent.sortReservationsFirst();
+  }
+  next() {
+    this.schedulerComponent.next();
+  }
+  prev() {
+    this.schedulerComponent.prev();
+  }
+
   ngAfterViewInit() {
     //this.schedulerComponent.deleteReservation({id: 1004496});
     //this.schedulerComponent.createOrUpdateReservation({id: 1, username: 'hello', endDate: '2024-04-12',  startDate: '2024-04-11', resource: 34081, status: 'toValid'});
@@ -60,19 +70,11 @@ export class AppComponent {
   }
 
   handleOnlyUser = (checked: boolean) => {
-    this.onlyUser = checked;
-    this.applyFilters();
+    this.schedulerComponent.handleOnlyUser(checked);
   }
 
   handleValidation = (checked: boolean) => {
-    if (checked) {
-      this.validation.next('toValid');
-      this.postResa.next('all');
-    }
-    if (!checked) {
-      this.validation.next('all');
-    }
-    this.applyFilters();
+    this.schedulerComponent.handleValidation(checked);
   }
 
   handlePostResa = (checked: boolean) => {
@@ -125,26 +127,6 @@ export class AppComponent {
       date.setDate(date.getDate() + 1);
     }
     this.displayedDates = dates;
-  }
-
-  next(): void {
-    this.displayedDates = this.displayedDates.map(date => {
-      const newDate = new Date(date);
-      newDate.setHours(newDate.getHours() + 12);
-      newDate.setDate(newDate.getDate() + this.displayedDates.length);
-      return dateToString(newDate);
-    }) as string[];
-    this.schedulerStart = this.displayedDates[0];
-  }
-
-  prev(): void {
-    this.displayedDates = this.displayedDates.map(date => {
-      const newDate = new Date(date);
-      newDate.setHours(newDate.getHours() + 12);
-      newDate.setDate(newDate.getDate() - this.displayedDates.length);
-      return dateToString(newDate);
-    }) as string[];
-    this.schedulerStart = this.displayedDates[0];
   }
 
   getGridTemplateHeaderColumns() {

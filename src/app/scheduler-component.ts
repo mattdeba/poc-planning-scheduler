@@ -143,6 +143,11 @@ export class SchedulerComponent {
   @Input() schedulerStart = '2024-04-11';
   @Input() schedulerLength = 10;
   @Output() reservationClicked = new EventEmitter<any>();
+  selectedReservation: any;
+  validation: any;
+  postResa: any;
+  onlyUser: boolean;
+  USERNAME = 'Matthieu';
 
   constructor() {
     this.updateDisplayedDates(this.schedulerStart);
@@ -159,24 +164,87 @@ export class SchedulerComponent {
     this.reservationClicked.emit(reservation);
   }
 
-  deleteReservation(reservation: any) {
-    const reservationId = reservation.id;
-    if (reservationId) {
-      this.rawReservations = this.rawReservations.filter(r => r.id !== reservationId);
-    }
-    this.reservations = this.rawReservations;
-  }
-
-  createOrUpdateReservation(reservation: any): void {
+  addReservation(reservation: {id: number | undefined, startDate: string, endDate: string,  resource: number, username: string, status: string}): void {
     if (reservation?.id !== undefined) {
       const index = this.rawReservations.findIndex((r) => r.id === reservation.id);
       if (index !== -1) {
-        this.rawReservations.splice(index, 1, reservation);
+        this.rawReservations.splice(index, 1, reservation as {id: number, startDate: string, endDate: string,  resource: number, username: string, status: string});
       }
     }
     else {
       this.rawReservations.push({...reservation, id: this.rawReservations.length + 1});
     }
+    this.applyFilters();
+  }
+
+  deleteReservation() {
+    if (this.selectedReservation) {
+      const selectedReservationId = this.selectedReservation.id;
+      if (selectedReservationId) {
+        this.rawReservations = this.rawReservations.filter(r => r.id !== selectedReservationId);
+      }
+      this.selectedReservation = null;
+    }
+    this.applyFilters();
+  }
+
+  applyFilters = () => {
+    const filtered = {reservations: this.rawReservations};
+    if (this.onlyUser) {
+      filtered.reservations = filtered.reservations.filter(reservation => [this.USERNAME].includes(reservation.username));
+    }
+    if (this.validation?.value === 'toValid') {
+      filtered.reservations = filtered.reservations.filter(reservation => reservation.status === 'toValid')
+    }
+    if (this.validation?.value === 'refused') {
+      filtered.reservations = filtered.reservations.filter(reservation => reservation.status === 'refused')
+    }
+    if (this.validation?.value === 'validated') {
+      filtered.reservations = filtered.reservations.filter(reservation => reservation.status === 'validated')
+    }
+    if (this.postResa?.value === 'withPostResa') {
+      filtered.reservations = filtered.reservations.filter(reservation => reservation.status === 'validatedAndPost')
+    }
+    if (this.postResa?.value === 'withoutPostResa') {
+      filtered.reservations = filtered.reservations.filter(reservation => reservation.status === 'validated')
+    }
+    this.reservations = filtered.reservations;
+  }
+
+  handleOnlyUser = (checked: boolean) => {
+    this.onlyUser = checked;
+    this.applyFilters();
+  }
+
+  handleValidation = (checked: boolean) => {
+    if (checked) {
+      this.validation.next('toValid');
+      this.postResa.next('all');
+    }
+    if (!checked) {
+      this.validation.next('all');
+    }
+    this.applyFilters();
+  }
+
+  next(): void {
+    this.displayedDates = this.displayedDates.map(date => {
+      const newDate = new Date(date);
+      newDate.setHours(newDate.getHours() + 12);
+      newDate.setDate(newDate.getDate() + this.displayedDates.length);
+      return dateToString(newDate);
+    }) as string[];
+    this.schedulerStart = this.displayedDates[0];
+  }
+
+  prev(): void {
+    this.displayedDates = this.displayedDates.map(date => {
+      const newDate = new Date(date);
+      newDate.setHours(newDate.getHours() + 12);
+      newDate.setDate(newDate.getDate() - this.displayedDates.length);
+      return dateToString(newDate);
+    }) as string[];
+    this.schedulerStart = this.displayedDates[0];
   }
 
   sortReservationsFirst() {
