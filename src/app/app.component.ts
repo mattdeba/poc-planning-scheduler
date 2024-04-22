@@ -98,9 +98,9 @@ export class AppComponent {
   }
 
   updateStartDate(event: any) {
-    const newDate = event.target.value;
+    const newDate = event;
     if (newDate != '') {
-      this.schedulerStart = event.target.value;
+      this.schedulerStart = event;
       this.updateDisplayedDates(newDate);
     }
   }

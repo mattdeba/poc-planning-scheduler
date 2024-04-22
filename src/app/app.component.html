@@ -3,7 +3,7 @@
     <button class="btn" id="leftButton" (click)="prev()"><i class="fas fa-chevron-left"></i></button>
     <button class="btn" id="rightButton" (click)="next()"><i class="fas fa-chevron-right"></i></button>
     <button class="btn" id="upButton" (click)="sortReservationsFirst()"><i class="fas fa-chevron-up"></i></button>
-    <input class="inputDate" id="pickDate"  type="date" [value]="schedulerStart" (change)="updateStartDate($event)">
+    <app-date-picker [selectedDate]="schedulerStart" (selectedDateChange)="updateStartDate($event)" [inputWidth]="'200px'"></app-date-picker>
     <button (click)="selectedReservation=null;showEdition=true" class="btn btnReservation" id="bookEquipment" >Réserver</button>
     <div class="toggle" id="toggleResa"><app-toggle [toggleName]="'Mes réservations'" (onChange)="handleOnlyUser($event)" [isChecked]="onlyUser"></app-toggle></div>
     <div class="toggle" id="toggleValidation"><app-toggle [toggleName]="'A valider'" (onChange)="handleValidation($event)" [isChecked]="validation.value==='toValid'"></app-toggle></div>

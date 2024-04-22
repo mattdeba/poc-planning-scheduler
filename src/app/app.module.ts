@@ -8,6 +8,9 @@ import {FormsModule} from "@angular/forms";
 import {DropdownFilterComponent} from "./dropdown-filter.component";
 import { ToggleComponent } from './toggle-button.component';
 import {NavbarComponent} from "./navbar.component";
+import { MaterialFeatures } from './material.module';
+import { DatePickerComponent } from './date-picker.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -16,11 +19,14 @@ import {NavbarComponent} from "./navbar.component";
     ReservationEditComponent,
     DropdownFilterComponent,
     ToggleComponent,
-    NavbarComponent
+    NavbarComponent,
+    DatePickerComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    MaterialFeatures,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
