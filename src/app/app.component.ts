@@ -31,7 +31,7 @@ export class AppComponent {
   schedulerLength = 7;
   validation: BehaviorSubject<'all'|'toValid'|'validated'|'refused'> = new BehaviorSubject<'all'|'toValid'|'validated'|'refused'>('all');
   postResa: BehaviorSubject<'all'|'withPostResa'|'withoutPostResa'> = new BehaviorSubject<'all'|'withPostResa'|'withoutPostResa'>('all');
-  USERNAME = 'Matthieu';
+  USERNAME = 'BARDEY POTIER';
   onlyUser = false;
 
   constructor() {
@@ -177,11 +177,11 @@ export class AppComponent {
     }
   }
 
-  filterSelection(resourcesSelected: number[]) {
+  filterSelection(resourcesSelected: any[]) {
     if (resourcesSelected.length === 0) {
       this.resources = this.rawResources;
     } else {
-      this.resources = this.rawResources.filter(resource => resourcesSelected.includes(resource.id));
+      this.resources = this.rawResources.filter(resource => resourcesSelected.map((r:any) => r.id).includes(resource.id));
     }
   }
 

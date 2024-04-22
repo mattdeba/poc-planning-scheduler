@@ -8,7 +8,7 @@
     <div class="toggle" id="toggleResa"><app-toggle [toggleName]="'Mes réservations'" (onChange)="handleOnlyUser($event)" [isChecked]="onlyUser"></app-toggle></div>
     <div class="toggle" id="toggleValidation"><app-toggle [toggleName]="'A valider'" (onChange)="handleValidation($event)" [isChecked]="validation.value==='toValid'"></app-toggle></div>
     <div class="toggle" id="togglePostResa"><app-toggle [toggleName]="'Post à saisir'" [isChecked]="postResa.value==='withoutPostResa'" (onChange)="handlePostResa($event)"></app-toggle></div>
-    <app-dropdown id="dropdownFilter" [options]="rawResources" (selectionChange)="filterSelection($event)"></app-dropdown>
+    <chips-autocomplete id="dropdownFilter" [allEquipments]="rawResources" (equipmentSelectionChange)="filterSelection($event)" ></chips-autocomplete>
 </div>
 <div class="filterResource">
 </div>

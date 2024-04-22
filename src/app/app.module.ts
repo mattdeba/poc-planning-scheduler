@@ -11,6 +11,7 @@ import {NavbarComponent} from "./navbar.component";
 import { MaterialFeatures } from './material.module';
 import { DatePickerComponent } from './date-picker.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ChipsAutocompleteComponent } from './chips-autocomplete.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DropdownFilterComponent,
     ToggleComponent,
     NavbarComponent,
-    DatePickerComponent
+    DatePickerComponent,
+    ChipsAutocompleteComponent,
   ],
   imports: [
     BrowserModule,
