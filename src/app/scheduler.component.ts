@@ -33,6 +33,7 @@ export class SchedulerComponent {
   USERNAME = 'BARDEY POTIER';
   onlyUser = false;
   @Output() reservationClicked = new EventEmitter<any>();
+  @Output() createReservation = new EventEmitter<void>();
 
   constructor() {
     this.updateDisplayedDates(this.schedulerStart);

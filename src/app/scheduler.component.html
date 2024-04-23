@@ -1,6 +1,6 @@
 <div class="search-bar">
     <chips-autocomplete id="dropdownFilter" [allEquipments]="rawResources" (equipmentSelectionChange)="filterSelection($event)" ></chips-autocomplete>
-    <button mat-button (click)="selectedReservation=null;showEdition=true" class="btn btnReservation" id="bookEquipment">Réserver</button>
+    <button mat-button (click)="createReservation.emit()" class="btn btnReservation" id="bookEquipment">Réserver</button>
 </div>
 <div class="buttons">
     <app-date-picker [selectedDate]="schedulerStart" (selectedDateChange)="updateStartDate($event)" [inputWidth]="'200px'"></app-date-picker>

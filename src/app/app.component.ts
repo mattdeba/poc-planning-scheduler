@@ -61,4 +61,12 @@ export class AppComponent {
     this.showCreate = false;
     this.showEdit = false;
   }
+
+  handleCancelCreate(event: any) {
+    this.showCreate = false;
+  }
+
+  handleCreateReservation() {
+    this.showCreate = true;
+  }
 }

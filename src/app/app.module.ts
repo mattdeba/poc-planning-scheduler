@@ -15,6 +15,7 @@ import { ChipsAutocompleteComponent } from './chips-autocomplete.component';
 import { AppComponent } from './app.component';
 import { ReservationDetailsComponent } from './reservation-details.component';
 import { ReservationEditComponent } from './reservation-edit.component';
+import { ReservationCreateComponent } from './reservation-create.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ReservationEditComponent } from './reservation-edit.component';
     DatePickerComponent,
     ChipsAutocompleteComponent,
     ReservationDetailsComponent,
-    ReservationEditComponent
+    ReservationEditComponent,
+    ReservationCreateComponent,
   ],
   imports: [
     BrowserModule,
