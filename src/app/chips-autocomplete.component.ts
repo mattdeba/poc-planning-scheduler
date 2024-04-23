@@ -34,7 +34,7 @@ import {map, startWith} from 'rxjs/operators';
   `,
   styles: [`
       .example-chip-list {
-          width: 500px;
+          width: 1000px;
           margin-right: 20px;
       }
   `],

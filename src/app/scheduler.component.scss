@@ -37,7 +37,6 @@ $border-color: #D8D9DA;
   overflow-y: auto;
   overflow-x: hidden;
   border-right: 1px solid $border-color;
-  border-bottom: 1px solid $border-color;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -109,9 +108,17 @@ $border-color: #D8D9DA;
   background: #F3F4F5;
 }
 
+.search-bar {
+  display: flex;
+  justify-content: center;
+  height: 150px;
+  max-height: 150px;
+  margin-top: 20px;
+}
 .buttons {
   display: flex;
-  height: 100px;
+  height: 50px;
+  margin-top: 20px;
 }
 
 .btn {
@@ -125,17 +132,14 @@ $border-color: #D8D9DA;
 }
 
 #pickDate {
-  grid-row: 1/2;
-  grid-column: 1/5;
 }
 
 #dropdownFilter {
-  grid-row: 1/2;
-  grid-column: 15/22;
 }
 
 #bookEquipment {
-  grid-column: 22/24;
+  width: 200px;
+  height: 55px;
 }
 
 .toggle {
@@ -143,6 +147,14 @@ $border-color: #D8D9DA;
 }
 
 .rowsContainer {
-  height: 600px;
+  height: 500px;
   overflow-y: auto;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
 }

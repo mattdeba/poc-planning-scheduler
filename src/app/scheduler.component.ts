@@ -41,7 +41,7 @@ export class SchedulerComponent {
 
   @HostListener('window:resize')
   onResize() {
-    const widthMin = window.innerWidth / (this.schedulerLength + 2)
+    const widthMin = window.innerWidth*0.7 / (this.schedulerLength + 2)
     this.cellWidth = `${widthMin}px`;
     this.resourceCellWidth = `${2*widthMin}px`;
   }
