@@ -1,178 +1,177 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {dateToString, getTodayString } from './utils';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-reservation-edit',
+  selector: 'app-edit-event',
   template: `
-    <div class="overlay"></div>
-    <div class="modal">
-      <div class="edit-title">Editer la réservation</div>
-      <form (submit)="submitForm($event)">
-        <div class="label">
-            <label for="startDate">Date de début:</label>
-        </div>
-        <div class="date-container">
-            <input [(ngModel)]="startDate" name="startDate" type="date" required>
-        </div>
-        <div class="label">
-            <label for="endDate">Date de fin:</label>
-        </div>
-        <div class="date-container">
-            <input [(ngModel)]="endDate" name="endDate" type="date" required>
-        </div>
-
-        <div class="label">
-            <label for="resource">Matériel:</label>
-        </div>
-        <div class="materiel-container">
-            <div>
-                <select class="materiel-choice" [(ngModel)]="resource" name="resource" required>
-                    <option *ngFor="let res of resources" [value]="res.id">{{res.value}}</option>
-                </select>
-            </div>
-        </div>
-        <div class="label">
-            <label for="username">Adhérent:</label>
-        </div>
-        <div class="user-container">
-          <input class="user-choice" [(ngModel)]="username" name="username" required>
-        </div>
-        <div class="validation-buttons">
-            <button class="btn-validate" type="submit">Sauvegarder</button>
-            <button class="btn-close" type="button" (click)="closeModal.emit()">Annuler</button>
-        </div>
-      </form>
-    </div>
+      <div class="event-editor">
+        <mat-card class="matCard">
+            <mat-card-header class="header">
+                <mat-card-title>MODIFIER RÉSERVATION</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="user">
+                  <mat-form-field class="userForm">
+                      <mat-label>Choix utilisateur</mat-label>
+                      <mat-select [(value)]="userSelected">
+                          <mat-option *ngFor="let user of users" [value]="user">
+                              {{user.label}}
+                          </mat-option>
+                      </mat-select>
+                  </mat-form-field>
+              </div>
+              <div class="equipment">
+                  <mat-form-field class="equipmentForm">
+                      <mat-label>Choix matériel</mat-label>
+                      <mat-select [(value)]="equipmentSelected">
+                          <mat-option *ngFor="let equipment of equipments" [value]="equipment">
+                              {{equipment.label}}
+                          </mat-option>
+                      </mat-select>
+                  </mat-form-field>
+              </div>
+              <div class="hourDate">
+                  <app-date-picker [inputWidth]="'160px'" [selectedDate]="startDate" (selectedDateChange)="changeStartDate($event)" [label]="'Date début'" class="startDate"></app-date-picker>
+                  <mat-form-field class="hour">
+                      <mat-label>Heure début</mat-label>
+                      <mat-select [(value)]="startHour">
+                          <mat-option *ngFor="let hour of hours" [value]="hour">
+                              {{hour}}
+                          </mat-option>
+                      </mat-select>
+                  </mat-form-field>
+              </div>
+              <div class="hourDate">
+                  <app-date-picker [inputWidth]="'160px'" [selectedDate]="endDate" (selectedDateChange)="changeEndDate($event)" [label]="'Date fin'"></app-date-picker>
+                  <mat-form-field class="hour">
+                      <mat-label>Heure fin</mat-label>
+                      <mat-select [(value)]="endHour">
+                          <mat-option *ngFor="let hour of hours" [value]="hour">
+                              {{hour}}
+                          </mat-option>
+                      </mat-select>
+                  </mat-form-field>
+              </div>
+            </mat-card-content>
+            <mat-card-actions class="actions">
+              <button mat-button color="primary" (click)="sendSaveEvent()">ENREGISTRER</button>
+              <button mat-button (click)="sendCancelEvent()">ANNULER</button>
+            </mat-card-actions>
+        </mat-card>
+      </div>
   `,
   styles: [`
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0);
+    .event-editor {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .hour {
+        width: 130px;
+        margin-left: 10px;
+    }
+    .hourDate {
+        display: flex;
+        justify-content: space-between;
+    }
+    .matCard {
+      width: 90%;
     }
 
-    .modal {
-      padding: 20px;
-      font-size: 1.1em;
-      z-index: 1001;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 30%;
-      height: 60%;
-      background: white;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      overflow: auto;
-    }
-
-    input{
-      border: 1px solid #F3F4F5;
-      appearance: none;
-      position: relative;
-      background-size: 1.5em;
-      font-size: 1em;
-    }
-
-    select{
-      border: 1px solid #F3F4F5;
-      position: relative;
-      background-size: 1.5em;
-      font-size: 1em;
-    }
-
-    .edit-title {
-      font-weight: bold;
-      color: #52c541;
+    .header {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3em
-    }
-
-    .date-container, .materiel-container, .user-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
       flex-direction: column;
+      margin-bottom: 10px;
     }
 
-    .user-choice {
-      background-color: white;
-    }
-
-    .validation-buttons {
+    .actions {
+      margin-top: 10px;
       display: flex;
-      justify-content: center;
-      gap: 20px;
-      width: 100%;
-      margin-top: 15px;
-      margin-bottom: 15px;
+      justify-content: space-between;
     }
-
-    .btn-validate {
-      border: 1px solid #D8D9DA;
-      padding: 10px 20px;
-      transition: background-color 0.2s ease;
-      font-size: 1em;
-      cursor: pointer;
-    }
-    .btn-validate:hover {
-      background-color: #D8D9DA;
-      color: white;
-    }
-    .btn-close {
-      border: 1px solid #D8D9DA;
-      padding: 10px 20px;
-      transition: background-color 0.2s ease;
-      font-size: 1em;
-      cursor: pointer;
-    }
-    .btn-close:hover {
-      background-color: #D8D9DA;
-      color: white;
-    }
-
-    .label {
-      margin-top: 20px;
-    }
-    .validation-buttons {
-      margin-top: 30px;
-    }
-
-    .edit-title {
-      padding: 20px;
-    }
-  `]
+  `],
 })
 export class ReservationEditComponent {
-  @Output() closeModal = new EventEmitter<void>();
-  @Output() submitReservation = new EventEmitter<{id: number | undefined, startDate: string, endDate: string, resource: number, username: string, status: string}>();
-  @Input() resources: {id: number, value: string}[] = []
-  @Input() reservationToEdit: {id: number | undefined, startDate: string, endDate: string, resource: { id: number, value: string }, username: string, status: string} | null;
+  startDate = new Date().toISOString().split('T')[0];
+  endDate = new Date().toISOString().split('T')[0];
+  startHour = '08:00';
+  endHour = '18:00';
+  hours: string[] = this.generateHours();
+  equipmentSelected: any;
+  userSelected: any;
+  @Input() event: any;
+  @Input() equipments: any;
+  @Input() users: any;
+  @Output() saveEvent = new EventEmitter<any>;
+  @Output() cancelEvent = new EventEmitter<void>;
 
-  username = '';
-  resource: number | null = null;
-  startDate: string | null = getTodayString();
-  endDate: string | null = getTodayString();
 
-  ngOnInit() {
-    this.startDate = this.reservationToEdit?.startDate || getTodayString();
-    this.endDate = this.reservationToEdit?.endDate || getTodayString();
-    this.resource = this.reservationToEdit?.resource.id || null;
-    this.username = this.reservationToEdit?.username || '';
+ngOnInit() {
+  this.startDate = this.event.startDate;
+  this.endDate = this.event.endDate;
+  this.equipmentSelected = this.equipments.find((equipment: any) => equipment.key === this.event.resource);
+  this.userSelected = this.users.find((u: any) => u.label == this.event.username) || this.users[0];
+}
+
+  sendSaveEvent() {
+    this.event.startDate = this.startDate;
+    this.event.endDate = this.endDate;
+    this.event.startHour = this.startHour;
+    this.event.endHour = this.endHour;
+    this.event.username = this.userSelected.label;
+    this.event.resource = this.equipmentSelected.key;
+    this.saveEvent.emit(this.event);
   }
 
-  submitForm(event: Event): void {
-    if (this.startDate && this.resource && this.username && this.endDate) {
-      event.preventDefault();
-      const start = new Date(this.startDate);
-      const end = new Date(this.endDate);
-      this.submitReservation.emit({id: this.reservationToEdit?.id, startDate: dateToString(start), endDate: dateToString(end), resource: +this.resource, username: this.username, status: 'toValid'});
-      this.closeModal.emit();
+  sendCancelEvent() {
+    this.cancelEvent.emit(this.event.id);
+  }
+
+  generateHours(): string[] {
+    let hours = [];
+    for(let i = 0; i < 24; i++) {
+      for(let j = 0; j < 60; j += 30) {
+        let hour = i < 10 ? '0' + i : i;
+        let minute = j < 10 ? '0' + j : j;
+        hours.push(`${hour}:${minute}`);
+      }
     }
+    return hours;
+  }
+
+  getNearestHalfHour(hour: number, minute: number): string {
+    let newHour: number;
+    let newMinute: number;
+
+    if (minute <= 15) {
+      newHour = hour;
+      newMinute = 0;
+    } else if (minute > 15 && minute < 45) {
+      newHour = hour;
+      newMinute = 30;
+    } else {
+      newHour = hour + 1;
+      newMinute = 0;
+    }
+
+    const hourString = newHour < 10 ? '0' + newHour : newHour;
+    const minuteString = newMinute === 0 ? '00' : newMinute;
+
+    return `${hourString}:${minuteString}`;
+  }
+
+  changeStartDate(date: any) {
+    this.startDate = date;
+  }
+  changeEndDate(date: any) {
+    this.endDate = date;
+  }
+
+  convertToDate(date: Date, hour: string): Date {
+    date.setHours(12, 0, 0, 0);
+    let dateString = date.toISOString().split('T')[0];
+    return new Date(`${dateString} ${hour}`);
   }
 }

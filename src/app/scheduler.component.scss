@@ -36,7 +36,6 @@ $border-color: #D8D9DA;
   align-items: start;
   overflow-y: auto;
   overflow-x: hidden;
-  border-right: 1px solid $border-color;
   &::-webkit-scrollbar {
     display: none;
   }

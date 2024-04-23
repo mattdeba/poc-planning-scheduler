@@ -32,12 +32,12 @@
            class="reservationCell"
       >
         <div class="reservationContentCell" [ngStyle]="getReservationContentBorders(reservation, resource.id)"
-             (click)="showModal(reservation, $event)"
+             (click)="emitReservation(reservation)"
         >{{reservation.username}}</div>
       </div>
     </div>
   </div>
 
 </div>
-<app-reservation-detail *ngIf="showDetail" [reservation]="selectedReservation" [position]="modalPosition" (edit)="switchToEditMode($event)" (close)="closeModal()" (delete)="deleteReservation()"></app-reservation-detail>
+<!--<app-reservation-detail *ngIf="showDetail" [reservation]="selectedReservation" [position]="modalPosition" (edit)="switchToEditMode($event)" (close)="closeModal()" (delete)="deleteReservation()"></app-reservation-detail>-->
 <app-reservation-edit *ngIf="showEdition" [reservationToEdit]="selectedReservation" [resources]="resources" (closeModal)="showEdition=false" (submitReservation)="addReservation($event)"></app-reservation-edit>

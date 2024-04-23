@@ -1,5 +1,7 @@
 <navbar></navbar>
 <div class="scheduler-container">
-    <scheduler id="appScheduler"></scheduler>
+    <scheduler id="appScheduler" (reservationClicked)="handleDetailReservation($event)"></scheduler>
+    <app-details-event  *ngIf="selectedReservation && showDetails" [event]="selectedReservation" (okEvent)="handleOkDetails()" (deleteEvent)="handleDeleteEvent($event)" (eventSwitchToEdit)="handleSwitchToEdit()"></app-details-event>
+    <app-edit-event *ngIf="selectedReservation && showEdit" [users]="users" [event]="selectedReservation" [equipments]="equipments" (cancelEvent)="handleCancelEdit()" (saveEvent)="handleSaveEvent($event)"></app-edit-event>
 </div>
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { dateToString, stringToDate } from './utils';
 import { BehaviorSubject } from 'rxjs';
 import { HostListener } from '@angular/core';
@@ -32,11 +32,16 @@ export class SchedulerComponent {
   postResa: BehaviorSubject<'all'|'withPostResa'|'withoutPostResa'> = new BehaviorSubject<'all'|'withPostResa'|'withoutPostResa'>('all');
   USERNAME = 'BARDEY POTIER';
   onlyUser = false;
+  @Output() reservationClicked = new EventEmitter<any>();
 
   constructor() {
     this.updateDisplayedDates(this.schedulerStart);
     this.sortReservationsFirst();
     this.onResize();
+  }
+
+  emitReservation(reservation: any) {
+    this.reservationClicked.emit(reservation);
   }
 
   @HostListener('window:resize')
@@ -369,14 +374,9 @@ export class SchedulerComponent {
     this.applyFilters();
   }
 
-  deleteReservation() {
-    if (this.selectedReservation) {
-        const selectedReservationId = this.selectedReservation.id;
-        if (selectedReservationId) {
-            this.rawReservations = this.rawReservations.filter(r => r.id !== selectedReservationId);
-        }
-        this.selectedReservation = null;
-        this.closeModal();
+  deleteReservation(id: number) {
+    if (id) {
+      this.rawReservations = this.rawReservations.filter(r => r.id !== id);
     }
     this.applyFilters();
   }
