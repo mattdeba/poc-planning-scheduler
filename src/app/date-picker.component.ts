@@ -17,7 +17,7 @@ export const MY_FORMATS = {
 @Component({
   selector: 'app-date-picker',
   template: `
-      <mat-form-field appearance="fill" [style.width]="inputWidth">
+      <mat-form-field class="datePicker" appearance="fill" [style.width]="inputWidth">
           <mat-label>{{ label }}</mat-label>
           <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" (dateChange)="onDateChange($event)"/>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -25,7 +25,10 @@ export const MY_FORMATS = {
       </mat-form-field>
   `,
   styles: [`
-
+    .datePicker {
+      margin-right: 10px;
+      height: 80px;
+    }
   `],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
