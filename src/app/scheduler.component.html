@@ -3,7 +3,7 @@
     <button mat-button (click)="createReservation.emit()" class="btn btnReservation" id="bookEquipment">Réserver</button>
 </div>
 <div class="buttons">
-    <app-date-picker [selectedDate]="schedulerStart" (selectedDateChange)="updateStartDate($event)" [inputWidth]="'200px'"></app-date-picker>
+    <app-date-picker [selectedDate]="schedulerStart" (selectedDateChange)="updateStartDate($event)" [inputWidth]="'300px'"></app-date-picker>
     <button mat-button class="btn" id="leftButton" (click)="prev()"><i class="fas fa-chevron-left"></i></button>
     <button  mat-button class="btn" id="rightButton" (click)="next()"><i class="fas fa-chevron-right"></i></button>
     <button  mat-button class="btn" id="upButton" (click)="sortReservationsFirst()"><i class="fas fa-chevron-up"></i></button>
