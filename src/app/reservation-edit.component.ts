@@ -20,7 +20,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
                   </mat-form-field>
               </div>
               <div class="equipment">
-                  <mat-form-field class="equipmentForm">
+                  <mat-form-field class="equipmentForm" >
                       <mat-label>Choix matériel</mat-label>
                       <mat-select [(value)]="equipmentSelected">
                           <mat-option *ngFor="let equipment of equipments" [value]="equipment">
@@ -72,7 +72,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     }
     .hourDate {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
     }
     .matCard {
       width: 90%;
@@ -89,7 +89,36 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     .actions {
       margin-top: 10px;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
+    }
+    button {
+      margin: 0 25px 0 25px;
+    }
+    
+    .equipmentForm {
+      width: 310px;
+      display: block;
+    }
+    .userForm {
+      width: 310px;
+    }
+    
+    .cardContent {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .user {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .equipment {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   `],
 })

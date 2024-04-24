@@ -1,8 +1,10 @@
 <navbar></navbar>
 <div class="scheduler-container">
     <scheduler id="appScheduler" (reservationClicked)="handleDetailReservation($event)" (createReservation)="handleCreateReservation()"></scheduler>
-    <app-details-event  *ngIf="selectedReservation && showDetails" [event]="selectedReservation" (okEvent)="handleOkDetails()" (deleteEvent)="handleDeleteEvent($event)" (eventSwitchToEdit)="handleSwitchToEdit()"></app-details-event>
-    <app-edit-event *ngIf="selectedReservation && showEdit" [users]="users" [event]="selectedReservation" [equipments]="equipments" (cancelEvent)="handleCancelEdit()" (saveEvent)="handleSaveEvent($event)"></app-edit-event>
-    <app-create-event *ngIf="showCreate" [equipments]="equipments" [users]="users" [event]="selectedReservation" (eventChangeSave)="handleSaveEvent($event)"  (cancelCreate)="handleCancelCreate($event)"></app-create-event>
+    <div class="editor-container">
+        <app-details-event  *ngIf="selectedReservation && showDetails" [equipments]="equipments" [event]="selectedReservation" (okEvent)="handleOkDetails()" (deleteEvent)="handleDeleteEvent($event)" (eventSwitchToEdit)="handleSwitchToEdit()"></app-details-event>
+        <app-edit-event *ngIf="selectedReservation && showEdit" [users]="users" [event]="selectedReservation" [equipments]="equipments" (cancelEvent)="handleCancelEdit()" (saveEvent)="handleSaveEvent($event)"></app-edit-event>
+        <app-create-event *ngIf="showCreate" [equipments]="equipments" [users]="users" [event]="selectedReservation" (eventChangeSave)="handleSaveEvent($event)"  (cancelCreate)="handleCancelCreate($event)"></app-create-event>
+    </div>
 </div>
 

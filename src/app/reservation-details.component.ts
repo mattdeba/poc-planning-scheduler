@@ -9,9 +9,16 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
               <mat-card-title >DÉTAILS RÉSERVATION</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-              <p>Libellé: {{event.username}}</p>
-              <p>Début: {{event.startDate | date:'dd/MM/YYYY'}} à {{event.startHour}} </p>
-              <p>Fin: {{event.endDate | date:'dd/MM/YYYY'}}  à {{event.endHour}}</p>
+              <p>Du: {{event.startDate | date:'dd/MM/YYYY'}} <span *ngIf="event.startHour">à</span> {{event.startHour}} </p>
+              <p>Au: {{event.endDate | date:'dd/MM/YYYY'}} <span *ngIf="event.startHour">à</span> {{event.endHour}}</p>
+              <p>Matériel: {{eventEquipment.label}}</p>
+              <p>Réservation pour {{event.username}}</p>
+              <p>Réservation faite le: {{dateReservation | date:'dd/MM/YYYY'}} à {{dateReservation | date: 'hh:mm'}}</p>
+              <p>Volume de travail: 10Ha</p>
+              <p>Responsable: Alex 06.00.00.00.00</p>
+              <p>Dernière réservation par: Luc</p>
+              <p>Article: article1</p>
+              <p>Commentaire: ici est saisie le commentaire</p>
           </mat-card-content>
           <mat-card-actions class="actions">
             <button mat-button (click)="sendOkEvent()">OK</button>
@@ -36,7 +43,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     .actions {
       margin-top: 10px;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
     }
 
     .header {
@@ -45,6 +52,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       justify-content: center;
       flex-direction: column;
     }
+    
+    button {
+      margin: 0 25px 0 25px;
+    }
+    
+    p {
+      margin-top: 5px;
+    }
   `],
 })
 export class ReservationDetailsComponent {
@@ -52,6 +67,13 @@ export class ReservationDetailsComponent {
   @Output() eventSwitchToEdit = new EventEmitter<void>;
   @Output() okEvent = new EventEmitter<void>;
   @Output() deleteEvent = new EventEmitter<number>;
+  @Input() equipments: any;
+  eventEquipment: any;
+  dateReservation = new Date();
+
+  ngOnInit() {
+    this.eventEquipment = this.equipments.find((eq: any) => eq.key == this.event.resource)
+  }
 
   switchToEdit() {
     this.eventSwitchToEdit.emit();

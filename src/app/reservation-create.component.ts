@@ -77,7 +77,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     }
     .hourDate {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
     }
     .matCard {
       width: 90%;
@@ -85,7 +85,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
     .actions {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
     }
 
     .header {
@@ -94,6 +94,28 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       justify-content: center;
       flex-direction: column;
       margin-bottom: 10px;
+    }
+    .user {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .equipment {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .equipmentForm {
+      width: 310px;
+      display: block;
+    }
+    .userForm {
+      width: 310px;
+    }
+    button {
+      margin: 0 25px 0 25px;
     }
   `],
 })
