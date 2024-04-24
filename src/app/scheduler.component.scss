@@ -116,9 +116,9 @@ $border-color: #D8D9DA;
 }
 .buttons {
   display: flex;
-  justify-content: center;
-  height: 50px;
-  margin-bottom: 20px;
+  height: 80px;
+  border-right: 1px solid $border-color;
+  padding: 10px 0 10px 0;
 }
 
 .btn {
@@ -160,4 +160,8 @@ $border-color: #D8D9DA;
     display: none;
   }
 
+}
+
+.buttons {
+  background: #F3F4F5;
 }

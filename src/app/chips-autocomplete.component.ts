@@ -11,7 +11,7 @@ import {map, startWith} from 'rxjs/operators';
   template: `
       <form>
           <mat-form-field class="example-chip-list" appearance="fill">
-              <mat-label>Choix matériels</mat-label>
+              <mat-label>Saisir des matériels</mat-label>
               <mat-chip-grid class="filterGrid" #chipGrid aria-label="Equipment selection">
                   <mat-chip-row *ngFor="let equipment of equipments" (removed)="remove(equipment)">
                       {{equipment.value}}
