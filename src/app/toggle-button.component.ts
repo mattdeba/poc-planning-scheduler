@@ -83,11 +83,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     }
 
     input:checked + .slider {
-      background-color: #2196F3;
+      background-color: #000000;
     }
 
     input:focus + .slider {
-      box-shadow: 0 0 1px #2196F3;
+      box-shadow: 0 0 1px #000000;
     }
 
     input:checked + .slider:before {

@@ -139,6 +139,9 @@ export class ReservationCreateComponent {
   }
 
   sendSaveEvent() {
+    if (!this.event) {
+      this.event = {};
+    }
     this.event.startDate = this.startDate;
     this.event.endDate = this.endDate;
     this.event.startHour = this.startHour;

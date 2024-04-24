@@ -62,6 +62,12 @@ export class AppComponent {
     this.showEdit = false;
   }
 
+  handleCreateEvent(reservation: any) {
+    this.schedulerComponent.addReservation(reservation);
+    this.showCreate = false;
+    this.showEdit = false;
+  }
+
   handleCancelCreate(event: any) {
     this.showCreate = false;
   }

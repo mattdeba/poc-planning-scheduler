@@ -116,6 +116,7 @@ $border-color: #D8D9DA;
 }
 .buttons {
   display: flex;
+  justify-content: center;
   height: 50px;
   margin-bottom: 20px;
 }
@@ -145,6 +146,7 @@ $border-color: #D8D9DA;
 
 .toggle {
   border: 1px solid $border-color;
+  border-radius: 5px;
 }
 
 .rowsContainer {
