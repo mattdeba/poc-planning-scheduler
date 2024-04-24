@@ -75,4 +75,11 @@ export class AppComponent {
   handleCreateReservation() {
     this.showCreate = true;
   }
+
+  updateEquipments(resources: any[]) {
+  this.equipments = resources.map(resource => ({
+    key: resource.id,
+    label: resource.value
+  }));
+}
 }

@@ -34,6 +34,7 @@ export class SchedulerComponent {
   onlyUser = false;
   @Output() reservationClicked = new EventEmitter<any>();
   @Output() createReservation = new EventEmitter<void>();
+  @Output() resourcesUpdated = new EventEmitter<any[]>();
 
   constructor() {
     this.updateDisplayedDates(this.schedulerStart);
@@ -181,6 +182,7 @@ export class SchedulerComponent {
     } else {
       this.resources = this.rawResources.filter(resource => resourcesSelected.map((r:any) => r.id).includes(resource.id));
     }
+    this.resourcesUpdated.emit(this.resources);
   }
 
   getResourceNameCellStyles(resource: any) {
