@@ -52,6 +52,8 @@ import {Component} from "@angular/core";
   styles: [`
     .navbar {
       display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #D8D9DA;
     }
 
     .menu-item {
@@ -59,15 +61,18 @@ import {Component} from "@angular/core";
       grid-template-rows: 50px;
       grid-template-columns: 30px 100%;
       padding-right: 5px;
-      border-bottom: 1px solid #D8D9DA;
 
       &:last-child {
         margin-right: 0;
       }
 
-      &:hover{
+      &:hover {
         cursor: pointer;
-        border-bottom: 1px solid #FEAC31;
+        color: #FEAC31;
+
+        .icon, .menu-text {
+          color: #FEAC31;
+        }
       }
     }
 
