@@ -29,6 +29,10 @@ export class AppComponent {
   }
 
   handleDetailReservation(reservation: any) {
+    if (this.showEdit || this.showCreate) {
+      this.showEdit = false;
+      this.showCreate = false;
+    }
     const existingEvents = this.schedulerComponent.rawReservations.map((ev) => ev.id);
     if (existingEvents.includes(reservation.id)) {
       this.showDetails = true;
@@ -73,6 +77,11 @@ export class AppComponent {
   }
 
   handleCreateReservation() {
+    if (this.showEdit || this.showDetails) {
+      this.showEdit = false;
+      this.showDetails = false;
+      this.selectedReservation = null;
+    }
     this.showCreate = true;
   }
 

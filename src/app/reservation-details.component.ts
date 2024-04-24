@@ -63,7 +63,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   `],
 })
 export class ReservationDetailsComponent {
-  @Input() event: any;
+  private _event: any;
+  @Input()
+  set event(value: any) {
+    this._event = value;
+    this.eventEquipment = this.equipments.find((eq: any) => eq.key == this._event.resource);
+  }
+  get event() {
+    return this._event;
+  }
   @Output() eventSwitchToEdit = new EventEmitter<void>;
   @Output() okEvent = new EventEmitter<void>;
   @Output() deleteEvent = new EventEmitter<number>;
@@ -72,7 +80,7 @@ export class ReservationDetailsComponent {
   dateReservation = new Date();
 
   ngOnInit() {
-    this.eventEquipment = this.equipments.find((eq: any) => eq.key == this.event.resource)
+    // this.eventEquipment = this.equipments.find((eq: any) => eq.key == this.event.resource)
   }
 
   switchToEdit() {

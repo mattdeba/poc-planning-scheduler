@@ -140,6 +140,8 @@ export class ReservationEditComponent {
 ngOnInit() {
   this.startDate = this.event.startDate;
   this.endDate = this.event.endDate;
+  this.startHour = this.event.startHour ?? this.startHour;
+  this.endHour = this.event.endHour ?? this.endHour;
   this.equipmentSelected = this.equipments.find((equipment: any) => equipment.key === this.event.resource);
   this.userSelected = this.users.find((u: any) => u.label == this.event.username) || this.users[0];
 }
